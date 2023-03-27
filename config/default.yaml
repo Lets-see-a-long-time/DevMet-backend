@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+db:
+  type: 'mysql'
+  port: 3306
+  database: 'dmet'
+  username: 'root'
+  password: 'dmet'
