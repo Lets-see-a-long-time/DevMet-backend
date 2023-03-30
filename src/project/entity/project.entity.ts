@@ -17,8 +17,8 @@ export class Project extends BaseEntity {
   @Column()
   content: string;
 
-  @Column()
-  tag: string;
+  @Column('simple-array')
+  tag: string[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;

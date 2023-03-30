@@ -1,7 +1,7 @@
+import { CreateProjectDto } from 'src/project/dto/create-project.dto';
 import { CustomRepository } from 'src/configs/typeorm.decorator';
 import { Repository } from 'typeorm';
-import { CreateProjectDto } from '../../application/dto/create-project.dto';
-import { Project } from '../../domain/entity/project.entity';
+import { Project } from '../entity/project.entity';
 
 @CustomRepository(Project)
 export class ProjectRepository extends Repository<Project> {
@@ -9,13 +9,11 @@ export class ProjectRepository extends Repository<Project> {
     createProjectDto: CreateProjectDto,
     // user: User,
   ): Promise<Project> {
-    const { title, content } = createProjectDto;
-
-    const project = this.create({
+    const { title, content, tag } = createProjectDto;
+    const project = await this.create({
       title,
       content,
-      // status: BoardStatus.PUBLIC,
-      // user,
+      tag,
     });
 
     await this.save(project);

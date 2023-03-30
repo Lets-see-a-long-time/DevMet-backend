@@ -13,9 +13,9 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateProjectDto } from '../../application/dto/create-project.dto';
-import { ProjectService } from '../../application/service/project.service';
-import { Project } from '../../domain/entity/project.entity';
+import { CreateProjectDto } from '../dto/create-project.dto';
+import { ProjectService } from '../services/project.service';
+import { Project } from '../entity/project.entity';
 
 @Controller('projects')
 export class ProjectController {
@@ -36,8 +36,7 @@ export class ProjectController {
     @Body() createProjectDto: CreateProjectDto,
     // @GetUser() user: User, // : Promise<Project>
   ) {
-    console.log(createProjectDto);
-    // return this.proejctService.createProject(createProjectDto);
+    return this.proejctService.createProject(createProjectDto);
   }
 
   // @Delete('/:id')

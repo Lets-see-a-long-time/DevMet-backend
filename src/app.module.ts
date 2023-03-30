@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
-import { DevMetModule } from './DMet/devMet.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProjectModule } from './project/project.module';
+import { typeORMConfig } from './configs/typeorm.config';
 
 @Module({
-  imports: [DevMetModule],
+  imports: [TypeOrmModule.forRoot(typeORMConfig), ProjectModule],
   controllers: [],
   providers: [],
 })
