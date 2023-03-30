@@ -7,25 +7,16 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Project extends BaseEntity {
+export class Comment extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  title: string;
-
-  @Column()
   content: string;
-
-  @Column('simple-array')
-  tag: string[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
   @CreateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
-
-  @Column({ default: 0 })
-  likeCount: number;
 }

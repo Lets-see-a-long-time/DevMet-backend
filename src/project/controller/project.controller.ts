@@ -16,6 +16,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateProjectDto } from '../dto/create-project.dto';
 import { ProjectService } from '../services/project.service';
 import { Project } from '../entity/project.entity';
+import { UpdateProjectDto } from '../dto/update-project.dto';
 
 @Controller('projects')
 export class ProjectController {
@@ -47,13 +48,13 @@ export class ProjectController {
     return this.proejctService.deleteProject(id);
   }
 
-  // @Patch('/:id/status')
-  // updateProject(
-  //   @Param('id') id: number,
-  //   @Body() updateProjectDto: CreateProjectDto,
-  // ) {
-  //   return this.proejctService.updateProject(id, status);
-  // }
+  @Patch('/:id')
+  updateProject(
+    @Param('id') id: number,
+    @Body() updateProjectDto: UpdateProjectDto,
+  ) {
+    return this.proejctService.updateProject(id, updateProjectDto);
+  }
 
   // @Patch('/:id/complete')
   // updateBoardComplete(
