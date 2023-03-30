@@ -14,6 +14,9 @@ export class Comment extends BaseEntity {
   @Column()
   content: string;
 
+  @Column({ default: 0 })
+  likeCount: number;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
