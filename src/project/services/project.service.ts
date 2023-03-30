@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Project } from '../entity/project.entity';
-
 import { CreateProjectDto } from '../dto/create-project.dto';
 import { ProjectRepository } from 'src/project/repositories/project.repository';
 
@@ -8,7 +7,30 @@ import { ProjectRepository } from 'src/project/repositories/project.repository';
 export class ProjectService {
   constructor(private projectRepository: ProjectRepository) {}
 
+  async getAllProjects() {
+    return this.projectRepository.find({});
+  }
+
+  async getProjectById(id: number) {
+    const project = await this.projectRepository.findOneBy({ id });
+
+    if (!project) {
+      throw new NotFoundException(`${id} 이 글은 없는 글입니다.`);
+    }
+    return project;
+  }
+
   async createProject(createProjectDto: CreateProjectDto): Promise<Project> {
     return this.projectRepository.createProejct(createProjectDto);
+  }
+
+  async deleteProject(id: number) {
+    const project = await this.projectRepository.delete({ id });
+
+    if (project.affected === 0) {
+      throw new NotFoundException(`${id} 이 글은 지울수 없습니다.`);
+    }
+
+    return 'success';
   }
 }

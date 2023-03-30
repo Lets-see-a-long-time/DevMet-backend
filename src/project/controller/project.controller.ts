@@ -21,38 +21,38 @@ import { Project } from '../entity/project.entity';
 export class ProjectController {
   constructor(private proejctService: ProjectService) {}
 
-  // @Get('/')
-  // getAllBoard() {
-  //   return this.proejctService.getAllBoard();
-  // }
-  // @Get('/:id')
-  // getBoardById(@Param('id') id: number): Promise<Board> {
-  //   return this.proejctService.getBoardById(id);
-  // }
+  @Get('/')
+  getAllProjects(): Promise<Project[]> {
+    return this.proejctService.getAllProjects();
+  }
+  @Get('/:id')
+  getProjectById(@Param('id', ParseIntPipe) id: number) {
+    return this.proejctService.getProjectById(id);
+  }
 
   @Post()
   // @UsePipes(ValidationPipe)
   createProject(
     @Body() createProjectDto: CreateProjectDto,
-    // @GetUser() user: User, // : Promise<Project>
-  ) {
+    // @GetUser() user: User,
+  ): Promise<Project> {
     return this.proejctService.createProject(createProjectDto);
   }
 
-  // @Delete('/:id')
-  // deleteBoard(
-  //   @Param('id', ParseIntPipe) id: number,
-  //   // @GetUser() user: User,
-  // ): void {
-  //   this.boardsService.deleteBoard(id);
-  // }
+  @Delete('/:id')
+  deleteProject(
+    @Param('id', ParseIntPipe) id: number,
+    // @GetUser() user: User,
+  ) {
+    return this.proejctService.deleteProject(id);
+  }
 
   // @Patch('/:id/status')
-  // updateBoardStatus(
+  // updateProject(
   //   @Param('id') id: number,
-  //   @Body('status', BoardStatusValidationPipe) status: BoardStatus,
+  //   @Body() updateProjectDto: CreateProjectDto,
   // ) {
-  //   this.boardsService.updateBoardStatus(id, status);
+  //   return this.proejctService.updateProject(id, status);
   // }
 
   // @Patch('/:id/complete')
