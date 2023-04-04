@@ -7,3 +7,7 @@ db:
   database: 'dmet'
   username: 'root'
   password: 'root'
+
+jwt:
+  expriesIn: 3600
+  secret: '1234'
