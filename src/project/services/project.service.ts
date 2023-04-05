@@ -4,6 +4,7 @@ import { CreateProjectDto } from '../dto/create-project.dto';
 import { ProjectRepository } from 'src/project/repositories/project.repository';
 import { UpdateProjectDto } from '../dto/update-project.dto';
 import SuccessResponse from 'src/common/utils/success.response';
+import { User } from 'src/user/entity/user.entity';
 
 @Injectable()
 export class ProjectService {
@@ -22,8 +23,11 @@ export class ProjectService {
     return project;
   }
 
-  async createProject(createProjectDto: CreateProjectDto): Promise<Project> {
-    return this.projectRepository.createProejct(createProjectDto);
+  async createProject(
+    createProjectDto: CreateProjectDto,
+    user: User,
+  ): Promise<Project> {
+    return this.projectRepository.createProejct(createProjectDto, user);
   }
 
   async deleteProject(id: number) {

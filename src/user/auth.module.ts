@@ -11,6 +11,7 @@ import { JwtStrategy } from 'src/common/jwt/jwt.strategy';
   imports: [
     TypeOrmExModule.forCustomRepository([UserRepository]),
     JwtModule.register({
+      global: true,
       secret: '1234',
       signOptions: {
         expiresIn: 60 * 60 * 60,

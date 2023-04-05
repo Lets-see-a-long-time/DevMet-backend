@@ -3,8 +3,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Project } from './project.entity';
 
 @Entity()
 export class Comment extends BaseEntity {
@@ -19,4 +21,7 @@ export class Comment extends BaseEntity {
 
   @CreateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @ManyToOne(() => Project, (project) => project.comments)
+  project: Project;
 }

@@ -2,18 +2,20 @@ import { CreateProjectDto } from 'src/project/dto/create-project.dto';
 import { CustomRepository } from 'src/configs/typeorm.decorator';
 import { Repository } from 'typeorm';
 import { Project } from '../entity/project.entity';
+import { User } from 'src/user/entity/user.entity';
 
 @CustomRepository(Project)
 export class ProjectRepository extends Repository<Project> {
   async createProejct(
     createProjectDto: CreateProjectDto,
-    // user: User,
+    user: User,
   ): Promise<Project> {
     const { title, content, tag } = createProjectDto;
     const project = await this.create({
       title,
       content,
       tag,
+      user,
     });
 
     await this.save(project);

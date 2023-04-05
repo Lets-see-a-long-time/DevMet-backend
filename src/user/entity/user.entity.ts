@@ -3,6 +3,8 @@ import {
   BaseEntity,
   Column,
   Entity,
+  Like,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
@@ -20,6 +22,9 @@ export class User extends BaseEntity {
   @Column()
   password: string;
   // eager 유저를 가져올때 보드도 가져옴.
-  //   @OneToMany((type) => Project, (project) => project.user, { eager: false })
-  //   projects: Project[];
+  @OneToMany(() => Project, (project) => project.user, { eager: true })
+  projects: Project[];
+
+  @ManyToMany(() => Like, (like) => like.userId { eager: false })
+  like: Like;
 }

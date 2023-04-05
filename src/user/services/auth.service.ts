@@ -13,13 +13,13 @@ export class AuthService {
     private jwetService: JwtService,
   ) {}
 
-  //   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-  //     const { username, password } = authCredentialsDto;
-  //     const user = this.create({ username, password });
-  //     await this.save(user);
-  //   }
-
   async signUp(authCredentialsDto: AuthCreateDto): Promise<void> {
+    const user = await this.userRepository.findOneBy({
+      username: authCredentialsDto.username,
+    });
+
+    if (user) throw new UnauthorizedException('이미 있는 아이디입니다.');
+
     return this.userRepository.createUser(authCredentialsDto);
   }
 
