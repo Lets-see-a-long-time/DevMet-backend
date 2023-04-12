@@ -14,21 +14,20 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateProjectDto } from '../dto/create-project.dto';
+import { CreateProjectDto } from '../dto/project/create-project.dto';
 import { ProjectService } from '../services/project.service';
 import { Project } from '../entity/project.entity';
-import { UpdateProjectDto } from '../dto/update-project.dto';
+import { UpdateProjectDto } from '../dto/project/update-project.dto';
 import { User } from 'src/user/entity/user.entity';
 import { GetUser } from 'src/common/decorator/get-user.dacorator';
 import { AuthGuard } from '@nestjs/passport';
 
-@UseGuards(AuthGuard())
+// @UseGuards(AuthGuard())
 @Controller('projects')
 export class ProjectController {
   constructor(private proejctService: ProjectService) {}
 
   @Get('/')
-  @UseGuards(AuthGuard())
   getAllProjects(): Promise<Project[]> {
     return this.proejctService.getAllProjects();
   }
@@ -58,6 +57,14 @@ export class ProjectController {
   ) {
     return this.proejctService.updateProject(id, updateProjectDto);
   }
+
+  // @Patch('/:id/like')
+  // handleLikeCount(
+  //   @Param('id') id: number,
+  //   @GetUser() user: User,
+  // ): Promise<boolean> {
+  //   return this.proejctService.handleLikeCount(id,user)
+  // }
 
   // @Patch('/:id/complete')
   // updateBoardComplete(

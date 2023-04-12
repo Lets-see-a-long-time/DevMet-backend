@@ -18,10 +18,10 @@ export class Like extends BaseEntity {
   @ManyToMany(() => User, (user) => user.id, { eager: false })
   @JoinTable()
   @Column()
-  userId: ObjectID[];
+  userId: string;
 
   @ManyToMany(() => Project, (project) => project.id, { eager: false })
   @Column({ type: 'bigint' })
   @JoinTable()
-  projectId: ObjectID[];
+  projectId: string;
 }

@@ -1,10 +1,9 @@
+import { Comment } from 'src/project/entity/comment.entity';
 import { Project } from 'src/project/entity/project.entity';
 import {
   BaseEntity,
   Column,
   Entity,
-  Like,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   Unique,
@@ -25,6 +24,6 @@ export class User extends BaseEntity {
   @OneToMany(() => Project, (project) => project.user, { eager: true })
   projects: Project[];
 
-  @ManyToMany(() => Like, (like) => like.userId { eager: false })
-  like: Like;
+  @OneToMany(() => Comment, (comment) => comment.user, { eager: true })
+  comments: Comment[];
 }

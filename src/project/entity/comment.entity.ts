@@ -1,3 +1,4 @@
+import { User } from 'src/user/entity/user.entity';
 import {
   BaseEntity,
   Column,
@@ -24,4 +25,13 @@ export class Comment extends BaseEntity {
 
   @ManyToOne(() => Project, (project) => project.comments)
   project: Project;
+
+  @Column()
+  projectId: string;
+
+  @ManyToOne(() => User, (user) => user.comments)
+  user: User;
+
+  @Column()
+  userId: string;
 }

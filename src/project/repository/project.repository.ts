@@ -1,4 +1,4 @@
-import { CreateProjectDto } from 'src/project/dto/create-project.dto';
+import { CreateProjectDto } from 'src/project/dto/project/create-project.dto';
 import { CustomRepository } from 'src/configs/typeorm.decorator';
 import { Repository } from 'typeorm';
 import { Project } from '../entity/project.entity';
