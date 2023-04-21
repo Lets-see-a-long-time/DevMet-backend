@@ -1,10 +1,16 @@
+import { User } from 'src/user/entity/user.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Comment } from './comment.entity';
+import { Like } from './like.entity';
 
 @Entity()
 export class Project extends BaseEntity {
@@ -28,4 +34,13 @@ export class Project extends BaseEntity {
 
   @Column({ default: 0 })
   likeCount: number;
+
+  @ManyToOne(() => User, (user) => user.projects)
+  user: User;
+
+  @OneToMany(() => Comment, (comment) => comment.project)
+  comments: Comment[];
+
+  @ManyToMany(() => Like, (like) => like.projectId)
+  like: Like[];
 }

@@ -6,4 +6,15 @@ db:
   port: 3306
   database: 'dmet'
   username: 'root'
+  password: 'root'
+
+db_test:
+  type: 'mysql'
+  port: 3306
+  database: 'dmet'
+  username: 'root'
   password: 'rladlsxogkftndlTek!!'
+
+jwt:
+  expriesIn: 3600
+  secret: '1234'

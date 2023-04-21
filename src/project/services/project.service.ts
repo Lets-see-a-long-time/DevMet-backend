@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Project } from '../entity/project.entity';
-import { CreateProjectDto } from '../dto/create-project.dto';
-import { ProjectRepository } from 'src/project/repositories/project.repository';
-import { UpdateProjectDto } from '../dto/update-project.dto';
+import { CreateProjectDto } from '../dto/project/create-project.dto';
+import { UpdateProjectDto } from '../dto/project/update-project.dto';
+import SuccessResponse from 'src/common/utils/success.response';
+import { User } from 'src/user/entity/user.entity';
+import { ProjectRepository } from '../repository/project.repository';
 
 @Injectable()
 export class ProjectService {
@@ -21,8 +23,11 @@ export class ProjectService {
     return project;
   }
 
-  async createProject(createProjectDto: CreateProjectDto): Promise<Project> {
-    return this.projectRepository.createProejct(createProjectDto);
+  async createProject(
+    createProjectDto: CreateProjectDto,
+    user: User,
+  ): Promise<Project> {
+    return this.projectRepository.createProejct(createProjectDto, user);
   }
 
   async deleteProject(id: number) {
@@ -32,13 +37,15 @@ export class ProjectService {
       throw new NotFoundException(`${id} 이 글은 지울수 없습니다.`);
     }
 
-    return 'success';
+    return SuccessResponse.fromSuccess(true);
   }
   async updateProject(id: number, updateProjectDto: UpdateProjectDto) {
     const project = await this.projectRepository.update(id, updateProjectDto);
+
     if (project.affected === 0) {
       throw new NotFoundException(`${id} 이 글은 수정 할 수 없습니다.`);
     }
-    return 'success';
+
+    return SuccessResponse.fromSuccess(true);
   }
 }
