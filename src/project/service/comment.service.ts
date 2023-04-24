@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/user/entity/user.entity';
+import { Auth } from 'src/auth/entity/auth.entity';
 import { CreateCommentDto } from '../dto/comment/create-comment.dto';
 import { UpdateCommentDto } from '../dto/comment/update-comment.dto';
 import { CommentRepository } from '../repository/comment.repository';
@@ -8,7 +8,7 @@ import { CommentRepository } from '../repository/comment.repository';
 export class CommentService {
   constructor(private commentRepository: CommentRepository) {}
 
-  async create(id: string, comment: CreateCommentDto, user: User) {
+  async create(id: string, comment: CreateCommentDto, user: Auth) {
     const newComment = await this.commentRepository.create({
       ...comment,
       projectId: id,

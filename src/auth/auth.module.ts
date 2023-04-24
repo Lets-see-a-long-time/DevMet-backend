@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { AuthController } from './controller/auth.controller';
+import { AuthService } from './service/auth.service';
 import { TypeOrmExModule } from 'src/configs/typeorm.module';
-import { AuthRepository } from './repositories/auth.repository';
+import { AuthRepository } from './repository/auth.repository';
 
 @Module({
   controllers: [AuthController],

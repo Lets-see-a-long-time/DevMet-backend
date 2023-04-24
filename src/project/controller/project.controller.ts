@@ -15,12 +15,12 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateProjectDto } from '../dto/project/create-project.dto';
-import { ProjectService } from '../services/project.service';
+import { ProjectService } from '../service/project.service';
 import { Project } from '../entity/project.entity';
 import { UpdateProjectDto } from '../dto/project/update-project.dto';
-import { User } from 'src/user/entity/user.entity';
 import { GetUser } from 'src/common/decorator/get-user.dacorator';
 import { AuthGuard } from '@nestjs/passport';
+import { Auth } from 'src/auth/entity/auth.entity';
 
 // @UseGuards(AuthGuard())
 @Controller('projects')
@@ -40,7 +40,7 @@ export class ProjectController {
   @UsePipes(ValidationPipe)
   createProject(
     @Body() createProjectDto: CreateProjectDto,
-    @GetUser() user: User,
+    @GetUser() user: Auth,
   ): Promise<Project> {
     return this.proejctService.createProject(createProjectDto, user);
   }

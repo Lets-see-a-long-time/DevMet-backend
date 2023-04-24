@@ -1,4 +1,4 @@
-import { User } from 'src/user/entity/user.entity';
+import { Auth } from 'src/auth/entity/auth.entity';
 import {
   BaseEntity,
   Column,
@@ -35,8 +35,8 @@ export class Project extends BaseEntity {
   @Column({ default: 0 })
   likeCount: number;
 
-  @ManyToOne(() => User, (user) => user.projects)
-  user: User;
+  @ManyToOne(() => Auth, (user) => user.projects)
+  user: Auth;
 
   @OneToMany(() => Comment, (comment) => comment.project)
   comments: Comment[];

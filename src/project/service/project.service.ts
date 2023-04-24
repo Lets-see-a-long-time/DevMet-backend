@@ -3,8 +3,8 @@ import { Project } from '../entity/project.entity';
 import { CreateProjectDto } from '../dto/project/create-project.dto';
 import { UpdateProjectDto } from '../dto/project/update-project.dto';
 import SuccessResponse from 'src/common/utils/success.response';
-import { User } from 'src/user/entity/user.entity';
 import { ProjectRepository } from '../repository/project.repository';
+import { Auth } from 'src/auth/entity/auth.entity';
 
 @Injectable()
 export class ProjectService {
@@ -25,7 +25,7 @@ export class ProjectService {
 
   async createProject(
     createProjectDto: CreateProjectDto,
-    user: User,
+    user: Auth,
   ): Promise<Project> {
     return this.projectRepository.createProejct(createProjectDto, user);
   }

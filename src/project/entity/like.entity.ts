@@ -1,11 +1,10 @@
-import { User } from 'src/user/entity/user.entity';
+import { Auth } from 'src/auth/entity/auth.entity';
 import {
   BaseEntity,
   Column,
   Entity,
   JoinTable,
   ManyToMany,
-  ObjectID,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Project } from './project.entity';
@@ -15,7 +14,7 @@ export class Like extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToMany(() => User, (user) => user.id, { eager: false })
+  @ManyToMany(() => Auth, (user) => user.id, { eager: false })
   @JoinTable()
   @Column()
   userId: string;

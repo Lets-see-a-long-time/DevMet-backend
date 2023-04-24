@@ -13,21 +13,20 @@ import {
 } from '@nestjs/common';
 import { GetUser } from 'src/common/decorator/get-user.dacorator';
 import { AuthGuard } from '@nestjs/passport';
-import { CommentService } from '../services/comment.service';
+import { CommentService } from '../service/comment.service';
 import { CreateCommentDto } from '../dto/comment/create-comment.dto';
 import { UpdateCommentDto } from '../dto/comment/update-comment.dto';
-import { User } from 'src/user/entity/user.entity';
+import { Auth } from 'src/auth/entity/auth.entity';
 
 @UseGuards(AuthGuard())
 @Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
-
   @Post(':id')
   create(
     @Param('id') id: string,
     @Body() comment: CreateCommentDto,
-    @GetUser() user: User,
+    @GetUser() user: Auth,
   ) {
     return this.commentService.create(id, comment, user);
   }

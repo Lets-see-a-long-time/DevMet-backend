@@ -1,4 +1,4 @@
-import { User } from 'src/user/entity/user.entity';
+import { Auth } from 'src/auth/entity/auth.entity';
 import {
   BaseEntity,
   Column,
@@ -29,8 +29,8 @@ export class Comment extends BaseEntity {
   @Column()
   projectId: string;
 
-  @ManyToOne(() => User, (user) => user.comments)
-  user: User;
+  @ManyToOne(() => Auth, (user) => user.comments)
+  user: Auth;
 
   @Column()
   userId: string;

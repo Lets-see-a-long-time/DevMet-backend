@@ -2,15 +2,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UserRepository } from 'src/user/repository/user.repository';
-import { User } from 'src/user/entity/user.entity';
+import { AuthRepository } from 'src/auth/repository/auth.repository';
+import { Auth } from 'src/auth/entity/auth.entity';
 
 //인젝터블 쓰는 이유는 다른곳에서도 사용하기 위해ㅓㅅ
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    @InjectRepository(UserRepository)
-    private userRepository: UserRepository,
+    @InjectRepository(AuthRepository)
+    private authRepository: AuthRepository,
   ) {
     // jwtmodule 생성할때의 옵션 그대로 넣어줘야함
     super({
@@ -20,9 +20,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: { username: string }) {
-    const { username } = payload;
-    const user: User = await this.userRepository.findOneBy({ username });
+  async validate(payload: { id: string }) {
+    const { id } = payload;
+    const user: Auth = await this.authRepository.findOneBy({ id });
     if (!user) throw new UnauthorizedException();
     return user;
   }
