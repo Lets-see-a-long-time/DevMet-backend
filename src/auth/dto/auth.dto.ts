@@ -7,9 +7,18 @@ export class AuthDTO {
   @IsString()
   name: string;
 
+  @IsString()
+  email: string;
+
   @IsOptional()
   @IsString()
   image: string;
+
+  @IsString()
+  role: string;
+
+  @IsString()
+  stack: string;
 
   @IsString()
   expires: string;

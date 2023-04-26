@@ -3,13 +3,23 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class Auth extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  @Column()
+  id: string;
 
   @Column()
   name: string;
 
   @Column()
+  email: string;
+
+  @Column({ nullable: true })
   image: string;
+
+  @Column()
+  role: string;
+
+  @Column()
+  stack: string;
 
   @Column()
   expires: string;
