@@ -18,6 +18,9 @@ export class AuthDTO {
   role: string;
 
   @IsString()
+  nickname: string;
+
+  @IsString()
   stack: string;
 
   @IsString()

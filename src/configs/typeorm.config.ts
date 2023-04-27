@@ -10,7 +10,7 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   username: process.env.DB_USERNAME || dbConfig.username,
   password: process.env.DB_PASSWORD || dbConfig.password,
   database: process.env.DB_DATABASE || dbConfig.database,
-  entities: ['dist/*/entity/*.entity.{ts,js}'],
+  entities: [__dirname, 'dist/*/entity/*.entity.{ts,js}'],
   synchronize: true,
   timezone: '+09:00',
 };
