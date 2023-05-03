@@ -8,6 +8,7 @@ export class AuthService {
   constructor(private authRepository: AuthRepository) {}
 
   async saveUser(authDTO: AuthDTO) {
+    console.log(authDTO, 'service');
     return this.authRepository.saveUser(authDTO);
   }
 }

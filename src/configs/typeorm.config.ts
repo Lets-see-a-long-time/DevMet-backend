@@ -13,4 +13,5 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   entities: [__dirname, 'dist/*/entity/*.entity.{ts,js}'],
   synchronize: true,
   timezone: '+09:00',
+  logging: true,
 };

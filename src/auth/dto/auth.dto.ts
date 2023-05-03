@@ -14,12 +14,14 @@ export class AuthDTO {
   @IsString()
   image: string;
 
+  @IsOptional()
   @IsString()
   role: string;
 
   @IsString()
   nickname: string;
 
+  @IsOptional()
   @IsString()
   stack: string;
 

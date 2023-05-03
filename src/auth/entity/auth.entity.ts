@@ -12,17 +12,17 @@ export class Auth extends BaseEntity {
   @Column()
   email: string;
 
-  @Column()
-  image: string;
+  @Column({ nullable: true })
+  image?: string;
 
-  @Column()
-  role: string;
+  @Column({ nullable: true })
+  role?: string;
 
   @Column()
   nickname: string;
 
-  @Column()
-  stack: string;
+  @Column({ nullable: true })
+  stack?: string;
 
   @Column()
   expires: string;
