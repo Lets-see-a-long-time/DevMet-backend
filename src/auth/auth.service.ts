@@ -7,8 +7,17 @@ import { AuthDTO } from './dto/auth.dto';
 export class AuthService {
   constructor(private authRepository: AuthRepository) {}
 
-  async saveUser(authDTO: AuthDTO) {
-    console.log(authDTO, 'service');
+  async saveUser(authDTO: AuthDTO): Promise<Auth> {
+    const user = await this.authRepository.findOneBy({
+      userId: authDTO.userId,
+    });
+    console.log('user', user);
+
+    if (user) {
+      console.log('이미있어');
+      return;
+    }
+
     return this.authRepository.saveUser(authDTO);
   }
 }

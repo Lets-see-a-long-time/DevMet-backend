@@ -2,7 +2,7 @@ import { IsOptional, IsString } from 'class-validator';
 
 export class AuthDTO {
   @IsString()
-  id: string;
+  userId: string;
 
   @IsString()
   name: string;
@@ -10,21 +10,22 @@ export class AuthDTO {
   @IsString()
   email: string;
 
-  @IsOptional()
   @IsString()
   image: string;
 
   @IsOptional()
   @IsString()
-  role: string;
-
-  @IsString()
-  nickname: string;
+  role?: string;
 
   @IsOptional()
   @IsString()
-  stack: string;
+  nickname?: string;
 
+  @IsOptional()
   @IsString()
-  expires: string;
+  stack?: string;
+
+  @IsOptional()
+  @IsString()
+  expires?: string;
 }

@@ -17,6 +17,8 @@ import { CreateProjectDto } from '../dto/create-project.dto';
 import { ProjectService } from '../services/project.service';
 import { Project } from '../entity/project.entity';
 import { UpdateProjectDto } from '../dto/update-project.dto';
+import { GetUser } from 'src/common/decorator/get-user.decorator';
+import { Auth } from 'src/auth/entity/auth.entity';
 
 @Controller('projects')
 export class ProjectController {
@@ -35,7 +37,7 @@ export class ProjectController {
   // @UsePipes(ValidationPipe)
   createProject(
     @Body() createProjectDto: CreateProjectDto,
-    // @GetUser() user: User,
+    @GetUser() user: Auth,
   ): Promise<Project> {
     return this.proejctService.createProject(createProjectDto);
   }

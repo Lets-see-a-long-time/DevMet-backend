@@ -9,15 +9,13 @@ export class AuthRepository extends Repository<Auth> {
     authDTO: AuthDTO,
     // user: User,
   ): Promise<Auth> {
-    const { name, image, expires, role, email, stack, nickname } = authDTO;
+    const { name, image, expires, role, email, stack, nickname, userId } =
+      authDTO;
     const user = await this.create({
+      userId,
       name,
       email,
       image,
-      role,
-      nickname,
-      stack,
-      expires,
     });
     console.log('여기서 문제가 생긴다.');
     await this.save(user);

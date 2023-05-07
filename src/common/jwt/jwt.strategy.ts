@@ -14,8 +14,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     // jwtmodule 생성할때의 옵션 그대로 넣어줘야함
     super({
-      secretOrKey: '1234',
+      secretOrKey: 'secret',
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
       // 헤더의 bearer토큰에 있는 토큰을 가져와서 시크릿키와 함께 비교.
     });
   }
