@@ -4,8 +4,6 @@ import { Auth } from './entity/auth.entity';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport/dist';
 import { GetUser } from 'src/common/decorator/get-user.decorator';
-import { TokenDTO } from './dto/token.dto';
-import { Token } from './entity/token.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -17,6 +15,11 @@ export class AuthController {
     return this.authService.saveUser(authDTO);
   }
 
+  @Get('/token')
+  async login(): Promise<string> {
+    const token = await this.authService.createToken();
+    return token;
+  }
   @Post()
   signUp(@Body() authDTO: AuthDTO): Promise<Auth> {
     // console.log('hihi', authDTO);
