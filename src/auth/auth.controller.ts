@@ -10,20 +10,17 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/register')
-  register(@Body() authDTO: AuthDTO): Promise<Auth> {
-    // console.log('hihi', authDTO);
+  register(
+    @Body() authDTO: AuthDTO,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
+    //TODO : accessTOken type설정
     return this.authService.saveUser(authDTO);
   }
 
-  @Get('/token')
-  async login(): Promise<string> {
-    const token = await this.authService.createToken();
-    return token;
-  }
   @Post()
-  signUp(@Body() authDTO: AuthDTO): Promise<Auth> {
+  async signUp(@Body() authDTO: AuthDTO): Promise<void> {
     // console.log('hihi', authDTO);
-    return this.authService.saveUser(authDTO);
+    await this.authService.saveUser(authDTO);
   }
 
   @Get('/test')
