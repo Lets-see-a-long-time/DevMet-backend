@@ -27,7 +27,7 @@ export class Auth extends BaseEntity {
   stack?: string;
 
   @Column({ nullable: true })
-  expires?: string;
+  expires?: Date;
 
   @Column()
   provider: string;

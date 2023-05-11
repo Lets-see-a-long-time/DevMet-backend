@@ -10,15 +10,15 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/register')
-  register(
+  updateUser(
     @Body() authDTO: AuthDTO,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     //TODO : accessTOken type설정
     return this.authService.saveUser(authDTO);
   }
-
+  // Todo: 처음에 유저정보만 가지고 create -> register채워서 update
   @Post()
-  async signUp(@Body() authDTO: AuthDTO): Promise<void> {
+  async createUser(@Body() authDTO: AuthDTO): Promise<void> {
     // console.log('hihi', authDTO);
     await this.authService.saveUser(authDTO);
   }

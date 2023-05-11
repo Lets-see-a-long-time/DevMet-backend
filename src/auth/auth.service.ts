@@ -3,7 +3,6 @@ import { Auth } from './entity/auth.entity';
 import { AuthRepository } from './repositories/auth.repository';
 import { AuthDTO } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt/dist';
-import { Payload } from './security/payload.interface';
 import { Token } from './security/token.interface';
 
 @Injectable()
@@ -13,14 +12,14 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async createToken(user: any) {
-    const payload: Payload = { username: user.id, id: user.id };
+  async createToken(userId: string): Promise<string> {
+    const payload = { id: userId };
     const token = this.jwtService.sign(payload);
     return token;
   }
 
-  async refreshToken(user: any): Promise<string> {
-    const payload: Payload = { username: user.id, id: user.id };
+  async refreshToken(userId: string): Promise<string> {
+    const payload = { id: userId };
     const token = this.jwtService.sign(payload, { expiresIn: '30d' });
     return token;
   }
@@ -31,17 +30,26 @@ export class AuthService {
     });
     console.log('user', user);
 
-    const accessToken = await this.createToken(user);
-    const refreshToken = await this.refreshToken(user);
     //Promise.all 은 배열로 리턴하기 때문에 굳이 비동기적인 동작이 필요하지 않다면 안써도 될듯
 
     if (user) {
+      const accessToken = await this.createToken(user.id);
+      const refreshToken = await this.refreshToken(user.id);
       console.log('이미있어');
       return { accessToken, refreshToken };
     }
-    // return token;
-    await this.authRepository.saveUser(authDTO);
+
+    const newUser = await this.authRepository.saveUser(authDTO);
+    const accessToken = await this.createToken(newUser.id);
+    const refreshToken = await this.refreshToken(newUser.id);
 
     return { accessToken, refreshToken };
+  }
+
+  async updateUser(authDTO: AuthDTO) {
+    const filter = { id: authDTO.userId };
+    const fields = { role: authDTO.role };
+
+    await this.authRepository.updateUser(filter, fields);
   }
 }
