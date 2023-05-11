@@ -28,4 +28,13 @@ export class AuthDTO {
   @IsOptional()
   @IsString()
   expires?: string;
+
+  @IsString()
+  provider: string;
+
+  @IsString()
+  accessToken: string;
+
+  @IsString()
+  refreshToken: string;
 }

@@ -4,6 +4,7 @@ import { AuthRepository } from './repositories/auth.repository';
 import { AuthDTO } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt/dist';
 import { Payload } from './security/payload.interface';
+import { Token } from './security/token.interface';
 
 @Injectable()
 export class AuthService {
@@ -24,9 +25,7 @@ export class AuthService {
     return token;
   }
 
-  async saveUser(
-    authDTO: AuthDTO,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  async saveUser(authDTO: AuthDTO): Promise<Token> {
     const user = await this.authRepository.findOneBy({
       userId: authDTO.userId,
     });
@@ -34,6 +33,8 @@ export class AuthService {
 
     const accessToken = await this.createToken(user);
     const refreshToken = await this.refreshToken(user);
+    //Promise.all 은 배열로 리턴하기 때문에 굳이 비동기적인 동작이 필요하지 않다면 안써도 될듯
+
     if (user) {
       console.log('이미있어');
       return { accessToken, refreshToken };

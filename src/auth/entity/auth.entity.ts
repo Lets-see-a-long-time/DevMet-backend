@@ -28,4 +28,13 @@ export class Auth extends BaseEntity {
 
   @Column({ nullable: true })
   expires?: string;
+
+  @Column()
+  provider: string;
+
+  @Column()
+  accessToken: string;
+
+  @Column()
+  refreshToken: string;
 }
