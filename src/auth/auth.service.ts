@@ -39,17 +39,28 @@ export class AuthService {
       return { accessToken, refreshToken };
     }
 
-    const newUser = await this.authRepository.saveUser(authDTO);
+    const newUser = await this.authRepository.createUser(authDTO);
     const accessToken = await this.createToken(newUser.id);
     const refreshToken = await this.refreshToken(newUser.id);
 
     return { accessToken, refreshToken };
   }
 
-  async updateUser(authDTO: AuthDTO) {
-    const filter = { id: authDTO.userId };
-    const fields = { role: authDTO.role };
+  async updateUser(authDTO: AuthDTO, user: Auth) {
+    //다양한 값을 업데이트 하기위해서 filter를 사용해보자
+    //일단은 userId 만을 기준으로 update하기 위함.
+    //const filter = { id: authDTO.userId };
 
-    await this.authRepository.updateUser(filter, fields);
+    const fields = {
+      role: authDTO?.role,
+      email: authDTO?.nickname,
+      nickname: authDTO?.nickname,
+      image: authDTO?.image,
+      stack: authDTO?.stack,
+    };
+    //user => 해당되는 column만 수정해줘야 하는 부분이 헷갈리넹.
+    //column을 전부 다 넣으면 .... 좀 비효율적이려나?
+
+    return await this.authRepository.updateUser(authDTO.userId, user);
   }
 }

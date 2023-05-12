@@ -6,13 +6,13 @@ export class Auth extends BaseEntity {
   id: string;
 
   @Column()
-  name: string;
+  name?: string;
 
   @Column()
-  userId: string;
+  userId?: string;
 
   @Column()
-  email: string;
+  email?: string;
 
   @Column({ nullable: true })
   image?: string;
@@ -30,11 +30,11 @@ export class Auth extends BaseEntity {
   expires?: Date;
 
   @Column()
-  provider: string;
+  provider?: string;
 
   @Column()
-  accessToken: string;
+  accessToken?: string;
 
   @Column()
-  refreshToken: string;
+  refreshToken?: string;
 }

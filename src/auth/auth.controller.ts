@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Get, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  UseGuards,
+  Patch,
+  Headers,
+} from '@nestjs/common';
 import { AuthDTO } from './dto/auth.dto';
 import { Auth } from './entity/auth.entity';
 import { AuthService } from './auth.service';
@@ -27,5 +35,12 @@ export class AuthController {
   @UseGuards(AuthGuard())
   onTest(@GetUser() user: Auth) {
     return console.log(user, test);
+  }
+
+  @Patch('/update')
+  async update(@Body() authDTO: Auth, @Headers() header: any) {
+    //아마도 토큰 타입이 들어가야겠지?
+    // return this.authService.updateUser(Auth);
+    return '';
   }
 }
