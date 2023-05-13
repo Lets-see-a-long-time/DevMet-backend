@@ -5,36 +5,30 @@ export class Auth extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
-  name?: string;
+  @Column({ type: String, nullable: false })
+  name!: string;
 
-  @Column()
-  userId?: string;
+  @Column({ type: String, nullable: false })
+  userId!: string;
 
-  @Column()
-  email?: string;
+  @Column({ type: String, nullable: false })
+  email!: string;
 
-  @Column({ nullable: true })
-  image?: string;
+  @Column({ type: String, nullable: false })
+  image!: string;
 
-  @Column({ nullable: true })
+  @Column({ type: String, nullable: true })
   role?: string;
 
-  @Column({ nullable: true })
+  @Column({ type: String, nullable: true })
   nickname?: string;
 
-  @Column({ nullable: true })
+  @Column({ type: String, nullable: true })
   stack?: string;
 
-  @Column({ nullable: true })
+  @Column({ type: String, nullable: true })
   expires?: Date;
 
-  @Column()
-  provider?: string;
-
-  @Column()
-  accessToken?: string;
-
-  @Column()
-  refreshToken?: string;
+  @Column({ type: String, nullable: false })
+  provider!: string;
 }

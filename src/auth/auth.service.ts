@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Auth } from './entity/auth.entity';
-import { AuthRepository } from './repositories/auth.repository';
-import { AuthDTO } from './dto/auth.dto';
+import { AuthRepository } from './repository/auth.repository';
+import { CreateAuthDTO } from './dto/create-auth.dto';
 import { JwtService } from '@nestjs/jwt/dist';
 import { Token } from './security/token.interface';
+import { IAuthFields } from './dto/auth.fields';
+import { UpdateAuthDTO } from './dto/update-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,21 +14,21 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async createToken(userId: string): Promise<string> {
-    const payload = { id: userId };
+  async createToken(id: string): Promise<string> {
+    const payload = { id };
     const token = this.jwtService.sign(payload);
     return token;
   }
 
-  async refreshToken(userId: string): Promise<string> {
-    const payload = { id: userId };
+  async refreshToken(id: string): Promise<string> {
+    const payload = { id };
     const token = this.jwtService.sign(payload, { expiresIn: '30d' });
     return token;
   }
 
-  async saveUser(authDTO: AuthDTO): Promise<Token> {
+  async saveUser(authDTO: CreateAuthDTO): Promise<Token> {
     const user = await this.authRepository.findOneBy({
-      userId: authDTO.userId,
+      userId: authDTO.id,
     });
     console.log('user', user);
 
@@ -34,24 +36,22 @@ export class AuthService {
 
     if (user) {
       const accessToken = await this.createToken(user.id);
-      const refreshToken = await this.refreshToken(user.id);
       console.log('이미있어');
-      return { accessToken, refreshToken };
+      return { accessToken };
     }
 
     const newUser = await this.authRepository.createUser(authDTO);
     const accessToken = await this.createToken(newUser.id);
-    const refreshToken = await this.refreshToken(newUser.id);
 
-    return { accessToken, refreshToken };
+    return { accessToken };
   }
 
-  async updateUser(authDTO: AuthDTO, user: Auth) {
+  async updateUser(authDTO: UpdateAuthDTO) {
     //다양한 값을 업데이트 하기위해서 filter를 사용해보자
     //일단은 userId 만을 기준으로 update하기 위함.
     //const filter = { id: authDTO.userId };
 
-    const fields = {
+    const fields: IAuthFields = {
       role: authDTO?.role,
       email: authDTO?.nickname,
       nickname: authDTO?.nickname,
@@ -60,7 +60,8 @@ export class AuthService {
     };
     //user => 해당되는 column만 수정해줘야 하는 부분이 헷갈리넹.
     //column을 전부 다 넣으면 .... 좀 비효율적이려나?
+    //바꿀거만 넣으면됨.
 
-    return await this.authRepository.updateUser(authDTO.userId, user);
+    return await this.authRepository.updateUser(authDTO.userId, fields);
   }
 }

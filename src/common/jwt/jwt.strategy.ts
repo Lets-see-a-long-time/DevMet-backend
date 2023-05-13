@@ -2,7 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { AuthRepository } from 'src/auth/repositories/auth.repository';
+import { AuthRepository } from 'src/auth/repository/auth.repository';
 import { Auth } from 'src/auth/entity/auth.entity';
 
 //인젝터블 쓰는 이유는 다른곳에서도 사용하기 위해서
@@ -21,10 +21,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  //   async validate(payload: { username: string }) {
-  //     const { username } = payload;
-  //     const auth: Auth = await this.authRepository.findOneBy({ username });
-  //     if (!auth) throw new UnauthorizedException();
-  //     return auth;
-  //   }
+  async validate(payload: { id: string }) {
+    const { id } = payload;
+    const auth: Auth = await this.authRepository.findOneBy({ id });
+    if (!auth) throw new UnauthorizedException();
+    return auth;
+  }
 }

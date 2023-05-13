@@ -1,17 +1,20 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class AuthDTO {
+export class UpdateAuthDTO {
   @IsString()
-  userId: string;
+  userId!: string;
 
+  @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
+  @IsOptional()
   @IsString()
-  email: string;
+  email?: string;
 
+  @IsOptional()
   @IsString()
-  image: string;
+  image?: string;
 
   @IsOptional()
   @IsString()
@@ -28,13 +31,4 @@ export class AuthDTO {
   @IsOptional()
   @IsString()
   expires?: string;
-
-  @IsString()
-  provider: string;
-
-  @IsString()
-  accessToken: string;
-
-  @IsString()
-  refreshToken: string;
 }

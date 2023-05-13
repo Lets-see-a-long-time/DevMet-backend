@@ -1,34 +1,26 @@
-import {
-  Body,
-  Controller,
-  Post,
-  Get,
-  UseGuards,
-  Patch,
-  Headers,
-} from '@nestjs/common';
-import { AuthDTO } from './dto/auth.dto';
+import { Body, Controller, Post, Get, UseGuards, Patch } from '@nestjs/common';
+import { CreateAuthDTO } from './dto/create-auth.dto';
 import { Auth } from './entity/auth.entity';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport/dist';
 import { GetUser } from 'src/common/decorator/get-user.decorator';
+import { UpdateAuthDTO } from './dto/update-auth.dto';
+import { Token } from './security/token.interface';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('/register')
-  updateUser(
-    @Body() authDTO: AuthDTO,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  @Patch('/register')
+  updateUser(@Body() authDTO: UpdateAuthDTO): Promise<boolean> {
     //TODO : accessTOken type설정
-    return this.authService.saveUser(authDTO);
+    return this.authService.updateUser(authDTO);
   }
   // Todo: 처음에 유저정보만 가지고 create -> register채워서 update
   @Post()
-  async createUser(@Body() authDTO: AuthDTO): Promise<void> {
+  async createUser(@Body() authDTO: CreateAuthDTO): Promise<Token> {
     // console.log('hihi', authDTO);
-    await this.authService.saveUser(authDTO);
+    return this.authService.saveUser(authDTO);
   }
 
   @Get('/test')
@@ -37,10 +29,10 @@ export class AuthController {
     return console.log(user, test);
   }
 
-  @Patch('/update')
-  async update(@Body() authDTO: Auth, @Headers() header: any) {
-    //아마도 토큰 타입이 들어가야겠지?
-    // return this.authService.updateUser(Auth);
-    return '';
-  }
+  // @Patch('/update')
+  // async update(@Body() authDTO: Auth, @Headers() header: any) {
+  //   //아마도 토큰 타입이 들어가야겠지?
+  //   // return this.authService.updateUser(Auth);
+  //   return '';
+  // }
 }
