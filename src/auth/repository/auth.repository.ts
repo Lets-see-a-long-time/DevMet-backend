@@ -15,7 +15,7 @@ export class AuthRepository extends Repository<Auth> {
       image,
       provider,
     });
-    console.log('여기서 문제가 생긴다.');
+
     await this.save(user);
 
     return user;

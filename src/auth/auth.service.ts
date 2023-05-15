@@ -30,20 +30,21 @@ export class AuthService {
     const user = await this.authRepository.findOneBy({
       userId: authDTO.id,
     });
-    console.log('user', user);
 
     //Promise.all 은 배열로 리턴하기 때문에 굳이 비동기적인 동작이 필요하지 않다면 안써도 될듯
 
     if (user) {
       const accessToken = await this.createToken(user.id);
-      console.log('이미있어');
-      return { accessToken };
+
+      const userId = user.userId;
+
+      return { accessToken, userId: userId };
     }
 
     const newUser = await this.authRepository.createUser(authDTO);
     const accessToken = await this.createToken(newUser.id);
-
-    return { accessToken };
+    const userId = newUser.userId;
+    return { accessToken, userId };
   }
 
   async updateUser(authDTO: UpdateAuthDTO) {

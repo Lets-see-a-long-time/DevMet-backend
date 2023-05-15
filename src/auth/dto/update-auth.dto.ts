@@ -27,8 +27,4 @@ export class UpdateAuthDTO {
   @IsOptional()
   @IsString()
   stack?: string;
-
-  @IsOptional()
-  @IsString()
-  expires?: string;
 }
