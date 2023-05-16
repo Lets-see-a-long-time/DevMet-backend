@@ -27,21 +27,15 @@
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
-<<<<<<< HEAD
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
-=======
     "@types/passport-local": "^1.0.35",
->>>>>>> feat/Auth
     "class-validator": "^0.14.0",
     "config": "^3.3.9",
     "mysql2": "^3.2.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
-<<<<<<< HEAD
-=======
     "passport-local": "^1.0.0",
->>>>>>> feat/Auth
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.12"

@@ -17,9 +17,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateProjectDto } from '../dto/project/create-project.dto';
 import { ProjectService } from '../service/project.service';
 import { Project } from '../entity/project.entity';
-import { UpdateProjectDto } from '../dto/update-project.dto';
+
 import { GetUser } from 'src/common/decorator/get-user.decorator';
 import { Auth } from 'src/auth/entity/auth.entity';
+import { UpdateProjectDto } from '../dto/project/update-project.dto';
 
 // @UseGuards(AuthGuard())
 @Controller('projects')

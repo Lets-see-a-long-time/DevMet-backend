@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Auth } from './entity/auth.entity';
-import { AuthRepository } from './repository/auth.repository';
-import { CreateAuthDTO } from './dto/create-auth.dto';
 import { JwtService } from '@nestjs/jwt/dist';
-import { Token } from './security/token.interface';
-import { IAuthFields } from './dto/auth.fields';
-import { UpdateAuthDTO } from './dto/update-auth.dto';
+import { UpdateAuthDTO } from '../dto/update-auth.dto';
+import { AuthRepository } from '../repository/auth.repository';
+import { CreateAuthDTO } from '../dto/create-auth.dto';
+import { Token } from '../security/token.interface';
+import { IAuthFields } from '../dto/auth.fields';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +13,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async createToken(id: number): Promise<string> {
+  async createToken(id: string): Promise<string> {
     const payload = { id };
     const token = this.jwtService.sign(payload);
     return token;

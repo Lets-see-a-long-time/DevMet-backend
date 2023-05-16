@@ -22,14 +22,14 @@ import { Auth } from 'src/auth/entity/auth.entity';
 @Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
-  @Post(':id')
-  create(
-    @Param('id') id: string,
-    @Body() comment: CreateCommentDto,
-    @GetUser() user: Auth,
-  ) {
-    return this.commentService.create(id, comment, user);
-  }
+  // @Post(':id')
+  // create(
+  //   @Param('id') id: string,
+  //   @Body() comment: CreateCommentDto,
+  //   @GetUser() user: Auth,
+  // ) {
+  //   return this.commentService.create(id, comment, user);
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

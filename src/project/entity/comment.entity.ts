@@ -23,15 +23,6 @@ export class Comment extends BaseEntity {
   @CreateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
-  @ManyToOne(() => Project, (project) => project.comments)
-  project: Project;
-
-  @Column()
-  projectId: string;
-
-  @ManyToOne(() => Auth, (user) => user.comments)
-  user: Auth;
-
   @Column()
   userId: string;
 }

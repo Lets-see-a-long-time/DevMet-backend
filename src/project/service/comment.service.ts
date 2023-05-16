@@ -8,15 +8,15 @@ import { CommentRepository } from '../repository/comment.repository';
 export class CommentService {
   constructor(private commentRepository: CommentRepository) {}
 
-  async create(id: string, comment: CreateCommentDto, user: Auth) {
-    const newComment = await this.commentRepository.create({
-      ...comment,
-      projectId: id,
-      user: user,
-    });
-    console.log(newComment);
-    return this.commentRepository.save(newComment);
-  }
+  // async create(id: string, comment: CreateCommentDto, user: Auth) {
+  //   const newComment = await this.commentRepository.create({
+  //     ...comment,
+  //     projectId: id,
+  //     user: user,
+  //   });
+  //   console.log(newComment);
+  //   return this.commentRepository.save(newComment);
+  // }
 
   async findAll() {
     return this.commentRepository.find();
