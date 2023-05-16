@@ -17,9 +17,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateProjectDto } from '../dto/project/create-project.dto';
 import { ProjectService } from '../service/project.service';
 import { Project } from '../entity/project.entity';
-import { UpdateProjectDto } from '../dto/project/update-project.dto';
-import { GetUser } from 'src/common/decorator/get-user.dacorator';
-import { AuthGuard } from '@nestjs/passport';
+import { UpdateProjectDto } from '../dto/update-project.dto';
+import { GetUser } from 'src/common/decorator/get-user.decorator';
 import { Auth } from 'src/auth/entity/auth.entity';
 
 // @UseGuards(AuthGuard())
@@ -52,7 +51,7 @@ export class ProjectController {
 
   @Patch('/:id')
   updateProject(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
   ) {
     return this.proejctService.updateProject(id, updateProjectDto);

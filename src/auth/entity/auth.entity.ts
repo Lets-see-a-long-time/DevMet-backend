@@ -1,12 +1,12 @@
-import { Comment } from 'src/project/entity/comment.entity';
-import { Like } from 'src/project/entity/like.entity';
 import { Project } from 'src/project/entity/project.entity';
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -14,21 +14,39 @@ export class Auth extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
-  name: string;
+  @Column({ type: String, nullable: false })
+  name!: string;
 
-  @Column()
-  image: string;
+  @Column({ type: String, nullable: false })
+  userId!: string;
 
-  @Column()
-  expires: string;
+  @Column({ type: String, nullable: false })
+  email!: string;
+
+  @Column({ type: String, nullable: false })
+  image!: string;
+
+  @Column({ type: String, nullable: true })
+  role?: string;
+
+  @Column({ type: String, nullable: true })
+  nickname?: string;
+
+  @Column({ type: String, nullable: true })
+  stack?: string;
+
+  @Column({ type: String, nullable: true })
+  expires?: Date;
+
+  @Column({ type: String, nullable: false })
+  provider!: string;
 
   @OneToMany(() => Project, (project) => project.user)
-  projects: Auth;
+  projects: Project[];
 
-  @OneToMany(() => Comment, (comment) => comment.userId)
-  comments: Comment;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-  @OneToMany(() => Like, (like) => like.userId)
-  likes: Like;
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 }

@@ -5,7 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthRepository } from 'src/auth/repository/auth.repository';
 import { Auth } from 'src/auth/entity/auth.entity';
 
-//인젝터블 쓰는 이유는 다른곳에서도 사용하기 위해ㅓㅅ
+//인젝터블 쓰는 이유는 다른곳에서도 사용하기 위해서
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -14,16 +14,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     // jwtmodule 생성할때의 옵션 그대로 넣어줘야함
     super({
-      secretOrKey: '1234',
+      secretOrKey: 'secret',
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
       // 헤더의 bearer토큰에 있는 토큰을 가져와서 시크릿키와 함께 비교.
     });
   }
 
-  async validate(payload: { id: string }) {
+  async validate(payload: { id: number }) {
     const { id } = payload;
-    const user: Auth = await this.authRepository.findOneBy({ id });
-    if (!user) throw new UnauthorizedException();
-    return user;
+    const auth: Auth = await this.authRepository.findOneBy({ id });
+    if (!auth) throw new UnauthorizedException();
+    return auth;
   }
 }

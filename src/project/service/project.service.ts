@@ -39,7 +39,7 @@ export class ProjectService {
 
     return SuccessResponse.fromSuccess(true);
   }
-  async updateProject(id: number, updateProjectDto: UpdateProjectDto) {
+  async updateProject(id: string, updateProjectDto: UpdateProjectDto) {
     const project = await this.projectRepository.update(id, updateProjectDto);
 
     if (project.affected === 0) {

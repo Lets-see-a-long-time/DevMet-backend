@@ -7,6 +7,7 @@ db:
   database: 'dmet'
   username: 'root'
   password: 'root'
+<<<<<<< HEAD
 
 db_test:
   type: 'mysql'
@@ -18,3 +19,5 @@ db_test:
 jwt:
   expriesIn: 3600
   secret: '1234'
+=======
+>>>>>>> feat/Auth

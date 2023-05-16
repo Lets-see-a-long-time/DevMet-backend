@@ -4,43 +4,42 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
+  JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { Comment } from './comment.entity';
-import { Like } from './like.entity';
 
 @Entity()
 export class Project extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: String, nullable: false })
   title: string;
 
-  @Column()
+  @Column({ type: String, nullable: false })
   content: string;
 
+  @Column({ type: String, nullable: false })
+  userId: string;
+
+  @ManyToOne(() => Auth)
+  @JoinColumn({ name: 'userId' })
+  user: Auth;
+
   @Column('simple-array')
-  tag: string[];
+  tag?: string[];
+
+  @Column({ type: 'simple-array', nullable: true })
+  likeUserIds?: string[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
   @Column({ default: 0 })
   likeCount: number;
-
-  @ManyToOne(() => Auth, (user) => user.projects)
-  user: Auth;
-
-  @OneToMany(() => Comment, (comment) => comment.project)
-  comments: Comment[];
-
-  @ManyToMany(() => Like, (like) => like.projectId)
-  like: Like[];
 }
