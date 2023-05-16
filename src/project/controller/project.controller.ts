@@ -52,7 +52,7 @@ export class ProjectController {
 
   @Patch('/:id')
   updateProject(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
   ) {
     return this.proejctService.updateProject(id, updateProjectDto);

@@ -14,7 +14,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async createToken(id: string): Promise<string> {
+  async createToken(id: number): Promise<string> {
     const payload = { id };
     const token = this.jwtService.sign(payload);
     return token;

@@ -1,9 +1,18 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Project } from 'src/project/entity/project.entity';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Auth extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column({ type: String, nullable: false })
   name!: string;
@@ -31,4 +40,13 @@ export class Auth extends BaseEntity {
 
   @Column({ type: String, nullable: false })
   provider!: string;
+
+  @OneToMany(() => Project, (project) => project.user)
+  projects: Project[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 }

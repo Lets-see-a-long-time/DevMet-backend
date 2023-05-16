@@ -25,14 +25,7 @@ export class AuthController {
 
   @Get('/test')
   @UseGuards(AuthGuard())
-  onTest(@GetUser() user: Auth) {
-    return console.log(user, test);
+  onTest(@GetUser() user: any) {
+    return console.log('user', user);
   }
-
-  // @Patch('/update')
-  // async update(@Body() authDTO: Auth, @Headers() header: any) {
-  //   //아마도 토큰 타입이 들어가야겠지?
-  //   // return this.authService.updateUser(Auth);
-  //   return '';
-  // }
 }

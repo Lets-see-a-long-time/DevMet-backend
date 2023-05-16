@@ -34,7 +34,7 @@ export class ProjectService {
 
     return 'success';
   }
-  async updateProject(id: number, updateProjectDto: UpdateProjectDto) {
+  async updateProject(id: string, updateProjectDto: UpdateProjectDto) {
     const project = await this.projectRepository.update(id, updateProjectDto);
     if (project.affected === 0) {
       throw new NotFoundException(`${id} 이 글은 수정 할 수 없습니다.`);
