@@ -2,7 +2,7 @@ import { CreateProjectDto } from 'src/project/dto/project/create-project.dto';
 import { CustomRepository } from 'src/configs/typeorm.decorator';
 import { Repository } from 'typeorm';
 import { Project } from '../entity/project.entity';
-import { Auth } from 'src/auth/entity/auth.entity';
+import { Auth } from 'src/auth/entity/user.entity';
 
 @CustomRepository(Project)
 export class ProjectRepository extends Repository<Project> {

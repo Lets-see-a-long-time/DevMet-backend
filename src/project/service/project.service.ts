@@ -4,7 +4,7 @@ import { CreateProjectDto } from '../dto/project/create-project.dto';
 import { UpdateProjectDto } from '../dto/project/update-project.dto';
 import SuccessResponse from 'src/common/utils/success.response';
 import { ProjectRepository } from '../repository/project.repository';
-import { Auth } from 'src/auth/entity/auth.entity';
+import { Auth } from 'src/auth/entity/user.entity';
 
 @Injectable()
 export class ProjectService {

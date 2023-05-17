@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Auth extends BaseEntity {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
