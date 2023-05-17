@@ -21,8 +21,9 @@ import { Project } from '../entity/project.entity';
 import { GetUser } from 'src/common/decorator/get-user.decorator';
 import { Auth } from 'src/auth/entity/auth.entity';
 import { UpdateProjectDto } from '../dto/project/update-project.dto';
+import { ApiTags } from '@nestjs/swagger';
 
-// @UseGuards(AuthGuard())
+@ApiTags('project')
 @Controller('projects')
 export class ProjectController {
   constructor(private proejctService: ProjectService) {}
