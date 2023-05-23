@@ -68,4 +68,26 @@ export class ProjectService {
 
     return SuccessResponse.fromSuccess(true);
   }
+
+  async handleLikeCount(id: number, user: Auth) {
+    await this.authService.checkExistingUser(user);
+
+    const project = await this.projectRepository.findOneBy({ id });
+    return true;
+    // if (project.likeUserIds.includes(user.id)) {
+    //   const updatedLikeUserIds = project.likeUserIds.filter(
+    //     (userId) => userId !== user.id,
+    //   );
+    //   await this.projectRepository.update(
+    //     { id },
+    //     { likeUserIds: updatedLikeUserIds },
+    //   );
+    // } else {
+    //   const updatedLikeUserIds = project.likeUserIds.push(user.id);
+    //   await this.projectRepository.update(
+    //     { id },
+    //     { likeUserIds: updatedLikeUserIds },
+    //   );
+    // }
+  }
 }

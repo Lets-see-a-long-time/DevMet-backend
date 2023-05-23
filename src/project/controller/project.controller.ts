@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Put,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -52,7 +53,7 @@ export class ProjectController {
   @UseGuards(AuthGuard())
   @ApiOperation({
     summary: '프로젝트 생성',
-    description: '프로젝트 생성 accessToken required',
+    description: '프로젝트 생성 ( Required: AccessToken )',
   })
   createProject(
     @Body() createProjectDto: CreateProjectDto,
@@ -65,7 +66,7 @@ export class ProjectController {
   @UseGuards(AuthGuard())
   @ApiOperation({
     summary: '프로젝트 삭제',
-    description: '프로젝트 삭제 accessToken required',
+    description: '프로젝트 삭제 ( Required: AccessToken )',
   })
   deleteProject(@Param('id', ParseIntPipe) id: number, @GetUser() user: Auth) {
     return this.proejctService.deleteProject(id, user);
@@ -74,7 +75,7 @@ export class ProjectController {
   @Patch('/:id')
   @ApiOperation({
     summary: '프로젝트 수정',
-    description: '프로젝트 삭제 accessToken required',
+    description: '프로젝트 삭제 ( Required: AccessToken )',
   })
   @UseGuards(AuthGuard())
   updateProject(
@@ -85,13 +86,13 @@ export class ProjectController {
     return this.proejctService.updateProject(id, updateProjectDto, user);
   }
 
-  // @Patch('/:id/like')
-  // handleLikeCount(
-  //   @Param('id') id: number,
-  //   @GetUser() user: Auth,
-  // ): Promise<boolean> {
-  //   return this.proejctService.handleLikeCount(id,user)
-  // }
+  @Put('/:id/like')
+  handleLikeCount(
+    @Param('id') id: number,
+    @GetUser() user: Auth,
+  ): Promise<boolean> {
+    return this.proejctService.handleLikeCount(id, user);
+  }
 
   // @Patch('/:id/complete')
   // updateBoardComplete(
