@@ -19,7 +19,7 @@ import { ProjectService } from '../service/project.service';
 import { Project } from '../entity/project.entity';
 
 import { GetUser } from 'src/common/decorator/get-user.decorator';
-import { Auth } from 'src/auth/entity/user.entity';
+import { User } from 'src/auth/entity/user.entity';
 import { UpdateProjectDto } from '../dto/project/update-project.dto';
 
 // @UseGuards(AuthGuard())
@@ -40,7 +40,7 @@ export class ProjectController {
   @UsePipes(ValidationPipe)
   createProject(
     @Body() createProjectDto: CreateProjectDto,
-    @GetUser() user: Auth,
+    @GetUser() user: User,
   ): Promise<Project> {
     return this.proejctService.createProject(createProjectDto, user);
   }

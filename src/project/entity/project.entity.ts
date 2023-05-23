@@ -1,4 +1,4 @@
-import { Auth } from 'src/auth/entity/user.entity';
+import { User } from 'src/auth/entity/user.entity';
 import {
   BaseEntity,
   Column,
@@ -24,9 +24,9 @@ export class Project extends BaseEntity {
   @Column({ type: String, nullable: false })
   userId: string;
 
-  @ManyToOne(() => Auth)
+  @ManyToOne(() => User)
   @JoinColumn({ name: 'userId' })
-  user: Auth;
+  user: User;
 
   @Column('simple-array')
   tag?: string[];

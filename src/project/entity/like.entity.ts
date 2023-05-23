@@ -1,4 +1,4 @@
-import { Auth } from 'src/auth/entity/user.entity';
+import { User } from 'src/auth/entity/user.entity';
 import {
   BaseEntity,
   Column,
@@ -14,7 +14,7 @@ export class Like extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToMany(() => Auth, (user) => user.id, { eager: false })
+  @ManyToMany(() => User, (user) => user.id, { eager: false })
   @JoinTable()
   @Column()
   userId: string;

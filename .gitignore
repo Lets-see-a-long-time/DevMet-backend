@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+# config setting
+/config/default.yaml
+
 # Logs
 logs
 *.log
