@@ -5,10 +5,14 @@ import { UpdateProjectDto } from '../dto/project/update-project.dto';
 import SuccessResponse from 'src/common/utils/success.response';
 import { ProjectRepository } from '../repository/project.repository';
 import { Auth } from 'src/auth/entity/auth.entity';
+import { AuthService } from 'src/auth/service/auth.service';
 
 @Injectable()
 export class ProjectService {
-  constructor(private projectRepository: ProjectRepository) {}
+  constructor(
+    private projectRepository: ProjectRepository,
+    private authService: AuthService,
+  ) {}
 
   async getAllProjects() {
     return this.projectRepository.find({});
@@ -27,10 +31,20 @@ export class ProjectService {
     createProjectDto: CreateProjectDto,
     user: Auth,
   ): Promise<Project> {
+    await this.authService.checkExistingUser(user);
+
     return this.projectRepository.createProejct(createProjectDto, user);
   }
 
-  async deleteProject(id: number) {
+  async deleteProject(id: number, user: Auth) {
+    await this.authService.checkExistingUser(user);
+
+    const test = await this.getProjectById(id);
+
+    if (test.userId != user.id) {
+      throw new NotFoundException(`작성자만 글 삭제가 가능합니다.`);
+    }
+
     const project = await this.projectRepository.delete({ id });
 
     if (project.affected === 0) {
@@ -39,7 +53,13 @@ export class ProjectService {
 
     return SuccessResponse.fromSuccess(true);
   }
-  async updateProject(id: string, updateProjectDto: UpdateProjectDto) {
+  async updateProject(
+    id: string,
+    updateProjectDto: UpdateProjectDto,
+    user: Auth,
+  ) {
+    await this.authService.checkExistingUser(user);
+
     const project = await this.projectRepository.update(id, updateProjectDto);
 
     if (project.affected === 0) {

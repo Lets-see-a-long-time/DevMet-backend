@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt/dist';
 import { UpdateAuthDTO } from '../dto/update-auth.dto';
 import { AuthRepository } from '../repository/auth.repository';
 import { CreateAuthDTO } from '../dto/create-auth.dto';
 import { Token } from '../security/token.interface';
 import { IAuthFields } from '../dto/auth.fields';
+import { Auth } from '../entity/auth.entity';
 
 @Injectable()
 export class AuthService {
@@ -63,5 +64,15 @@ export class AuthService {
     //바꿀거만 넣으면됨.
 
     return await this.authRepository.updateUser(authDTO.userId, fields);
+  }
+
+  // 유저 확인. 다른곳들에도 쓰임 에러처리도 여기서하면 다른곳에서 사용할때 일일이 에러처리 안해도됨
+
+  async checkExistingUser(user: Auth): Promise<void> {
+    const auth = await this.authRepository.findOneBy({ userId: user.id });
+
+    if (!auth) {
+      throw new UnauthorizedException();
+    }
   }
 }
