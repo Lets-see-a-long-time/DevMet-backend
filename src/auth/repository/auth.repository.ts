@@ -5,7 +5,7 @@ import { User } from '../entity/user.entity';
 import { IAuthFields } from '../dto/auth.fields';
 
 @CustomRepository(User)
-export class AuthRepository extends Repository<User> {
+export class UserRepository extends Repository<User> {
   async createUser(authDTO: CreateAuthDTO): Promise<User> {
     const { name, image, email, id, provider } = authDTO;
     const user = await this.create({
@@ -20,6 +20,7 @@ export class AuthRepository extends Repository<User> {
 
     return user;
   }
+
   async updateUser(userId: string, fields: IAuthFields): Promise<boolean> {
     const updateResult = await this.update({ userId: userId }, fields);
     //affect : 쿼리 결과로 업데이트된 행의 수를 리턴한다.

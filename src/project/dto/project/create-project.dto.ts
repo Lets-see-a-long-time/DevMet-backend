@@ -1,25 +1,27 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiField } from 'src/common/decorator/api.decorator';
 
 export class CreateProjectDto {
-  @IsString()
-  @ApiProperty({
-    example: '팀원 구함',
-    description: '프로젝트 제목',
+  @ApiField({
+    type: String,
+    description: '프로젝트 아이디',
+    nullable: false,
+    example: '프로젝트 임원 구해요.',
   })
-  title: string;
+  title!: string;
 
-  @IsString()
-  @ApiProperty({
-    example: '자바 두명 타세요',
+  @ApiField({
+    type: String,
     description: '프로젝트 내용',
+    nullable: false,
+    example: '5월 부터 시작하는 프로젝트 프론트 구합니다.',
   })
-  content: string;
+  content!: string;
 
-  // @IsArray()
-  @ApiProperty({
-    example: "['react']",
-    description: '프로젝트 태그',
+  @ApiField({
+    type: [String],
+    description: '프로젝트 관련 스택 목록',
+    nullable: true,
+    example: '[react, java]',
   })
   tag?: string[];
 }

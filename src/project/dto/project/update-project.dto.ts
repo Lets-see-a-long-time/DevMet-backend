@@ -1,12 +1,27 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { ApiField } from 'src/common/decorator/api.decorator';
 
 export class UpdateProjectDto {
-  @IsString()
+  @ApiField({
+    type: String,
+    description: '프로젝트 아이디',
+    nullable: true,
+    example: '프로젝트 임원 구해요.',
+  })
   title?: string;
 
-  @IsString()
+  @ApiField({
+    type: String,
+    description: '프로젝트 내용',
+    nullable: true,
+    example: '5월 부터 시작하는 프로젝트 프론트 구합니다.',
+  })
   content?: string;
 
-  @IsNotEmpty()
+  @ApiField({
+    type: [String],
+    description: '프로젝트 관련 스택 목록',
+    nullable: true,
+    example: '[react, java]',
+  })
   tag?: string[];
 }

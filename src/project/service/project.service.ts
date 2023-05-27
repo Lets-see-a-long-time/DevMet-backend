@@ -31,14 +31,10 @@ export class ProjectService {
     createProjectDto: CreateProjectDto,
     user: User,
   ): Promise<Project> {
-    await this.authService.checkExistingUser(user);
-
     return this.projectRepository.createProejct(createProjectDto, user);
   }
 
   async deleteProject(id: number, user: User) {
-    await this.authService.checkExistingUser(user);
-
     const test = await this.getProjectById(id);
 
     if (test.userId != user.id) {
@@ -69,7 +65,7 @@ export class ProjectService {
     return SuccessResponse.fromSuccess(true);
   }
 
-  async handleLikeCount(id: number, user: User) {
+  async handleLikeCount(id: number, user: User): Promise<boolean> {
     await this.authService.checkExistingUser(user);
 
     const project = await this.projectRepository.findOneBy({ id });
