@@ -5,10 +5,9 @@ import { ProjectController } from './controller/project.controller';
 import { CommentService } from './service/comment.service';
 import { CommentController } from './controller/comment.controller';
 import { ProjectRepository } from './repository/project.repository';
-import { LikeRepository } from './repository/like.repository';
 import { CommentRepository } from './repository/comment.repository';
 import { AuthModule } from 'src/auth/auth.module';
-import { AuthService } from 'src/auth/service/user.service';
+import { UserService } from 'src/auth/service/user.service';
 import { AuthRepository } from 'src/auth/repository/auth.repository';
 import { JwtService } from '@nestjs/jwt/dist';
 
@@ -16,17 +15,13 @@ import { JwtService } from '@nestjs/jwt/dist';
   providers: [
     ProjectService,
     CommentService,
-    AuthService,
+    UserService,
     AuthRepository,
     JwtService,
   ],
   controllers: [ProjectController, CommentController],
   imports: [
-    TypeOrmExModule.forCustomRepository([
-      ProjectRepository,
-      LikeRepository,
-      CommentRepository,
-    ]),
+    TypeOrmExModule.forCustomRepository([ProjectRepository, CommentRepository]),
     AuthModule,
   ],
 })

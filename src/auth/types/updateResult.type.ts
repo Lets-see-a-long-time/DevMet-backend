@@ -1,6 +1,6 @@
-import { Auth } from '../entity/user.entity';
+import { User } from '../entity/user.entity';
 
 export interface UpdateResult {
   affectsRow: number;
-  updatedAuth: Auth;
+  updatedAuth: User;
 }

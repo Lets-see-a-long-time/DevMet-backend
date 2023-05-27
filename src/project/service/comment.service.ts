@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Auth } from 'src/auth/entity/user.entity';
+
 import { CreateCommentDto } from '../dto/comment/create-comment.dto';
 import { UpdateCommentDto } from '../dto/comment/update-comment.dto';
 import { CommentRepository } from '../repository/comment.repository';

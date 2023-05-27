@@ -8,22 +8,19 @@ import {
   Patch,
   Post,
   Put,
-  UploadedFile,
   UseGuards,
-  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+
 import { CreateProjectDto } from '../dto/project/create-project.dto';
 import { ProjectService } from '../service/project.service';
 import { Project } from '../entity/project.entity';
-
-import { GetUser } from 'src/common/decorator/get-user.decorator';
-import { Auth } from 'src/auth/entity/user.entity';
 import { UpdateProjectDto } from '../dto/project/update-project.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport/dist';
+import { User } from 'src/auth/entity/user.entity';
+import { GetUser } from 'src/common/decorator/get-user.dacorator';
 
 @ApiTags('project')
 @Controller('projects')
@@ -55,10 +52,12 @@ export class ProjectController {
     summary: '프로젝트 생성',
     description: '프로젝트 생성 ( Required: AccessToken )',
   })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   createProject(
     @Body() createProjectDto: CreateProjectDto,
-    @GetUser() user: Auth,
+    @GetUser() user: User,
   ): Promise<Project> {
+    console.log('user', user);
     return this.proejctService.createProject(createProjectDto, user);
   }
 
@@ -68,7 +67,7 @@ export class ProjectController {
     summary: '프로젝트 삭제',
     description: '프로젝트 삭제 ( Required: AccessToken )',
   })
-  deleteProject(@Param('id', ParseIntPipe) id: number, @GetUser() user: Auth) {
+  deleteProject(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
     return this.proejctService.deleteProject(id, user);
   }
 
@@ -81,7 +80,7 @@ export class ProjectController {
   updateProject(
     @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
-    @GetUser() user: Auth,
+    @GetUser() user: User,
   ) {
     return this.proejctService.updateProject(id, updateProjectDto, user);
   }
@@ -89,7 +88,7 @@ export class ProjectController {
   @Put('/:id/like')
   handleLikeCount(
     @Param('id') id: number,
-    @GetUser() user: Auth,
+    @GetUser() user: User,
   ): Promise<boolean> {
     return this.proejctService.handleLikeCount(id, user);
   }

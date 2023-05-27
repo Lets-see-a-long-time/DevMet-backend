@@ -16,7 +16,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { CommentService } from '../service/comment.service';
 import { CreateCommentDto } from '../dto/comment/create-comment.dto';
 import { UpdateCommentDto } from '../dto/comment/update-comment.dto';
-import { Auth } from 'src/auth/entity/user.entity';
 
 @UseGuards(AuthGuard())
 @Controller('comment')
