@@ -27,6 +27,7 @@ import {
   PatchApi,
   PostApi,
 } from 'src/common/decorator/api.decorator';
+import SuccessResponse from 'src/common/utils/success.response';
 
 @ApiTags('project')
 @Controller('projects')
@@ -80,18 +81,22 @@ export class ProjectController {
     auth: true,
   })
   updateProject(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateProjectDto: UpdateProjectDto,
     @GetUser() user: User,
   ) {
     return this.proejctService.updateProject(id, updateProjectDto, user);
   }
 
-  @Put('/:id/like')
+  @PatchApi(() => SuccessResponse, {
+    path: '/:id/like',
+    description: '프로젝트 좋아요 ( Required: AccessToken )',
+    auth: true,
+  })
   handleLikeCount(
     @Param('id') id: number,
     @GetUser() user: User,
-  ): Promise<boolean> {
+  ): Promise<SuccessResponse> {
     return this.proejctService.handleLikeCount(id, user);
   }
 }

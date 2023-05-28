@@ -15,6 +15,7 @@ export class ProjectRepository extends Repository<Project> {
       title,
       content,
       tag,
+      userId: user.userId,
       user,
     });
 

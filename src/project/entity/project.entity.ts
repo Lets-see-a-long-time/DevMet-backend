@@ -8,6 +8,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  BeforeInsert,
 } from 'typeorm';
 
 @Entity()
@@ -42,4 +43,11 @@ export class Project extends BaseEntity {
 
   @Column({ default: 0 })
   likeCount: number;
+
+  @BeforeInsert()
+  setDefaultLikeUserIds() {
+    if (this.likeUserIds === undefined) {
+      this.likeUserIds = [];
+    }
+  }
 }

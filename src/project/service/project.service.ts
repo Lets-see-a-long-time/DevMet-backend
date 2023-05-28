@@ -50,40 +50,41 @@ export class ProjectService {
     return SuccessResponse.fromSuccess(true);
   }
   async updateProject(
-    id: string,
+    id: number,
     updateProjectDto: UpdateProjectDto,
     user: User,
   ) {
-    await this.authService.checkExistingUser(user);
+    const project = await this.projectRepository.findOneBy({ id });
 
-    const project = await this.projectRepository.update(id, updateProjectDto);
+    if (project.userId !== user.userId) {
+      throw new NotFoundException(`작성자만 수정이 가능합니다`);
+    }
 
-    if (project.affected === 0) {
+    const updated = await this.projectRepository.update(id, updateProjectDto);
+
+    if (updated.affected === 0) {
       throw new NotFoundException(`${id} 이 글은 수정 할 수 없습니다.`);
     }
 
     return SuccessResponse.fromSuccess(true);
   }
 
-  async handleLikeCount(id: number, user: User): Promise<boolean> {
-    await this.authService.checkExistingUser(user);
-
+  async handleLikeCount(id: number, user: User): Promise<SuccessResponse> {
     const project = await this.projectRepository.findOneBy({ id });
-    return true;
-    // if (project.likeUserIds.includes(user.id)) {
-    //   const updatedLikeUserIds = project.likeUserIds.filter(
-    //     (userId) => userId !== user.id,
-    //   );
-    //   await this.projectRepository.update(
-    //     { id },
-    //     { likeUserIds: updatedLikeUserIds },
-    //   );
-    // } else {
-    //   const updatedLikeUserIds = project.likeUserIds.push(user.id);
-    //   await this.projectRepository.update(
-    //     { id },
-    //     { likeUserIds: updatedLikeUserIds },
-    //   );
-    // }
+
+    if (project.likeUserIds.includes(user.userId)) {
+      const updatedLikeUserIds = project.likeUserIds.filter(
+        (userId) => userId !== user.userId,
+      );
+      project.likeUserIds = updatedLikeUserIds;
+      project.likeCount -= 1;
+      await this.projectRepository.save(project);
+    } else {
+      project.likeUserIds.push(user.userId);
+      project.likeCount += 1;
+      await this.projectRepository.save(project);
+    }
+
+    return SuccessResponse.fromSuccess(true);
   }
 }
