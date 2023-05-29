@@ -7,74 +7,92 @@ import {
   ParseIntPipe,
   Patch,
   Post,
-  UploadedFile,
-  UseInterceptors,
+  Put,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateProjectDto } from '../dto/create-project.dto';
-import { ProjectService } from '../services/project.service';
-import { Project } from '../entity/project.entity';
-import { UpdateProjectDto } from '../dto/update-project.dto';
 
+import { CreateProjectDto } from '../dto/project/create-project.dto';
+import { ProjectService } from '../service/project.service';
+import { Project } from '../entity/project.entity';
+
+import { GetUser } from 'src/common/decorator/get-user.decorator';
+import { User } from 'src/auth/entity/user.entity';
+import { UpdateProjectDto } from '../dto/project/update-project.dto';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport/dist';
+import {
+  DeleteApi,
+  GetApi,
+  PatchApi,
+  PostApi,
+} from 'src/common/decorator/api.decorator';
+
+@ApiTags('project')
 @Controller('projects')
 export class ProjectController {
   constructor(private proejctService: ProjectService) {}
 
-  @Get('/')
+  @GetApi(() => [Project], {
+    path: '/',
+    description: '프로젝트 목록 조회 ',
+    auth: false,
+  })
   getAllProjects(): Promise<Project[]> {
     return this.proejctService.getAllProjects();
   }
-  @Get('/:id')
+
+  @GetApi(() => Project, {
+    path: '/:id',
+    description: '프로젝트 목록 조회 ',
+    auth: false,
+  })
   getProjectById(@Param('id', ParseIntPipe) id: number) {
     return this.proejctService.getProjectById(id);
   }
 
-  @Post()
-  // @UsePipes(ValidationPipe)
+  @UsePipes(ValidationPipe)
+  @PostApi(() => Project, {
+    path: '/',
+    description: '프로젝트 생성 ( Required: AccessToken )',
+    auth: true,
+  })
   createProject(
     @Body() createProjectDto: CreateProjectDto,
-    // @GetUser() user: User,
+    @GetUser() user: User,
   ): Promise<Project> {
-    return this.proejctService.createProject(createProjectDto);
+    console.log('user', user);
+    return this.proejctService.createProject(createProjectDto, user);
   }
 
-  @Delete('/:id')
-  deleteProject(
-    @Param('id', ParseIntPipe) id: number,
-    // @GetUser() user: User,
-  ) {
-    return this.proejctService.deleteProject(id);
+  @DeleteApi(() => Project, {
+    path: '/:id',
+    description: '프로젝트 삭제 ( Required: AccessToken )',
+    auth: true,
+  })
+  deleteProject(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
+    return this.proejctService.deleteProject(id, user);
   }
 
-  @Patch('/:id')
+  @PatchApi(() => Project, {
+    path: '/:id',
+    description: '프로젝트 수정 ( Required: AccessToken )',
+    auth: true,
+  })
   updateProject(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
+    @GetUser() user: User,
   ) {
-    return this.proejctService.updateProject(id, updateProjectDto);
+    return this.proejctService.updateProject(id, updateProjectDto, user);
   }
 
-  // @Patch('/:id/complete')
-  // updateBoardComplete(
-  //   @Param('id') id: number,
-  //   @Body('completed') completed: boolean,
-  // ) {
-  //   this.boardsService.updateBoardComplete(id, completed);
-  // }
-  // @Post('/:id/like')
-  // updateLikeCount(@Param('id') id: number, @GetUser() user: User): void {
-  //   this.boardsService.updateLikeCount(id, user);
-  // }
-
-  // @Post('upload')
-  // @UseInterceptors(FileInterceptor('images'))
-  // uploadFile(
-  //   @UploadedFile() file: Express.Multer.File,
-  //   @GetUser() user: User,
-  //   @Body() body,
-  // ) {
-  //   console.log(file, user, body);
-  // }
+  @Put('/:id/like')
+  handleLikeCount(
+    @Param('id') id: number,
+    @GetUser() user: User,
+  ): Promise<boolean> {
+    return this.proejctService.handleLikeCount(id, user);
+  }
 }

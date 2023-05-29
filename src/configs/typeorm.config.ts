@@ -1,7 +1,10 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as config from 'config';
+import { User } from 'src/auth/entity/user.entity';
+import { Project } from 'src/project/entity/project.entity';
 
 const dbConfig = config.get('db');
+const entityArray = [User, Project];
 
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -10,7 +13,8 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   username: process.env.DB_USERNAME || dbConfig.username,
   password: process.env.DB_PASSWORD || dbConfig.password,
   database: process.env.DB_DATABASE || dbConfig.database,
-  entities: ['dist/*/entity/*.entity.{ts,js}'],
+  entities: entityArray,
   synchronize: true,
   timezone: '+09:00',
+  logging: true,
 };
