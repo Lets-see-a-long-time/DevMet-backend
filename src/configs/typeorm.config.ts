@@ -1,10 +1,11 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as config from 'config';
 import { User } from 'src/auth/entity/user.entity';
+import { Comment } from 'src/project/entity/comment.entity';
 import { Project } from 'src/project/entity/project.entity';
 
 const dbConfig = config.get('db');
-const entityArray = [User, Project];
+const entityArray = [User, Project, Comment];
 
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'mysql',

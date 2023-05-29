@@ -1,47 +1,88 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  UseGuards,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
-import { GetUser } from 'src/common/decorator/get-user.dacorator';
-import { AuthGuard } from '@nestjs/passport';
+import { Body, Controller, Param, Query } from '@nestjs/common';
 import { CommentService } from '../service/comment.service';
 import { CreateCommentDto } from '../dto/comment/create-comment.dto';
 import { UpdateCommentDto } from '../dto/comment/update-comment.dto';
+import { ApiTags } from '@nestjs/swagger';
+import {
+  DeleteApi,
+  GetApi,
+  PatchApi,
+  PostApi,
+} from 'src/common/decorator/api.decorator';
+import { Comment } from '../entity/comment.entity';
+import { CommentsRequest } from '../dto/comment/comments-request';
+import { GetUser } from 'src/common/decorator/get-user.dacorator';
+import { User } from 'src/auth/entity/user.entity';
+import SuccessResponse from 'src/common/utils/success.response';
 
-@UseGuards(AuthGuard())
+@ApiTags('Project Comment')
 @Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
-  // @Post(':id')
-  // create(
-  //   @Param('id') id: string,
-  //   @Body() comment: CreateCommentDto,
-  //   @GetUser() user: Auth,
-  // ) {
-  //   return this.commentService.create(id, comment, user);
-  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentService.findOne(+id);
+  @GetApi(() => [Comment], {
+    path: '/',
+    description: '댓글 목록 조회 ',
+    auth: false,
+  })
+  getComments(@Query() request: CommentsRequest): Promise<Comment[]> {
+    return this.commentService.getComments(request);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentService.update(+id, updateCommentDto);
+  @GetApi(() => Comment, {
+    path: '/:id',
+    description: '댓글 조회 ',
+    auth: false,
+  })
+  getComment(@Param('id') id: number): Promise<Comment> {
+    return this.commentService.getComment(+id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.commentService.remove(+id);
+  @PostApi(() => Comment, {
+    path: '/',
+    description: '댓글 생성( Required: AccessToken )',
+    auth: true,
+  })
+  createComment(
+    @Body() request: CreateCommentDto,
+    @GetUser() user: User,
+  ): Promise<Comment> {
+    return this.commentService.createComment(request, user);
+  }
+
+  @PatchApi(() => SuccessResponse, {
+    path: '/',
+    description: '댓글 수정( Required: AccessToken )',
+    auth: true,
+  })
+  updateComment(
+    @Body() request: UpdateCommentDto,
+    @GetUser() user: User,
+  ): Promise<SuccessResponse> {
+    return this.commentService.updateComment(request, user);
+  }
+
+  @PatchApi(() => SuccessResponse, {
+    path: '/:id/like',
+    description: '댓글 좋아요( Required: AccessToken )',
+    auth: true,
+  })
+  handleLikeComment(
+    @Param('id') id: number,
+    @GetUser() user: User,
+  ): Promise<SuccessResponse> {
+    return this.commentService.handleLikeComment(id, user);
+  }
+
+  @DeleteApi(() => SuccessResponse, {
+    path: '/:id',
+    description: '댓글 삭제 ( Required: AccessToken )',
+    auth: true,
+  })
+  deleteComment(
+    @Param('id') id: number,
+    @GetUser() user: User,
+  ): Promise<SuccessResponse> {
+    return this.commentService.deleteComment(id, user);
   }
 }

@@ -6,6 +6,7 @@ import SuccessResponse from 'src/common/utils/success.response';
 import { ProjectRepository } from '../repository/project.repository';
 import { User } from 'src/auth/entity/user.entity';
 import { UserService } from 'src/auth/service/user.service';
+import { ProjectsRequest } from '../dto/project/projects-request';
 
 @Injectable()
 export class ProjectService {
@@ -14,15 +15,20 @@ export class ProjectService {
     private authService: UserService,
   ) {}
 
-  async getAllProjects() {
-    return this.projectRepository.find({});
+  async getAllProjects(projectRequest: ProjectsRequest): Promise<Project[]> {
+    const { page, itemCount } = projectRequest;
+
+    const skip = (page - 1) * itemCount;
+    const take = itemCount;
+
+    return this.projectRepository.find({ skip, take });
   }
 
   async getProjectById(id: number) {
     const project = await this.projectRepository.findOneBy({ id });
 
     if (!project) {
-      throw new NotFoundException(`${id} 이 글은 없는 글입니다.`);
+      throw new NotFoundException(`이 글은 없는 글입니다.`);
     }
     return project;
   }
@@ -35,35 +41,34 @@ export class ProjectService {
   }
 
   async deleteProject(id: number, user: User) {
-    const test = await this.getProjectById(id);
+    const project = await this.getProjectById(id);
 
-    if (test.userId != user.id) {
+    if (project.userId != user.id) {
       throw new NotFoundException(`작성자만 글 삭제가 가능합니다.`);
     }
 
-    const project = await this.projectRepository.delete({ id });
+    const deleted = await this.projectRepository.delete({ id });
 
-    if (project.affected === 0) {
+    if (deleted.affected === 0) {
       throw new NotFoundException(`${id} 이 글은 지울수 없습니다.`);
     }
 
     return SuccessResponse.fromSuccess(true);
   }
-  async updateProject(
-    id: number,
-    updateProjectDto: UpdateProjectDto,
-    user: User,
-  ) {
-    const project = await this.projectRepository.findOneBy({ id });
+  async updateProject(request: UpdateProjectDto, user: User) {
+    const project = await this.projectRepository.findOneBy({ id: request.id });
 
-    if (project.userId !== user.userId) {
+    if (project.userId !== user.id) {
       throw new NotFoundException(`작성자만 수정이 가능합니다`);
     }
 
-    const updated = await this.projectRepository.update(id, updateProjectDto);
+    const updated = await this.projectRepository.update(
+      request.id,
+      request.getProjectFields(),
+    );
 
     if (updated.affected === 0) {
-      throw new NotFoundException(`${id} 이 글은 수정 할 수 없습니다.`);
+      throw new NotFoundException(`이 글은 수정 할 수 없습니다.`);
     }
 
     return SuccessResponse.fromSuccess(true);

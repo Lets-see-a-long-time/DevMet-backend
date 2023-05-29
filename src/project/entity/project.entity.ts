@@ -22,8 +22,8 @@ export class Project extends BaseEntity {
   @Column({ type: String, nullable: false })
   content: string;
 
-  @Column({ type: String, nullable: false })
-  userId: string;
+  @Column({ type: Number, nullable: false })
+  userId: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'userId' })

@@ -1,14 +1,9 @@
 import {
   Body,
   Controller,
-  Delete,
-  Get,
   Param,
   ParseIntPipe,
-  Patch,
-  Post,
-  Put,
-  UseGuards,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -17,8 +12,8 @@ import { CreateProjectDto } from '../dto/project/create-project.dto';
 import { ProjectService } from '../service/project.service';
 import { Project } from '../entity/project.entity';
 import { UpdateProjectDto } from '../dto/project/update-project.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport/dist';
+import { ApiTags } from '@nestjs/swagger';
+
 import { User } from 'src/auth/entity/user.entity';
 import { GetUser } from 'src/common/decorator/get-user.dacorator';
 import {
@@ -28,6 +23,7 @@ import {
   PostApi,
 } from 'src/common/decorator/api.decorator';
 import SuccessResponse from 'src/common/utils/success.response';
+import { ProjectsRequest } from '../dto/project/projects-request';
 
 @ApiTags('project')
 @Controller('projects')
@@ -39,8 +35,10 @@ export class ProjectController {
     description: '프로젝트 목록 조회 ',
     auth: false,
   })
-  getAllProjects(): Promise<Project[]> {
-    return this.proejctService.getAllProjects();
+  getAllProjects(
+    @Query() projectsRequest: ProjectsRequest,
+  ): Promise<Project[]> {
+    return this.proejctService.getAllProjects(projectsRequest);
   }
 
   @GetApi(() => Project, {
@@ -62,7 +60,6 @@ export class ProjectController {
     @Body() createProjectDto: CreateProjectDto,
     @GetUser() user: User,
   ): Promise<Project> {
-    console.log('user', user);
     return this.proejctService.createProject(createProjectDto, user);
   }
 
@@ -81,11 +78,10 @@ export class ProjectController {
     auth: true,
   })
   updateProject(
-    @Param('id') id: number,
     @Body() updateProjectDto: UpdateProjectDto,
     @GetUser() user: User,
   ) {
-    return this.proejctService.updateProject(id, updateProjectDto, user);
+    return this.proejctService.updateProject(updateProjectDto, user);
   }
 
   @PatchApi(() => SuccessResponse, {
