@@ -12,7 +12,7 @@ import { ProjectsRequest } from '../dto/project/projects-request';
 export class ProjectService {
   constructor(
     private projectRepository: ProjectRepository,
-    private authService: UserService,
+    private userService: UserService,
   ) {}
 
   async getAllProjects(projectRequest: ProjectsRequest): Promise<Project[]> {
@@ -91,5 +91,21 @@ export class ProjectService {
     }
 
     return SuccessResponse.fromSuccess(true);
+  }
+
+  async getMyProjects(
+    request: ProjectsRequest,
+    user: User,
+  ): Promise<Project[]> {
+    const { page, itemCount } = request;
+
+    const skip = (page - 1) * itemCount;
+    const take = itemCount;
+
+    return this.projectRepository.find({
+      where: { userId: user.id },
+      skip,
+      take,
+    });
   }
 }

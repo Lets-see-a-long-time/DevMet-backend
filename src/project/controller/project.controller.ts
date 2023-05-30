@@ -95,4 +95,17 @@ export class ProjectController {
   ): Promise<SuccessResponse> {
     return this.proejctService.handleLikeCount(id, user);
   }
+
+  @GetApi(() => [Project], {
+    path: '/myProjects',
+    description: '자신의 프로젝트 목록 조회 ( Required: AccessToken ) ',
+    auth: true,
+  })
+  getMyProjects(
+    @Query() request: ProjectsRequest,
+    @GetUser() user: User,
+  ): Promise<Project[]> {
+    console.log(request);
+    return this.proejctService.getMyProjects(request, user);
+  }
 }
