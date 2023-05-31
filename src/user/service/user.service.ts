@@ -10,7 +10,7 @@ export class UserService {
     return this.userRepository.find({});
   }
 
-  async getOneUser(id: string) {
+  async getOneUser(id: number) {
     return this.userRepository.findOneBy({ id });
   }
   async updateUser(id: number, userDTO: UserDTO) {

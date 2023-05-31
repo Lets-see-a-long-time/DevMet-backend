@@ -1,14 +1,9 @@
 import {
   Body,
   Controller,
-  Delete,
-  Get,
   Param,
   ParseIntPipe,
-  Patch,
-  Post,
-  Put,
-  UseGuards,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -28,6 +23,8 @@ import {
   PatchApi,
   PostApi,
 } from 'src/common/decorator/api.decorator';
+import SuccessResponse from 'src/common/utils/success.response';
+import { ProjectsRequest } from '../dto/project/projects-request';
 
 @ApiTags('project')
 @Controller('projects')
@@ -39,8 +36,10 @@ export class ProjectController {
     description: '프로젝트 목록 조회 ',
     auth: false,
   })
-  getAllProjects(): Promise<Project[]> {
-    return this.proejctService.getAllProjects();
+  getAllProjects(
+    @Query() projectsRequest: ProjectsRequest,
+  ): Promise<Project[]> {
+    return this.proejctService.getAllProjects(projectsRequest);
   }
 
   @GetApi(() => Project, {
@@ -62,7 +61,6 @@ export class ProjectController {
     @Body() createProjectDto: CreateProjectDto,
     @GetUser() user: User,
   ): Promise<Project> {
-    console.log('user', user);
     return this.proejctService.createProject(createProjectDto, user);
   }
 
@@ -81,18 +79,34 @@ export class ProjectController {
     auth: true,
   })
   updateProject(
-    @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
     @GetUser() user: User,
   ) {
-    return this.proejctService.updateProject(id, updateProjectDto, user);
+    return this.proejctService.updateProject(updateProjectDto, user);
   }
 
-  @Put('/:id/like')
+  @PatchApi(() => SuccessResponse, {
+    path: '/:id/like',
+    description: '프로젝트 좋아요 ( Required: AccessToken )',
+    auth: true,
+  })
   handleLikeCount(
     @Param('id') id: number,
     @GetUser() user: User,
-  ): Promise<boolean> {
+  ): Promise<SuccessResponse> {
     return this.proejctService.handleLikeCount(id, user);
+  }
+
+  @GetApi(() => [Project], {
+    path: '/myProjects',
+    description: '자신의 프로젝트 목록 조회 ( Required: AccessToken ) ',
+    auth: true,
+  })
+  getMyProjects(
+    @Query() request: ProjectsRequest,
+    @GetUser() user: User,
+  ): Promise<Project[]> {
+    console.log(request);
+    return this.proejctService.getMyProjects(request, user);
   }
 }

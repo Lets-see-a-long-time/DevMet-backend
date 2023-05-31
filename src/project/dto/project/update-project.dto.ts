@@ -2,8 +2,16 @@ import { ApiField } from 'src/common/decorator/api.decorator';
 
 export class UpdateProjectDto {
   @ApiField({
-    type: String,
+    type: Number,
     description: '프로젝트 아이디',
+    nullable: false,
+    example: 2,
+  })
+  id!: number;
+
+  @ApiField({
+    type: String,
+    description: '프로젝트 제목',
     nullable: true,
     example: '프로젝트 임원 구해요.',
   })
@@ -24,4 +32,12 @@ export class UpdateProjectDto {
     example: '[react, java]',
   })
   tag?: string[];
+
+  getProjectFields() {
+    return {
+      content: this.content,
+      title: this.title,
+      tag: this.tag,
+    };
+  }
 }

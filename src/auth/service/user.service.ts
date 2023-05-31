@@ -16,13 +16,13 @@ export class UserService {
     private jwtService: JwtService,
   ) {}
 
-  async createToken(id: string): Promise<string> {
+  async createToken(id: number): Promise<string> {
     const payload = { id };
     const token = this.jwtService.sign(payload);
     return token;
   }
 
-  async refreshToken(id: string): Promise<string> {
+  async refreshToken(id: number): Promise<string> {
     const payload = { id };
     const token = this.jwtService.sign(payload, { expiresIn: '30d' });
     return token;
