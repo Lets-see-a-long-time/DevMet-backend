@@ -20,7 +20,7 @@ export class UserController {
   }
 
   @Get('/:id')
-  getOneUser(id: string): Promise<User> {
+  getOneUser(id: number): Promise<User> {
     return this.userService.getOneUser(id);
   }
 

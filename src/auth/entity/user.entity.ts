@@ -12,7 +12,7 @@ import {
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column({ type: String, nullable: false })
   name!: string;

@@ -1,8 +1,8 @@
 import { Project } from 'src/project/entity/project.entity';
-import { IsArray, IsDate, IsString } from 'class-validator';
+import { IsArray, IsDate, IsNumber, IsString } from 'class-validator';
 export class UserDTO {
-  @IsString()
-  id: string;
+  @IsNumber()
+  id: number;
 
   @IsString()
   name: string;
