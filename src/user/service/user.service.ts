@@ -17,7 +17,7 @@ export class UserService {
     const user = await this.userRepository.update(id, userDTO);
 
     if (user.affected === 0) {
-      throw new NotFoundException(`${id} 이 유저는 지울 수 없습니다.`);
+      throw new NotFoundException(`${id} 이 유저는 수정할 수 없습니다.`);
     }
   }
 
@@ -25,7 +25,7 @@ export class UserService {
     const user = await this.userRepository.delete(id);
 
     if (user.affected === 0) {
-      throw new NotFoundException(`${id} 이 글은 지울수 없습니다.`);
+      throw new NotFoundException(`${id} 이 유저는 지울 수 없습니다.`);
     }
   }
 }

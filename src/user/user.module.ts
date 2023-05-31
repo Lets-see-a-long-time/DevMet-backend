@@ -6,7 +6,7 @@ import { TypeOrmExModule } from 'src/configs/typeorm.module';
 
 @Module({
   imports: [TypeOrmExModule.forCustomRepository([UserRepository])],
-  controllers: [UserController],
-  providers: [UserService],
+  controllers: [],
+  providers: [],
 })
 export class UserModule {}
