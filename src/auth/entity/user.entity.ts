@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProviderProps, StackProps } from '../types/userinfo.type';
 
 @Entity()
 export class User extends BaseEntity {
@@ -33,13 +34,13 @@ export class User extends BaseEntity {
   nickname?: string;
 
   @Column({ type: String, nullable: true })
-  stack?: string;
+  stack?: StackProps;
 
   @Column({ type: String, nullable: true })
   expires?: Date;
 
   @Column({ type: String, nullable: false })
-  provider!: string;
+  provider!: ProviderProps;
 
   @OneToMany(() => Project, (project) => project.user)
   projects: Project[];

@@ -5,7 +5,7 @@ import { User } from '../entity/user.entity';
 import { IAuthFields } from '../dto/auth.fields';
 
 @CustomRepository(User)
-export class UserRepository extends Repository<User> {
+export class AuthRepository extends Repository<User> {
   async createUser(authDTO: CreateAuthDTO): Promise<User> {
     const { name, image, email, id, provider } = authDTO;
     const user = await this.create({

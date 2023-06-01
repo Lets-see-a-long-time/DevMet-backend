@@ -7,16 +7,16 @@ import { CommentController } from './controller/comment.controller';
 import { ProjectRepository } from './repository/project.repository';
 import { CommentRepository } from './repository/comment.repository';
 import { AuthModule } from 'src/auth/auth.module';
-import { UserService } from 'src/auth/service/user.service';
-import { UserRepository } from 'src/auth/repository/auth.repository';
+import { AuthService } from 'src/auth/service/auth.service';
+import { AuthRepository } from 'src/auth/repository/auth.repository';
 import { JwtService } from '@nestjs/jwt/dist';
 
 @Module({
   providers: [
     ProjectService,
     CommentService,
-    UserService,
-    UserRepository,
+    AuthService,
+    AuthRepository,
     JwtService,
   ],
   controllers: [ProjectController, CommentController],

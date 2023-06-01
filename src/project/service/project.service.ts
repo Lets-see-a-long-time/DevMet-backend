@@ -5,14 +5,14 @@ import { UpdateProjectDto } from '../dto/project/update-project.dto';
 import SuccessResponse from 'src/common/utils/success.response';
 import { ProjectRepository } from '../repository/project.repository';
 import { User } from 'src/auth/entity/user.entity';
-import { UserService } from 'src/auth/service/user.service';
+import { AuthService } from 'src/auth/service/auth.service';
 import { ProjectsRequest } from '../dto/project/projects-request';
 
 @Injectable()
 export class ProjectService {
   constructor(
     private projectRepository: ProjectRepository,
-    private userService: UserService,
+    private authService: AuthService,
   ) {}
 
   async getAllProjects(projectRequest: ProjectsRequest): Promise<Project[]> {

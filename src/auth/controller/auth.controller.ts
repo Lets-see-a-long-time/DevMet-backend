@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Get, UseGuards, Patch } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport/dist';
-import { UserService } from '../service/user.service';
+import { AuthService } from '../service/auth.service';
 import { UpdateAuthDTO } from '../dto/update-auth.dto';
 import { CreateAuthDTO } from '../dto/create-auth.dto';
 import { Token } from '../security/token.interface';
@@ -10,7 +10,7 @@ import { GetUser } from 'src/common/decorator/get-user.dacorator';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: UserService) {}
+  constructor(private authService: AuthService) {}
 
   @Patch('/register')
   @ApiOperation({ summary: '유저 정보 수정', description: '유저 정보 수정' })
