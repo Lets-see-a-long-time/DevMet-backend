@@ -22,7 +22,7 @@ export class CommentController {
 
   @GetApi(() => [Comment], {
     path: '/',
-    description: '댓글 목록 조회 ',
+    description: '댓글 목록 조회 (Optional: AccessToken)',
     auth: false,
   })
   getComments(@Query() request: CommentsRequest): Promise<Comment[]> {
@@ -31,7 +31,7 @@ export class CommentController {
 
   @GetApi(() => Comment, {
     path: '/:id',
-    description: '댓글 조회 ',
+    description: '댓글 조회 (Optional: AccessToken)',
     auth: false,
   })
   getComment(@Param('id') id: number): Promise<Comment> {

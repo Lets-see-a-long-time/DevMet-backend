@@ -7,16 +7,13 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-
 import { CreateProjectDto } from '../dto/project/create-project.dto';
 import { ProjectService } from '../service/project.service';
 import { Project } from '../entity/project.entity';
-
 import { GetUser } from 'src/common/decorator/get-user.decorator';
 import { User } from 'src/auth/entity/user.entity';
 import { UpdateProjectDto } from '../dto/project/update-project.dto';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport/dist';
+import { ApiTags } from '@nestjs/swagger';
 import {
   DeleteApi,
   GetApi,
@@ -33,7 +30,7 @@ export class ProjectController {
 
   @GetApi(() => [Project], {
     path: '/',
-    description: '프로젝트 목록 조회 ',
+    description: '프로젝트 목록 조회 (Optional: AccessToken)',
     auth: false,
   })
   getAllProjects(
@@ -44,7 +41,7 @@ export class ProjectController {
 
   @GetApi(() => Project, {
     path: '/:id',
-    description: '프로젝트 목록 조회 ',
+    description: '프로젝트 조회 (Optional: AccessToken)',
     auth: false,
   })
   getProjectById(@Param('id', ParseIntPipe) id: number) {
@@ -98,15 +95,11 @@ export class ProjectController {
   }
 
   @GetApi(() => [Project], {
-    path: '/myProjects',
-    description: '자신의 프로젝트 목록 조회 ( Required: AccessToken ) ',
+    path: '/my/project',
+    description: '자신이 작성한 프로젝트 목록 조회  ( Required: AccessToken ) ',
     auth: true,
   })
-  getMyProjects(
-    @Query() request: ProjectsRequest,
-    @GetUser() user: User,
-  ): Promise<Project[]> {
-    console.log(request);
+  getMyProjects(@Query() request: ProjectsRequest, @GetUser() user: User) {
     return this.proejctService.getMyProjects(request, user);
   }
 }

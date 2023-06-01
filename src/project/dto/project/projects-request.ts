@@ -1,3 +1,4 @@
+import { IsNumberString } from 'class-validator';
 import { ApiField } from 'src/common/decorator/api.decorator';
 
 export class ProjectsRequest {
@@ -9,19 +10,21 @@ export class ProjectsRequest {
   // })
   // title?: string;
 
+  @IsNumberString()
   @ApiField({
     type: Number,
     description: '페이지',
     nullable: true,
     example: 1,
   })
-  page?: number;
+  page!: number;
 
+  @IsNumberString()
   @ApiField({
     type: Number,
     description: '페이지당 아이템 갯수',
     nullable: true,
     example: 10,
   })
-  itemCount?: number;
+  itemCount!: number;
 }
