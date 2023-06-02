@@ -10,6 +10,8 @@ import { AuthModule } from 'src/auth/auth.module';
 import { AuthService } from 'src/auth/service/auth.service';
 import { AuthRepository } from 'src/auth/repository/auth.repository';
 import { JwtService } from '@nestjs/jwt/dist';
+import { LikeRepository } from './repository/like.repository';
+import { FavoritesRepository } from './repository/favorites.repository';
 
 @Module({
   providers: [
@@ -21,7 +23,12 @@ import { JwtService } from '@nestjs/jwt/dist';
   ],
   controllers: [ProjectController, CommentController],
   imports: [
-    TypeOrmExModule.forCustomRepository([ProjectRepository, CommentRepository]),
+    TypeOrmExModule.forCustomRepository([
+      ProjectRepository,
+      CommentRepository,
+      LikeRepository,
+      FavoritesRepository,
+    ]),
     AuthModule,
   ],
 })

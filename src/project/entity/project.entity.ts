@@ -6,10 +6,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  BeforeInsert,
 } from 'typeorm';
+import { Favorites } from './favorite.entity';
+import { Like } from './like.entity';
 
 @Entity()
 export class Project extends BaseEntity {
@@ -32,22 +34,18 @@ export class Project extends BaseEntity {
   @Column('simple-array')
   tag?: string[];
 
-  @Column({ type: 'simple-array', nullable: true })
-  likeUserIds?: string[];
-
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 
+  @OneToMany(() => Like, (like) => like.project)
+  likes: Like[];
+
+  @OneToMany(() => Favorites, (favorites) => favorites.project)
+  favorites: Favorites[];
+
   @Column({ default: 0 })
   likeCount: number;
-
-  @BeforeInsert()
-  setDefaultLikeUserIds() {
-    if (this.likeUserIds === undefined) {
-      this.likeUserIds = [];
-    }
-  }
 }

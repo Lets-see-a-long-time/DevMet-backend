@@ -10,21 +10,21 @@ import {
 import { Project } from './project.entity';
 
 @Entity()
-export class Like extends BaseEntity {
+export class Favorites extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   userId: number;
 
-  @ManyToOne(() => User, (user) => user.likes, { eager: false })
+  @ManyToOne(() => User, (user) => user.favorites, { eager: false })
   @JoinColumn({ name: 'userId' })
   user: User;
 
   @Column({ type: Number })
   projectId: number;
 
-  @ManyToOne(() => Project, (project) => project.likes, { eager: false })
+  @ManyToOne(() => Project, (project) => project.favorites, { eager: false })
   @JoinColumn({ name: 'projectId' })
   project: Project;
 }

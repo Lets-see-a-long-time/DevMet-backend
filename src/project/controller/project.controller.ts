@@ -22,6 +22,8 @@ import {
 } from 'src/common/decorator/api.decorator';
 import SuccessResponse from 'src/common/utils/success.response';
 import { ProjectsRequest } from '../dto/project/projects-request';
+import { Like } from '../entity/like.entity';
+import { Favorites } from '../entity/favorite.entity';
 
 @ApiTags('project')
 @Controller('projects')
@@ -94,6 +96,18 @@ export class ProjectController {
     return this.proejctService.handleLikeCount(id, user);
   }
 
+  @PatchApi(() => SuccessResponse, {
+    path: '/:id/favorites',
+    description: '프로젝트 즐겨찾기 ( Required: AccessToken )',
+    auth: true,
+  })
+  handlefavorites(
+    @Param('id') id: number,
+    @GetUser() user: User,
+  ): Promise<SuccessResponse> {
+    return this.proejctService.handlefavorites(id, user);
+  }
+
   @GetApi(() => [Project], {
     path: '/my/project',
     description: '자신이 작성한 프로젝트 목록 조회  ( Required: AccessToken ) ',
@@ -101,5 +115,29 @@ export class ProjectController {
   })
   getMyProjects(@Query() request: ProjectsRequest, @GetUser() user: User) {
     return this.proejctService.getMyProjects(request, user);
+  }
+
+  @GetApi(() => [Like], {
+    path: '/my/like',
+    description: '좋아요 누른 프로젝트 목록 조회  ( Required: AccessToken ) ',
+    auth: true,
+  })
+  getMyLikedProejcts(
+    @Query() request: ProjectsRequest,
+    @GetUser() user: User,
+  ): Promise<Like[]> {
+    return this.proejctService.getMyLikedProejcts(request, user);
+  }
+
+  @GetApi(() => [Favorites], {
+    path: '/my/favorites',
+    description: '즐겨찾기 누른 프로젝트 목록 조회  ( Required: AccessToken ) ',
+    auth: true,
+  })
+  getMyFavoritesProejcts(
+    @Query() request: ProjectsRequest,
+    @GetUser() user: User,
+  ): Promise<Favorites[]> {
+    return this.proejctService.getMyFavoritesProejcts(request, user);
   }
 }

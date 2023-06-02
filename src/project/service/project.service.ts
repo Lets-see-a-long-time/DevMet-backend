@@ -7,12 +7,18 @@ import { ProjectRepository } from '../repository/project.repository';
 import { User } from 'src/auth/entity/user.entity';
 import { AuthService } from 'src/auth/service/auth.service';
 import { ProjectsRequest } from '../dto/project/projects-request';
+import { LikeRepository } from '../repository/like.repository';
+import { Like } from '../entity/like.entity';
+import { FavoritesRepository } from '../repository/favorites.repository';
+import { Favorites } from '../entity/favorite.entity';
 
 @Injectable()
 export class ProjectService {
   constructor(
     private projectRepository: ProjectRepository,
     private authService: AuthService,
+    private likeRepository: LikeRepository,
+    private favoritesRepository: FavoritesRepository,
   ) {}
 
   async getAllProjects(projectRequest: ProjectsRequest): Promise<Project[]> {
@@ -77,17 +83,65 @@ export class ProjectService {
   async handleLikeCount(id: number, user: User): Promise<SuccessResponse> {
     const project = await this.projectRepository.findOneBy({ id });
 
-    if (project.likeUserIds.includes(user.userId)) {
-      const updatedLikeUserIds = project.likeUserIds.filter(
-        (userId) => userId !== user.userId,
-      );
-      project.likeUserIds = updatedLikeUserIds;
-      project.likeCount -= 1;
-      await this.projectRepository.save(project);
+    if (!project) {
+      throw new NotFoundException(`프로젝트를 찾을수 없습니다.`);
+    }
+
+    const isLike = await this.likeRepository.findOneBy({
+      projectId: id,
+      userId: user.id,
+    });
+
+    if (isLike) {
+      await this.likeRepository.delete({
+        projectId: id,
+        userId: user.id,
+      });
     } else {
-      project.likeUserIds.push(user.userId);
-      project.likeCount += 1;
-      await this.projectRepository.save(project);
+      const create = await this.likeRepository.create({
+        projectId: id,
+        userId: user.id,
+      });
+      await this.likeRepository.save(create);
+    }
+
+    const countOfLike = await this.likeRepository.count({
+      where: {
+        projectId: id,
+      },
+    });
+
+    project.likeCount = countOfLike;
+
+    await this.projectRepository.save(project);
+
+    return SuccessResponse.fromSuccess(true);
+  }
+
+  async handlefavorites(id: number, user: User): Promise<SuccessResponse> {
+    const project = await this.projectRepository.findOneBy({ id });
+
+    if (!project) {
+      throw new NotFoundException(`프로젝트를 찾을수 없습니다.`);
+    }
+
+    const isFavorites = await this.favoritesRepository.findOneBy({
+      projectId: id,
+      userId: user.id,
+    });
+
+    if (isFavorites) {
+      await this.favoritesRepository.delete({
+        projectId: id,
+        userId: user.id,
+      });
+    } else {
+      const create = await this.favoritesRepository.create({
+        projectId: id,
+        userId: user.id,
+      });
+
+      await this.favoritesRepository.save(create);
     }
 
     return SuccessResponse.fromSuccess(true);
@@ -104,6 +158,44 @@ export class ProjectService {
 
     return this.projectRepository.find({
       where: { userId: user.id },
+      skip,
+      take,
+    });
+  }
+
+  async getMyLikedProejcts(
+    request: ProjectsRequest,
+    user: User,
+  ): Promise<Like[]> {
+    const { page, itemCount } = request;
+
+    const skip = (page - 1) * itemCount;
+    const take = itemCount;
+
+    return this.likeRepository.find({
+      where: {
+        userId: user.id,
+      },
+      relations: ['project'],
+      skip,
+      take,
+    });
+  }
+
+  async getMyFavoritesProejcts(
+    request: ProjectsRequest,
+    user: User,
+  ): Promise<Favorites[]> {
+    const { page, itemCount } = request;
+
+    const skip = (page - 1) * itemCount;
+    const take = itemCount;
+
+    return this.favoritesRepository.find({
+      where: {
+        userId: user.id,
+      },
+      relations: ['project'],
       skip,
       take,
     });

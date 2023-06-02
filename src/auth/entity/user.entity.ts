@@ -1,3 +1,5 @@
+import { Favorites } from 'src/project/entity/favorite.entity';
+import { Like } from 'src/project/entity/like.entity';
 import { Project } from 'src/project/entity/project.entity';
 import {
   BaseEntity,
@@ -41,6 +43,12 @@ export class User extends BaseEntity {
 
   @Column({ type: String, nullable: false })
   provider!: ProviderProps;
+
+  @OneToMany(() => Like, (like) => like.user)
+  likes: Like[];
+
+  @OneToMany(() => Favorites, (favorites) => favorites.user)
+  favorites: Favorites[];
 
   @OneToMany(() => Project, (project) => project.user)
   projects: Project[];
