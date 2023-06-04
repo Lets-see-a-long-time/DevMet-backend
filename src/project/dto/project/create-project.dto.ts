@@ -1,4 +1,5 @@
 import { ApiField } from 'src/common/decorator/api.decorator';
+import { ProjectPositionType } from 'src/common/enum/enum';
 
 export class CreateProjectDto {
   @ApiField({
@@ -24,4 +25,12 @@ export class CreateProjectDto {
     example: '[react, java]',
   })
   tag?: string[];
+
+  @ApiField({
+    type: [ProjectPositionType],
+    description: '프로젝트 구인 포지션',
+    nullable: true,
+    example: [ProjectPositionType.BACKEND],
+  })
+  position?: ProjectPositionType[];
 }

@@ -1,28 +1,51 @@
-export enum ProjectKeywordType {
+export enum ProjectStackType {
   REACT = 'REACT',
-  BACK_END = 'BACK_END',
-  FRONT_END = 'FRONT_END',
-  PM = 'PM',
-  DESIGNER = 'DESIGNER',
+  SVELTE = 'SVELTE',
+  NEXTJS = 'NEXTJS',
+  NODEJS = 'NODEJS',
   VUE = 'VUE',
-  ANGULAR = 'ANGULAR',
   DJANGO = 'DJANGO',
-  C = 'C',
-  CC = 'CC',
-  EXPRESS = 'EXPRESS',
-  NEST = 'NEST',
+  NESTJS = 'NESTJS',
   SPRING = 'SPRING',
-  RESTAPI = 'RESTAPI',
   PYTHON = 'PYTHON',
-  STUDY = 'STUDY',
   GRAPHQL = 'GRAPQL',
-  SQL = 'SQL',
-  DART = 'DART',
+  MYSQL = 'MYSQL',
+  MONGODB = 'MONGODB',
+  PHP = 'PHP',
+  KUBERNETES = ' KUBERNETES',
+  DOCKER = 'DOCKER',
+  GIT = 'GIT',
+  FIGMA = 'FIGMA',
+  ZEPLIN = 'ZEPLIN',
+  JEST = 'JEST',
+  FIREBASE = 'FIREBASE',
+  SWIFT = 'SWIFT',
+  UNITY = 'UNITY',
+  AWS = 'AWS',
   KOTLIN = 'KOTLIN',
   REACT_NATIVE = 'REACT_NATIVE',
-  UI_UX = 'UI_UX',
   GO = 'GO',
   JAVA = 'JAVA',
-  ALGORITHM = 'ALGORITHM',
   JAVASCRIPT = 'JAVASCRIPT',
+  TYPESCRIPT = 'TYPESCRIPT',
+}
+
+export enum ProjectType {
+  STUDY = 'STUDY',
+  PROJECT = 'PROJECT',
+  MENTORING = 'MENTORING',
+}
+
+export enum ProceedType {
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+}
+
+export enum ProjectPositionType {
+  FRONTEND = 'FRONTEND',
+  BACKEND = 'BACKEND',
+  DESIGNER = 'DESIGNER',
+  PM = 'PM',
+  QA = 'QA',
+  ETC = 'ETC',
 }

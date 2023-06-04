@@ -1,4 +1,4 @@
-import { ProjectKeywordType } from 'src/common/enum/enum';
+import { ProjectStackType } from 'src/common/enum/enum';
 import {
   BaseEntity,
   Column,
@@ -8,12 +8,12 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Keyword extends BaseEntity {
+export class Stack extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'enum', enum: ProjectKeywordType })
-  type: ProjectKeywordType;
+  @Column({ type: 'varchar', enum: [ProjectStackType] })
+  type: string;
 
   @Column({ type: String })
   name: string;

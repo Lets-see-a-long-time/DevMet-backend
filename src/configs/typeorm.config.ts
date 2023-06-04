@@ -4,10 +4,22 @@ import { User } from 'src/auth/entity/user.entity';
 import { Comment } from 'src/project/entity/comment.entity';
 import { Favorites } from 'src/project/entity/favorite.entity';
 import { Like } from 'src/project/entity/like.entity';
+import { Position } from 'src/project/entity/position.entity';
+import { ProjectPosition } from 'src/project/entity/project-position.entity';
 import { Project } from 'src/project/entity/project.entity';
+import { Stack } from 'src/project/entity/stack.entity';
 
 const dbConfig = config.get('db');
-const entityArray = [User, Project, Comment, Like, Favorites];
+const entityArray = [
+  User,
+  Project,
+  Comment,
+  Like,
+  Favorites,
+  Stack,
+  Position,
+  ProjectPosition,
+];
 
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'mysql',
