@@ -12,6 +12,10 @@ import { AuthRepository } from 'src/auth/repository/auth.repository';
 import { JwtService } from '@nestjs/jwt/dist';
 import { LikeRepository } from './repository/like.repository';
 import { FavoritesRepository } from './repository/favorites.repository';
+import { PositionRepository } from './repository/position.repository';
+import { StackRepository } from './repository/stack.repository';
+import { ProjectStackRepository } from './repository/project-stack.repository';
+import { TagRepository } from './repository/tag.repository';
 
 @Module({
   providers: [
@@ -28,6 +32,10 @@ import { FavoritesRepository } from './repository/favorites.repository';
       CommentRepository,
       LikeRepository,
       FavoritesRepository,
+      PositionRepository,
+      StackRepository,
+      ProjectStackRepository,
+      TagRepository,
     ]),
     AuthModule,
   ],

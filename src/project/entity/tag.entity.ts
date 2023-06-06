@@ -1,4 +1,3 @@
-import { User } from 'src/auth/entity/user.entity';
 import {
   BaseEntity,
   Column,
@@ -10,21 +9,17 @@ import {
 import { Project } from './project.entity';
 
 @Entity()
-export class Favorites extends BaseEntity {
+export class Tag extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  userId: number;
-
-  @ManyToOne(() => User, (user) => user.favorites, { eager: false })
-  @JoinColumn({ name: 'userId' })
-  user: User;
+  @Column({ type: String })
+  tag: string;
 
   @Column({ type: Number })
   projectId: number;
 
-  @ManyToOne(() => Project, (project) => project.favorites, {
+  @ManyToOne(() => Project, (project) => project.tags, {
     eager: false,
     onDelete: 'CASCADE',
   })

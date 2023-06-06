@@ -1,4 +1,3 @@
-import { User } from 'src/auth/entity/user.entity';
 import {
   BaseEntity,
   Column,
@@ -8,23 +7,24 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Project } from './project.entity';
+import { Stack } from './stack.entity';
 
 @Entity()
-export class Favorites extends BaseEntity {
+export class ProjectStack extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  userId: number;
+  stackId: number;
 
-  @ManyToOne(() => User, (user) => user.favorites, { eager: false })
+  @ManyToOne(() => Stack, (stack) => stack.projectStacks, { eager: false })
   @JoinColumn({ name: 'userId' })
-  user: User;
+  stack: Stack;
 
   @Column({ type: Number })
   projectId: number;
 
-  @ManyToOne(() => Project, (project) => project.favorites, {
+  @ManyToOne(() => Project, (project) => project.likes, {
     eager: false,
     onDelete: 'CASCADE',
   })

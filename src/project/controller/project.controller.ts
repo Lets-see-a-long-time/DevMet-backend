@@ -24,6 +24,7 @@ import SuccessResponse from 'src/common/utils/success.response';
 import { ProjectsRequest } from '../dto/project/projects-request';
 import { Like } from '../entity/like.entity';
 import { Favorites } from '../entity/favorite.entity';
+import { Stack } from '../entity/stack.entity';
 
 @ApiTags('project')
 @Controller('projects')
@@ -139,5 +140,14 @@ export class ProjectController {
     @GetUser() user: User,
   ): Promise<Favorites[]> {
     return this.proejctService.getMyFavoritesProejcts(request, user);
+  }
+
+  @GetApi(() => [Stack], {
+    path: '/project/stacks',
+    description: '스택 목록  ( Optional: AccessToken ) ',
+    auth: false,
+  })
+  getStacks(): Promise<Stack[]> {
+    return this.proejctService.getStacks();
   }
 }

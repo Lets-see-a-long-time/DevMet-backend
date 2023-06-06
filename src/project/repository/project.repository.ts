@@ -7,11 +7,10 @@ import { User } from 'src/auth/entity/user.entity';
 @CustomRepository(Project)
 export class ProjectRepository extends Repository<Project> {
   async createProejct(request: CreateProjectDto, user: User): Promise<Project> {
-    const { title, content, tag } = request;
+    const { title, content } = request;
     const project = await this.create({
       title,
       content,
-      tag,
       userId: user.id,
     });
 

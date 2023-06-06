@@ -4,10 +4,11 @@ import { User } from 'src/auth/entity/user.entity';
 import { Comment } from 'src/project/entity/comment.entity';
 import { Favorites } from 'src/project/entity/favorite.entity';
 import { Like } from 'src/project/entity/like.entity';
-import { Position } from 'src/project/entity/position.entity';
 import { ProjectPosition } from 'src/project/entity/project-position.entity';
+import { ProjectStack } from 'src/project/entity/project-stack.entity';
 import { Project } from 'src/project/entity/project.entity';
 import { Stack } from 'src/project/entity/stack.entity';
+import { Tag } from 'src/project/entity/tag.entity';
 
 const dbConfig = config.get('db');
 const entityArray = [
@@ -17,8 +18,9 @@ const entityArray = [
   Like,
   Favorites,
   Stack,
-  Position,
+  ProjectStack,
   ProjectPosition,
+  Tag,
 ];
 
 export const typeORMConfig: TypeOrmModuleOptions = {

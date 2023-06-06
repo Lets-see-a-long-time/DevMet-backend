@@ -24,7 +24,10 @@ export class Like extends BaseEntity {
   @Column({ type: Number })
   projectId: number;
 
-  @ManyToOne(() => Project, (project) => project.likes, { eager: false })
+  @ManyToOne(() => Project, (project) => project.likes, {
+    eager: false,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'projectId' })
   project: Project;
 }

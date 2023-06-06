@@ -20,11 +20,35 @@ export class CreateProjectDto {
 
   @ApiField({
     type: [String],
+    description: '프로젝트 관련 태그 목록',
+    nullable: true,
+    example: ['react', '스터디'],
+  })
+  tags?: string[];
+
+  @ApiField({
+    type: [Number],
     description: '프로젝트 관련 스택 목록',
     nullable: true,
-    example: '[react, java]',
+    example: [1, 2],
   })
-  tag?: string[];
+  stacks?: number[];
+
+  @ApiField({
+    type: Number,
+    description: '프로젝트 모집 인원',
+    nullable: false,
+    example: 5,
+  })
+  numberOfRecruits: number;
+
+  @ApiField({
+    type: Date,
+    description: '프로젝트 모집 마감 기한',
+    nullable: false,
+    example: '2023-06-23',
+  })
+  recuitmentDeadLine: Date;
 
   @ApiField({
     type: [ProjectPositionType],

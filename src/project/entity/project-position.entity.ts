@@ -1,4 +1,3 @@
-import { User } from 'src/auth/entity/user.entity';
 import {
   BaseEntity,
   Column,
@@ -8,26 +7,26 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Project } from './project.entity';
-import { Position } from './position.entity';
+import { ProjectPositionType } from 'src/common/enum/enum';
 
 @Entity()
 export class ProjectPosition extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: Number })
-  positionId: number;
-
-  @ManyToOne(() => Position, (position) => position.projectPositions, {
-    eager: false,
+  @Column({
+    type: 'enum',
+    name: 'ProjectPositionType',
+    enum: ProjectPositionType,
   })
-  @JoinColumn({ name: 'userId' })
-  position: Position;
+  positionType: ProjectPositionType;
 
   @Column({ type: Number })
   projectId: number;
 
-  @ManyToOne(() => Project, (project) => project.likes, { eager: false })
+  @ManyToOne(() => Project, (project) => project.projectPositions, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'projectId' })
   project: Project;
 }

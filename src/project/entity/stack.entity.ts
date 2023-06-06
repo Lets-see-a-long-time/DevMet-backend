@@ -4,19 +4,25 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ProjectStack } from './project-stack.entity';
 
 @Entity()
 export class Stack extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', enum: [ProjectStackType] })
+  @Column({
+    type: 'enum',
+    name: 'ProjectStackType',
+    enum: ProjectStackType,
+  })
   type: string;
 
-  @Column({ type: String })
-  name: string;
+  @OneToMany(() => ProjectStack, (projectStack) => projectStack.stack)
+  projectStacks: ProjectStack[];
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
