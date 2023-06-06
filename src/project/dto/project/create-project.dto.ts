@@ -30,7 +30,7 @@ export class CreateProjectDto {
     type: [Number],
     description: '프로젝트 관련 스택 목록',
     nullable: true,
-    example: [1, 2],
+    example: [148, 149],
   })
   stacks?: number[];
 
