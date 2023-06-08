@@ -11,9 +11,9 @@ import {
 } from 'src/common/decorator/api.decorator';
 import { Comment } from '../entity/comment.entity';
 import { CommentsRequest } from '../dto/comment/comments-request';
-import { GetUser } from 'src/common/decorator/get-user.dacorator';
 import SuccessResponse from 'src/common/utils/success.response';
 import { User } from 'src/auth/entity/user.entity';
+import { GetUser } from 'src/common/decorator/get-user.decorator';
 
 @ApiTags('Project Comment')
 @Controller('comment')

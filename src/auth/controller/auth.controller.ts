@@ -5,7 +5,7 @@ import { UpdateAuthDTO } from '../dto/update-auth.dto';
 import { CreateAuthDTO } from '../dto/create-auth.dto';
 import { Token } from '../security/token.interface';
 import { ApiTags, ApiOperation, ApiCreatedResponse } from '@nestjs/swagger';
-import { GetUser } from 'src/common/decorator/get-user.dacorator';
+import { GetUser } from 'src/common/decorator/get-user.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
