@@ -21,10 +21,11 @@ import {
   PostApi,
 } from 'src/common/decorator/api.decorator';
 import SuccessResponse from 'src/common/utils/success.response';
-import { ProjectsRequest } from '../dto/project/projects-request';
+import { ProjectListRequest } from '../dto/project/projects-request';
 import { Like } from '../entity/like.entity';
 import { Favorites } from '../entity/favorite.entity';
 import { Stack } from '../entity/stack.entity';
+import { ProjectsRequest } from '../dto/project/project-request';
 
 @ApiTags('project')
 @Controller('projects')
@@ -37,7 +38,7 @@ export class ProjectController {
     auth: false,
   })
   getAllProjects(
-    @Query() projectsRequest: ProjectsRequest,
+    @Query() projectsRequest: ProjectListRequest,
   ): Promise<Project[]> {
     return this.proejctService.getAllProjects(projectsRequest);
   }

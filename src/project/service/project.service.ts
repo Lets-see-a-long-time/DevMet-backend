@@ -6,7 +6,6 @@ import SuccessResponse from 'src/common/utils/success.response';
 import { ProjectRepository } from '../repository/project.repository';
 import { User } from 'src/auth/entity/user.entity';
 import { AuthService } from 'src/auth/service/auth.service';
-import { ProjectsRequest } from '../dto/project/projects-request';
 import { LikeRepository } from '../repository/like.repository';
 import { Like } from '../entity/like.entity';
 import { FavoritesRepository } from '../repository/favorites.repository';
@@ -16,6 +15,8 @@ import { StackRepository } from '../repository/stack.repository';
 import { Stack } from '../entity/stack.entity';
 import { ProjectStackRepository } from '../repository/project-stack.repository';
 import { TagRepository } from '../repository/tag.repository';
+import { ProjectListRequest } from '../dto/project/projects-request';
+import { ProjectsRequest } from '../dto/project/project-request';
 
 @Injectable()
 export class ProjectService {
@@ -30,13 +31,8 @@ export class ProjectService {
     private tagRepository: TagRepository,
   ) {}
 
-  async getAllProjects(projectRequest: ProjectsRequest): Promise<Project[]> {
-    const { page, itemCount } = projectRequest;
-
-    const skip = (page - 1) * itemCount;
-    const take = itemCount;
-
-    return this.projectRepository.find({ skip, take });
+  async getAllProjects(projectRequest: ProjectListRequest): Promise<Project[]> {
+    return this.projectRepository.getAllProjects(projectRequest);
   }
 
   async getProjectById(id: number) {
@@ -191,54 +187,21 @@ export class ProjectService {
     request: ProjectsRequest,
     user: User,
   ): Promise<Project[]> {
-    const { page, itemCount } = request;
-
-    const skip = (page - 1) * itemCount;
-    const take = itemCount;
-
-    return this.projectRepository.find({
-      where: { userId: user.id },
-      skip,
-      take,
-    });
+    return this.projectRepository.getMyProjects(request, user);
   }
 
   async getMyLikedProejcts(
     request: ProjectsRequest,
     user: User,
   ): Promise<Like[]> {
-    const { page, itemCount } = request;
-
-    const skip = (page - 1) * itemCount;
-    const take = itemCount;
-
-    return this.likeRepository.find({
-      where: {
-        userId: user.id,
-      },
-      relations: ['project'],
-      skip,
-      take,
-    });
+    return this.likeRepository.getMyLikedProejcts(request, user);
   }
 
   async getMyFavoritesProejcts(
     request: ProjectsRequest,
     user: User,
   ): Promise<Favorites[]> {
-    const { page, itemCount } = request;
-
-    const skip = (page - 1) * itemCount;
-    const take = itemCount;
-
-    return this.favoritesRepository.find({
-      where: {
-        userId: user.id,
-      },
-      relations: ['project'],
-      skip,
-      take,
-    });
+    return this.favoritesRepository.getMyFavoritesProejcts(request, user);
   }
 
   async getStacks(): Promise<Stack[]> {

@@ -1,30 +1,12 @@
-import { IsNumberString } from 'class-validator';
 import { ApiField } from 'src/common/decorator/api.decorator';
+import { ProjectsRequest } from './project-request';
 
-export class ProjectsRequest {
-  // @ApiField({
-  //   type: String,
-  //   description: '프로젝트 아이디',
-  //   nullable: true,
-  //   example: '프로젝트 임원 구해요.',
-  // })
-  // title?: string;
-
-  @IsNumberString()
+export class ProjectListRequest extends ProjectsRequest {
   @ApiField({
-    type: Number,
-    description: '페이지',
+    type: String,
+    description: '프로젝트 검색어',
     nullable: true,
-    example: 1,
+    example: '팀원',
   })
-  page!: number;
-
-  @IsNumberString()
-  @ApiField({
-    type: Number,
-    description: '페이지당 아이템 갯수',
-    nullable: true,
-    example: 10,
-  })
-  itemCount!: number;
+  keyword?: string;
 }
