@@ -16,7 +16,7 @@ import { Stack } from '../entity/stack.entity';
 import { ProjectStackRepository } from '../repository/project-stack.repository';
 import { TagRepository } from '../repository/tag.repository';
 import { ProjectListRequest } from '../dto/project/projects-request';
-import { ProjectsRequest } from '../dto/project/project-request';
+import { ScrollRequest } from 'src/common/utils/scroll-request';
 
 @Injectable()
 export class ProjectService {
@@ -183,22 +183,19 @@ export class ProjectService {
     return SuccessResponse.fromSuccess(true);
   }
 
-  async getMyProjects(
-    request: ProjectsRequest,
-    user: User,
-  ): Promise<Project[]> {
+  async getMyProjects(request: ScrollRequest, user: User): Promise<Project[]> {
     return this.projectRepository.getMyProjects(request, user);
   }
 
   async getMyLikedProejcts(
-    request: ProjectsRequest,
+    request: ScrollRequest,
     user: User,
   ): Promise<Like[]> {
     return this.likeRepository.getMyLikedProejcts(request, user);
   }
 
   async getMyFavoritesProejcts(
-    request: ProjectsRequest,
+    request: ScrollRequest,
     user: User,
   ): Promise<Favorites[]> {
     return this.favoritesRepository.getMyFavoritesProejcts(request, user);

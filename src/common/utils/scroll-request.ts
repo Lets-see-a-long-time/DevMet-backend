@@ -1,11 +1,11 @@
 import { IsNumberString } from 'class-validator';
 import { ApiField } from 'src/common/decorator/api.decorator';
 
-export class ProjectsRequest {
+export class ScrollRequest {
   @IsNumberString()
   @ApiField({
     type: Number,
-    description: '프로젝트 마지막 아이디',
+    description: '아이템 마지막 아이디',
     nullable: true,
     example: 1,
   })

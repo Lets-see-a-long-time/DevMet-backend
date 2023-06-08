@@ -4,7 +4,7 @@ import { Brackets, Raw, Repository } from 'typeorm';
 import { Project } from '../entity/project.entity';
 import { User } from 'src/auth/entity/user.entity';
 import { ProjectListRequest } from '../dto/project/projects-request';
-import { ProjectsRequest } from '../dto/project/project-request';
+import { ScrollRequest } from 'src/common/utils/scroll-request';
 
 @CustomRepository(Project)
 export class ProjectRepository extends Repository<Project> {
@@ -52,10 +52,7 @@ export class ProjectRepository extends Repository<Project> {
     return projects;
   }
 
-  async getMyProjects(
-    request: ProjectsRequest,
-    user: User,
-  ): Promise<Project[]> {
+  async getMyProjects(request: ScrollRequest, user: User): Promise<Project[]> {
     const { lastItemId, itemCount } = request;
 
     return this.find({

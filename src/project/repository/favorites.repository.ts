@@ -1,13 +1,13 @@
 import { User } from 'src/auth/entity/user.entity';
+import { ScrollRequest } from 'src/common/utils/scroll-request';
 import { CustomRepository } from 'src/configs/typeorm.decorator';
 import { Raw, Repository } from 'typeorm';
-import { ProjectsRequest } from '../dto/project/project-request';
 import { Favorites } from '../entity/favorite.entity';
 
 @CustomRepository(Favorites)
 export class FavoritesRepository extends Repository<Favorites> {
   async getMyFavoritesProejcts(
-    request: ProjectsRequest,
+    request: ScrollRequest,
     user: User,
   ): Promise<Favorites[]> {
     const { lastItemId, itemCount } = request;

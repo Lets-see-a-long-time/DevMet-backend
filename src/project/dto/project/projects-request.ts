@@ -1,7 +1,7 @@
 import { ApiField } from 'src/common/decorator/api.decorator';
-import { ProjectsRequest } from './project-request';
+import { ScrollRequest } from 'src/common/utils/scroll-request';
 
-export class ProjectListRequest extends ProjectsRequest {
+export class ProjectListRequest extends ScrollRequest {
   @ApiField({
     type: String,
     description: '프로젝트 검색어',

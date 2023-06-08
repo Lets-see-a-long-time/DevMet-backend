@@ -25,7 +25,7 @@ import { ProjectListRequest } from '../dto/project/projects-request';
 import { Like } from '../entity/like.entity';
 import { Favorites } from '../entity/favorite.entity';
 import { Stack } from '../entity/stack.entity';
-import { ProjectsRequest } from '../dto/project/project-request';
+import { ScrollRequest } from 'src/common/utils/scroll-request';
 
 @ApiTags('project')
 @Controller('projects')
@@ -115,7 +115,7 @@ export class ProjectController {
     description: '자신이 작성한 프로젝트 목록 조회  ( Required: AccessToken ) ',
     auth: true,
   })
-  getMyProjects(@Query() request: ProjectsRequest, @GetUser() user: User) {
+  getMyProjects(@Query() request: ScrollRequest, @GetUser() user: User) {
     return this.proejctService.getMyProjects(request, user);
   }
 
@@ -125,7 +125,7 @@ export class ProjectController {
     auth: true,
   })
   getMyLikedProejcts(
-    @Query() request: ProjectsRequest,
+    @Query() request: ScrollRequest,
     @GetUser() user: User,
   ): Promise<Like[]> {
     return this.proejctService.getMyLikedProejcts(request, user);
@@ -137,7 +137,7 @@ export class ProjectController {
     auth: true,
   })
   getMyFavoritesProejcts(
-    @Query() request: ProjectsRequest,
+    @Query() request: ScrollRequest,
     @GetUser() user: User,
   ): Promise<Favorites[]> {
     return this.proejctService.getMyFavoritesProejcts(request, user);
