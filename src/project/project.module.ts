@@ -16,6 +16,7 @@ import { PositionRepository } from './repository/position.repository';
 import { StackRepository } from './repository/stack.repository';
 import { ProjectStackRepository } from './repository/project-stack.repository';
 import { TagRepository } from './repository/tag.repository';
+import { LikeCommentRepository } from './repository/like-comment.repository';
 
 @Module({
   providers: [
@@ -36,6 +37,7 @@ import { TagRepository } from './repository/tag.repository';
       StackRepository,
       ProjectStackRepository,
       TagRepository,
+      LikeCommentRepository,
     ]),
     AuthModule,
   ],

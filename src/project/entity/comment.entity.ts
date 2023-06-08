@@ -7,8 +7,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   JoinColumn,
-  BeforeInsert,
+  OneToMany,
+  JoinTable,
 } from 'typeorm';
+import { LikeComment } from './like-comment.entity';
 import { Project } from './project.entity';
 
 @Entity()
@@ -36,8 +38,11 @@ export class Comment extends BaseEntity {
   @Column({ type: Number, nullable: true })
   parentId?: number;
 
-  @Column({ type: 'simple-array', nullable: true })
-  likeUserIds?: string[];
+  @OneToMany(() => LikeComment, (likeComment) => likeComment.comment, {
+    cascade: true,
+  })
+  @JoinTable()
+  likes: LikeComment[];
 
   @Column({ default: 0 })
   likeCount: number;
@@ -47,11 +52,4 @@ export class Comment extends BaseEntity {
 
   @CreateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
-
-  @BeforeInsert()
-  setDefaultLikeUserIds() {
-    if (this.likeUserIds === undefined) {
-      this.likeUserIds = [];
-    }
-  }
 }

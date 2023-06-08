@@ -6,12 +6,14 @@ import { CommentRepository } from '../repository/comment.repository';
 import { CommentsRequest } from '../dto/comment/comments-request';
 import { ProjectService } from './project.service';
 import SuccessResponse from 'src/common/utils/success.response';
+import { LikeCommentRepository } from '../repository/like-comment.repository';
 
 @Injectable()
 export class CommentService {
   constructor(
     private commentRepository: CommentRepository,
     private projectService: ProjectService,
+    private likeCommentRepository: LikeCommentRepository,
   ) {}
 
   async getComments(request: CommentsRequest) {
@@ -59,24 +61,39 @@ export class CommentService {
   }
 
   async handleLikeComment(id: number, user: User): Promise<SuccessResponse> {
-    const comment = await this.getComment(id);
+    const comment = await this.commentRepository.findOneBy({ id });
 
-    if (comment.userId !== user.id) {
-      throw new NotFoundException(`작성자만 수정이 가능합니다`);
+    if (!comment) {
+      throw new NotFoundException(`댓글을 찾을수 없습니다.`);
     }
 
-    if (comment.likeUserIds.includes(user.userId)) {
-      const updatedLikeUserIds = comment.likeUserIds.filter(
-        (userId) => userId !== user.userId,
-      );
-      comment.likeUserIds = updatedLikeUserIds;
-      comment.likeCount -= 1;
-      await this.commentRepository.save(comment);
+    const isLike = await this.likeCommentRepository.findOneBy({
+      commentId: id,
+      userId: user.id,
+    });
+
+    if (isLike) {
+      await this.likeCommentRepository.delete({
+        commentId: id,
+        userId: user.id,
+      });
     } else {
-      comment.likeUserIds.push(user.userId);
-      comment.likeCount += 1;
-      await this.commentRepository.save(comment);
+      const create = await this.likeCommentRepository.create({
+        commentId: id,
+        userId: user.id,
+      });
+      await this.likeCommentRepository.save(create);
     }
+
+    const countOfLike = await this.likeCommentRepository.count({
+      where: {
+        commentId: id,
+      },
+    });
+
+    comment.likeCount = countOfLike;
+
+    await this.commentRepository.save(comment);
 
     return SuccessResponse.fromSuccess(true);
   }

@@ -3,6 +3,7 @@ import * as config from 'config';
 import { User } from 'src/auth/entity/user.entity';
 import { Comment } from 'src/project/entity/comment.entity';
 import { Favorites } from 'src/project/entity/favorite.entity';
+import { LikeComment } from 'src/project/entity/like-comment.entity';
 import { Like } from 'src/project/entity/like.entity';
 import { ProjectPosition } from 'src/project/entity/project-position.entity';
 import { ProjectStack } from 'src/project/entity/project-stack.entity';
@@ -21,6 +22,7 @@ const entityArray = [
   ProjectStack,
   ProjectPosition,
   Tag,
+  LikeComment,
 ];
 
 export const typeORMConfig: TypeOrmModuleOptions = {
