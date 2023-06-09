@@ -31,7 +31,7 @@ export class Comment extends BaseEntity {
   @Column({ type: Number, nullable: false })
   projectId: number;
 
-  @ManyToOne(() => Project)
+  @ManyToOne(() => Project, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'projectId' })
   project: Project;
 

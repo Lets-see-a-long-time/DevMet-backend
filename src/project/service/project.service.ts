@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Project } from '../entity/project.entity';
-import { CreateProjectDto } from '../dto/project/create-project.dto';
-import { UpdateProjectDto } from '../dto/project/update-project.dto';
 import SuccessResponse from 'src/common/utils/success.response';
 import { ProjectRepository } from '../repository/project.repository';
 import { User } from 'src/auth/entity/user.entity';
@@ -15,8 +13,11 @@ import { StackRepository } from '../repository/stack.repository';
 import { Stack } from '../entity/stack.entity';
 import { ProjectStackRepository } from '../repository/project-stack.repository';
 import { TagRepository } from '../repository/tag.repository';
-import { ProjectListRequest } from '../dto/project/projects-request';
+import { ProjectListRequest } from '../dto/request/project/projects.request';
 import { ScrollRequest } from 'src/common/utils/scroll-request';
+import { CreateProjectRequest } from '../dto/request/project/create-project.request';
+import { UpdateProjectRequest } from '../dto/request/project/update-project.request';
+import ProjectsResponse from '../dto/response/project/projects.response';
 
 @Injectable()
 export class ProjectService {
@@ -31,8 +32,12 @@ export class ProjectService {
     private tagRepository: TagRepository,
   ) {}
 
-  async getAllProjects(projectRequest: ProjectListRequest): Promise<Project[]> {
-    return this.projectRepository.getAllProjects(projectRequest);
+  async getAllProjects(request: ProjectListRequest): Promise<ProjectsResponse> {
+    const projects = await this.projectRepository.getAllProjects(request);
+
+    const countOfTotal = await this.projectRepository.countProjects(request);
+
+    return ProjectsResponse.fromProjects(projects, countOfTotal);
   }
 
   async getProjectById(id: number) {
@@ -45,7 +50,7 @@ export class ProjectService {
   }
 
   async createProject(
-    createProjectDto: CreateProjectDto,
+    createProjectDto: CreateProjectRequest,
     user: User,
   ): Promise<Project> {
     const newProject = await this.projectRepository.createProejct(
@@ -89,7 +94,7 @@ export class ProjectService {
       throw new NotFoundException(`작성자만 글 삭제가 가능합니다.`);
     }
 
-    const deleted = await this.projectRepository.delete({ id });
+    const deleted = await this.projectRepository.delete({ id: id });
 
     if (deleted.affected === 0) {
       throw new NotFoundException(`${id} 이 글은 지울수 없습니다.`);
@@ -97,7 +102,7 @@ export class ProjectService {
 
     return SuccessResponse.fromSuccess(true);
   }
-  async updateProject(request: UpdateProjectDto, user: User) {
+  async updateProject(request: UpdateProjectRequest, user: User) {
     const project = await this.projectRepository.findOneBy({ id: request.id });
 
     if (project.userId !== user.id) {

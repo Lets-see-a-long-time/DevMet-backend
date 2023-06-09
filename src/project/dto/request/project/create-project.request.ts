@@ -1,7 +1,7 @@
 import { ApiField } from 'src/common/decorator/api.decorator';
 import { ProjectPositionType } from 'src/common/enum/enum';
 
-export class CreateProjectDto {
+export class CreateProjectRequest {
   @ApiField({
     type: String,
     description: '프로젝트 아이디',

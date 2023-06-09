@@ -1,7 +1,5 @@
 import { Body, Controller, Param, Query } from '@nestjs/common';
 import { CommentService } from '../service/comment.service';
-import { CreateCommentDto } from '../dto/comment/create-comment.dto';
-import { UpdateCommentDto } from '../dto/comment/update-comment.dto';
 import { ApiTags } from '@nestjs/swagger';
 import {
   DeleteApi,
@@ -10,10 +8,12 @@ import {
   PostApi,
 } from 'src/common/decorator/api.decorator';
 import { Comment } from '../entity/comment.entity';
-import { CommentsRequest } from '../dto/comment/comments-request';
+import { CommentsRequest } from '../dto/request/comment/comments.request';
 import SuccessResponse from 'src/common/utils/success.response';
 import { User } from 'src/auth/entity/user.entity';
 import { GetUser } from 'src/common/decorator/get-user.decorator';
+import { CreateCommentRequest } from '../dto/request/comment/create-comment.request';
+import { UpdateCommentRequest } from '../dto/request/comment/update-comment.request';
 
 @ApiTags('Project Comment')
 @Controller('comment')
@@ -44,7 +44,7 @@ export class CommentController {
     auth: true,
   })
   createComment(
-    @Body() request: CreateCommentDto,
+    @Body() request: CreateCommentRequest,
     @GetUser() user: User,
   ): Promise<Comment> {
     return this.commentService.createComment(request, user);
@@ -56,7 +56,7 @@ export class CommentController {
     auth: true,
   })
   updateComment(
-    @Body() request: UpdateCommentDto,
+    @Body() request: UpdateCommentRequest,
     @GetUser() user: User,
   ): Promise<SuccessResponse> {
     return this.commentService.updateComment(request, user);

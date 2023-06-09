@@ -4,16 +4,13 @@ import {
   Param,
   ParseIntPipe,
   Query,
-  Sse,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { CreateProjectDto } from '../dto/project/create-project.dto';
 import { ProjectService } from '../service/project.service';
 import { Project } from '../entity/project.entity';
 import { GetUser } from 'src/common/decorator/get-user.decorator';
 import { User } from 'src/auth/entity/user.entity';
-import { UpdateProjectDto } from '../dto/project/update-project.dto';
 import { ApiTags } from '@nestjs/swagger';
 import {
   DeleteApi,
@@ -22,25 +19,28 @@ import {
   PostApi,
 } from 'src/common/decorator/api.decorator';
 import SuccessResponse from 'src/common/utils/success.response';
-import { ProjectListRequest } from '../dto/project/projects-request';
+import { ProjectListRequest } from '../dto/request/project/projects.request';
 import { Like } from '../entity/like.entity';
 import { Favorites } from '../entity/favorite.entity';
 import { Stack } from '../entity/stack.entity';
 import { ScrollRequest } from 'src/common/utils/scroll-request';
+import { CreateProjectRequest } from '../dto/request/project/create-project.request';
+import { UpdateProjectRequest } from '../dto/request/project/update-project.request';
+import ProjectsResponse from '../dto/response/project/projects.response';
 
 @ApiTags('project')
 @Controller('projects')
 export class ProjectController {
   constructor(private proejctService: ProjectService) {}
 
-  @GetApi(() => [Project], {
+  @GetApi(() => [ProjectsResponse], {
     path: '/',
     description: '프로젝트 목록 조회 (Optional: AccessToken)',
     auth: false,
   })
   getAllProjects(
     @Query() projectsRequest: ProjectListRequest,
-  ): Promise<Project[]> {
+  ): Promise<ProjectsResponse> {
     return this.proejctService.getAllProjects(projectsRequest);
   }
 
@@ -60,10 +60,10 @@ export class ProjectController {
     auth: true,
   })
   createProject(
-    @Body() createProjectDto: CreateProjectDto,
+    @Body() request: CreateProjectRequest,
     @GetUser() user: User,
   ): Promise<Project> {
-    return this.proejctService.createProject(createProjectDto, user);
+    return this.proejctService.createProject(request, user);
   }
 
   @DeleteApi(() => Project, {
@@ -80,11 +80,8 @@ export class ProjectController {
     description: '프로젝트 수정 ( Required: AccessToken )',
     auth: true,
   })
-  updateProject(
-    @Body() updateProjectDto: UpdateProjectDto,
-    @GetUser() user: User,
-  ) {
-    return this.proejctService.updateProject(updateProjectDto, user);
+  updateProject(@Body() request: UpdateProjectRequest, @GetUser() user: User) {
+    return this.proejctService.updateProject(request, user);
   }
 
   @PatchApi(() => SuccessResponse, {

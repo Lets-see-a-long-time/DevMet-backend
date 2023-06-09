@@ -1,6 +1,6 @@
 import { ApiField } from 'src/common/decorator/api.decorator';
 
-export class UpdateProjectDto {
+export class UpdateProjectRequest {
   @ApiField({
     type: Number,
     description: '프로젝트 아이디',

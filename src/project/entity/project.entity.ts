@@ -13,7 +13,11 @@ import {
 } from 'typeorm';
 import { Favorites } from './favorite.entity';
 import { Like } from './like.entity';
-import { ProceedType, ProjectType } from 'src/common/enum/enum';
+import {
+  ProceedType,
+  ProjectStatusType,
+  ProjectType,
+} from 'src/common/enum/enum';
 import { ProjectPosition } from './project-position.entity';
 import { ProjectStack } from './project-stack.entity';
 import { Tag } from './tag.entity';
@@ -43,6 +47,14 @@ export class Project extends BaseEntity {
   })
   proceedType: ProceedType;
 
+  @Column({
+    type: 'enum',
+    name: 'status',
+    enum: ProjectStatusType,
+    default: ProjectStatusType.RECRUITING,
+  })
+  status: ProjectStatusType;
+
   @Column({ type: Number, nullable: false })
   userId: number;
 
@@ -70,6 +82,12 @@ export class Project extends BaseEntity {
 
   @Column({ type: Number, default: 5 })
   numberOfRecruits: number;
+
+  @Column({ type: Number, default: 0 })
+  viewCount: number;
+
+  @Column({ type: Number, default: 0 })
+  commentCount: number;
 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   createdAt: Date;

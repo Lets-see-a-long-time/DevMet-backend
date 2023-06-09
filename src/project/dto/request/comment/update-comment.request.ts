@@ -1,6 +1,6 @@
 import { ApiField } from 'src/common/decorator/api.decorator';
 
-export class UpdateCommentDto {
+export class UpdateCommentRequest {
   @ApiField({
     type: Number,
     description: '댓글 아이디',

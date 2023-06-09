@@ -1,6 +1,6 @@
 import { ApiField } from 'src/common/decorator/api.decorator';
 
-export class CreateCommentDto {
+export class CreateCommentRequest {
   @ApiField({
     type: Number,
     description: '프로젝트 아이디',

@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from 'src/auth/entity/user.entity';
-import { CreateCommentDto } from '../dto/comment/create-comment.dto';
-import { UpdateCommentDto } from '../dto/comment/update-comment.dto';
 import { CommentRepository } from '../repository/comment.repository';
-import { CommentsRequest } from '../dto/comment/comments-request';
+import { CommentsRequest } from '../dto/request/comment/comments.request';
 import { ProjectService } from './project.service';
 import SuccessResponse from 'src/common/utils/success.response';
 import { LikeCommentRepository } from '../repository/like-comment.repository';
+import { UpdateCommentRequest } from '../dto/request/comment/update-comment.request';
+import { CreateCommentRequest } from '../dto/request/comment/create-comment.request';
 
 @Injectable()
 export class CommentService {
@@ -28,7 +28,7 @@ export class CommentService {
     return this.commentRepository.findOneBy({ id });
   }
 
-  async createComment(request: CreateCommentDto, user: User): Promise<any> {
+  async createComment(request: CreateCommentRequest, user: User): Promise<any> {
     const project = await this.projectService.getProjectById(request.projectId);
 
     if (!project) {
@@ -39,7 +39,7 @@ export class CommentService {
   }
 
   async updateComment(
-    request: UpdateCommentDto,
+    request: UpdateCommentRequest,
     user: User,
   ): Promise<SuccessResponse> {
     const comment = await this.getComment(request.id);

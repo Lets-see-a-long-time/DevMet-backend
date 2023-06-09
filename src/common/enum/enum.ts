@@ -49,3 +49,8 @@ export enum ProjectPositionType {
   QA = 'QA',
   ETC = 'ETC',
 }
+
+export enum ProjectStatusType {
+  RECRUITING = 'RECRUITING',
+  COMPLETED = 'COMPLETED',
+}

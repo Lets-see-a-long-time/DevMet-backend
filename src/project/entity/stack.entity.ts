@@ -19,7 +19,7 @@ export class Stack extends BaseEntity {
     name: 'ProjectStackType',
     enum: ProjectStackType,
   })
-  type: string;
+  type: ProjectStackType;
 
   @OneToMany(() => ProjectStack, (projectStack) => projectStack.stack)
   projectStacks: ProjectStack[];
