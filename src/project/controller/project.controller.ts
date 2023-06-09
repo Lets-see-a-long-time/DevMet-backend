@@ -4,6 +4,7 @@ import {
   Param,
   ParseIntPipe,
   Query,
+  Sse,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
