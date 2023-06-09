@@ -17,7 +17,6 @@ export class NotificationController {
         }
         return {
           data: String(count),
-          type: count < 10 ? 'wait' : 'done',
         };
       }),
     );
