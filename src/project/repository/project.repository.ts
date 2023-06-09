@@ -94,6 +94,19 @@ export class ProjectRepository extends Repository<Project> {
     return totalCount;
   }
 
+  async getProject(id: number): Promise<Project> {
+    const project = await this.createQueryBuilder('project')
+      .leftJoinAndSelect('project.user', 'user')
+      .leftJoinAndSelect('project.tags', 'tags')
+      .leftJoinAndSelect('project.projectPositions', 'projectPositions')
+      .leftJoinAndSelect('project.projectStacks', 'projectStacks')
+      .leftJoinAndSelect('projectStacks.stack', 'stack')
+      .where('project.id = :id', { id })
+      .getOne();
+
+    return project;
+  }
+
   async getMyProjects(request: ScrollRequest, user: User): Promise<Project[]> {
     const { lastItemId, itemCount } = request;
 

@@ -27,6 +27,7 @@ import { ScrollRequest } from 'src/common/utils/scroll-request';
 import { CreateProjectRequest } from '../dto/request/project/create-project.request';
 import { UpdateProjectRequest } from '../dto/request/project/update-project.request';
 import ProjectsResponse from '../dto/response/project/projects.response';
+import ProjectResponse from '../dto/response/project/project.response';
 
 @ApiTags('project')
 @Controller('projects')
@@ -49,12 +50,12 @@ export class ProjectController {
     description: '프로젝트 조회 (Optional: AccessToken)',
     auth: false,
   })
-  getProjectById(@Param('id', ParseIntPipe) id: number) {
-    return this.proejctService.getProjectById(id);
+  getProjectWithIncreaseViewCount(@Param('id', ParseIntPipe) id: number) {
+    return this.proejctService.getProjectWithIncreaseViewCount(id);
   }
 
   @UsePipes(ValidationPipe)
-  @PostApi(() => Project, {
+  @PostApi(() => ProjectResponse, {
     path: '/',
     description: '프로젝트 생성 ( Required: AccessToken )',
     auth: true,
@@ -62,7 +63,7 @@ export class ProjectController {
   createProject(
     @Body() request: CreateProjectRequest,
     @GetUser() user: User,
-  ): Promise<Project> {
+  ): Promise<ProjectResponse> {
     return this.proejctService.createProject(request, user);
   }
 

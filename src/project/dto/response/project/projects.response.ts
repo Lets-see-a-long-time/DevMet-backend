@@ -12,7 +12,7 @@ export default class ProjectsResponse {
 
   @ApiField({
     type: Number,
-    description: '총 FAQ 수',
+    description: '총 프로젝트 수',
     nullable: false,
     example: 12,
   })

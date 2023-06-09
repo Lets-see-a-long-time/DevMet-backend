@@ -137,7 +137,7 @@ export default class ProjectResponse {
     response.type = project.type;
     response.status = project.status;
     (response.authorUserId = project.userId),
-      (response.authorUserName = project.user.nickname);
+      (response.authorUserName = project.user?.name);
     response.tags = project.tags.map((tag) => tag.tag);
     response.stacks = project.projectStacks.map((stack) => stack.stack?.type);
     response.positions = project.projectPositions.map(

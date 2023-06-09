@@ -18,6 +18,7 @@ import { ScrollRequest } from 'src/common/utils/scroll-request';
 import { CreateProjectRequest } from '../dto/request/project/create-project.request';
 import { UpdateProjectRequest } from '../dto/request/project/update-project.request';
 import ProjectsResponse from '../dto/response/project/projects.response';
+import ProjectResponse from '../dto/response/project/project.response';
 
 @Injectable()
 export class ProjectService {
@@ -40,7 +41,7 @@ export class ProjectService {
     return ProjectsResponse.fromProjects(projects, countOfTotal);
   }
 
-  async getProjectById(id: number) {
+  async getProjectById(id: number): Promise<Project> {
     const project = await this.projectRepository.findOneBy({ id });
 
     if (!project) {
@@ -49,10 +50,24 @@ export class ProjectService {
     return project;
   }
 
+  async getProjectWithIncreaseViewCount(id: number): Promise<ProjectResponse> {
+    const project = await this.projectRepository.getProject(id);
+
+    if (!project) {
+      throw new NotFoundException(`이 글은 없는 글입니다.`);
+    }
+
+    project.viewCount += 1;
+
+    await this.projectRepository.save(project);
+
+    return ProjectResponse.fromProject(project);
+  }
+
   async createProject(
     createProjectDto: CreateProjectRequest,
     user: User,
-  ): Promise<Project> {
+  ): Promise<ProjectResponse> {
     const newProject = await this.projectRepository.createProejct(
       createProjectDto,
       user,
@@ -84,7 +99,7 @@ export class ProjectService {
       await this.positionRepository.save(newPosition);
     }
 
-    return newProject;
+    return ProjectResponse.fromProject(newProject);
   }
 
   async deleteProject(id: number, user: User) {
@@ -204,6 +219,21 @@ export class ProjectService {
     user: User,
   ): Promise<Favorites[]> {
     return this.favoritesRepository.getMyFavoritesProejcts(request, user);
+  }
+
+  async handleCommentCount(
+    projectId: number,
+    isIncreased: boolean,
+  ): Promise<void> {
+    const project = await this.projectRepository.findOneBy({ id: projectId });
+
+    if (!project) {
+      throw new Error('프로젝트를 찾을수 없습니다.');
+    }
+
+    isIncreased ? (project.commentCount += 1) : (project.commentCount -= 1);
+
+    await this.projectRepository.save(project);
   }
 
   async getStacks(): Promise<Stack[]> {

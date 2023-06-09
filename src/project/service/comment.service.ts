@@ -35,6 +35,8 @@ export class CommentService {
       throw new NotFoundException(` 이 글은 없는 글입니다.`);
     }
 
+    await this.projectService.handleCommentCount(request.projectId, true);
+
     return this.commentRepository.createComment(request, user);
   }
 
@@ -104,6 +106,8 @@ export class CommentService {
     if (comment.userId !== user.id) {
       throw new NotFoundException(`작성자만 삭제가 가능합니다`);
     }
+
+    await this.projectService.handleCommentCount(comment.projectId, false);
 
     const deleted = await this.commentRepository.delete({ id });
 
