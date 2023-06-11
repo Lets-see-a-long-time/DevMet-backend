@@ -1,3 +1,6 @@
+/**
+ * Enum으로 바꿔보자
+ */
 export interface ProviderProps {
   provider: 'kakao' | 'naver' | 'google' | 'githup';
 }

@@ -1,4 +1,4 @@
-import { CreateAuthDTO } from '../dto/create-auth.dto';
+import { CreateAuthDTO } from '../dto/request/user/create-request';
 import { CustomRepository } from 'src/configs/typeorm.decorator';
 import { Repository } from 'typeorm';
 import { User } from '../entity/user.entity';

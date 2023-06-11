@@ -6,7 +6,7 @@ db:
   port: 3306
   database: 'dmet'
   username: 'root'
-  password: 'root'
+  password: 'rladlsxogkftndlTek!!'
 
 db_test:
   type: 'mysql'

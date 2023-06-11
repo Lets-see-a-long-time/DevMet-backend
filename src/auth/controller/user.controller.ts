@@ -1,6 +1,6 @@
 import { Controller, ParseIntPipe, Param } from '@nestjs/common';
 import { UserService } from '../service/user.service';
-import { UserDTO } from '../dto/user.dto';
+import { UserResponse } from '../dto/response/user/users.response';
 import { ApiTags } from '@nestjs/swagger';
 import {
   DeleteApi,

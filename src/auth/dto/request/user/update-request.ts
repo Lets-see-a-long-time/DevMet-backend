@@ -1,7 +1,7 @@
 import { IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { StackProps } from '../types/userinfo.type';
-export class UpdateAuthDTO {
+import { StackProps } from '../../../types/userinfo.type';
+export class UpdateUserRequest {
   @ApiProperty({
     example: '001122',
     description: '유저 아이디',
@@ -47,4 +47,14 @@ export class UpdateAuthDTO {
   @IsOptional()
   @IsString()
   stack?: StackProps;
+
+  getAuthFields() {
+    return {
+      role: this.role,
+      email: this.nickname,
+      nickname: this.nickname,
+      image: this.image,
+      stack: this.stack,
+    };
+  }
 }
