@@ -11,11 +11,11 @@ export class CommentsRequest {
 
   @ApiField({
     type: Number,
-    description: '페이지',
+    description: '마지막 아이템 아이디',
     nullable: true,
     example: 1,
   })
-  page?: number;
+  lastItemId?: number;
 
   @ApiField({
     type: Number,

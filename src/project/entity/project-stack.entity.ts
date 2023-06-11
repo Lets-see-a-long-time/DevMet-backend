@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Project } from './project.entity';
 import { Stack } from './stack.entity';
+import { ProjectStackType } from 'src/common/enum/enum';
 
 @Entity()
 export class ProjectStack extends BaseEntity {
@@ -20,6 +21,13 @@ export class ProjectStack extends BaseEntity {
   @ManyToOne(() => Stack, (stack) => stack.projectStacks, { eager: false })
   @JoinColumn({ name: 'userId' })
   stack: Stack;
+
+  @Column({
+    type: 'enum',
+    name: 'ProjectStackType',
+    enum: ProjectStackType,
+  })
+  type: ProjectStackType;
 
   @Column({ type: Number })
   projectId: number;

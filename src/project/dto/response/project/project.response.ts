@@ -131,6 +131,7 @@ export default class ProjectResponse {
 
   static fromProject(project: Project): ProjectResponse {
     const response = new ProjectResponse();
+    console.log(project.projectStacks);
     response.id = project.id;
     response.title = project.title;
     response.content = project.content;
@@ -138,9 +139,9 @@ export default class ProjectResponse {
     response.status = project.status;
     (response.authorUserId = project.userId),
       (response.authorUserName = project.user?.name);
-    response.tags = project.tags.map((tag) => tag.tag);
-    response.stacks = project.projectStacks.map((stack) => stack.stack?.type);
-    response.positions = project.projectPositions.map(
+    response.tags = project.tags?.map((tag) => tag.tag);
+    response.stacks = project.projectStacks?.map((stack) => stack.type);
+    response.positions = project.projectPositions?.map(
       (position) => position.positionType,
     );
     response.numberOfRecruits = project.numberOfRecruits;

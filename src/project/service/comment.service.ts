@@ -7,6 +7,8 @@ import SuccessResponse from 'src/common/utils/success.response';
 import { LikeCommentRepository } from '../repository/like-comment.repository';
 import { UpdateCommentRequest } from '../dto/request/comment/update-comment.request';
 import { CreateCommentRequest } from '../dto/request/comment/create-comment.request';
+import CommentsResponse from '../dto/response/comment/comments.response';
+import CommentResponse from '../dto/response/comment/comment.response';
 
 @Injectable()
 export class CommentService {
@@ -16,16 +18,21 @@ export class CommentService {
     private likeCommentRepository: LikeCommentRepository,
   ) {}
 
-  async getComments(request: CommentsRequest) {
-    const { page, itemCount, projectId } = request;
-    const skip = (page - 1) * itemCount;
-    const take = itemCount;
+  async getComments(request: CommentsRequest): Promise<CommentsResponse> {
+    const comments = await this.commentRepository.getComments(request);
 
-    return this.commentRepository.find({ where: { projectId }, skip, take });
+    const countOfTotal = await this.commentRepository.countComments(request);
+
+    return CommentsResponse.fromComments(comments, countOfTotal);
   }
 
-  async getComment(id: number) {
-    return this.commentRepository.findOneBy({ id });
+  async getComment(id: number): Promise<CommentResponse> {
+    const comment = await this.commentRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+
+    return CommentResponse.fromComment(comment);
   }
 
   async createComment(request: CreateCommentRequest, user: User): Promise<any> {
@@ -44,7 +51,9 @@ export class CommentService {
     request: UpdateCommentRequest,
     user: User,
   ): Promise<SuccessResponse> {
-    const comment = await this.getComment(request.id);
+    const comment = await this.commentRepository.findOne({
+      where: { id: request.id },
+    });
 
     if (comment.userId !== user.id) {
       throw new NotFoundException(`작성자만 수정이 가능합니다`);
@@ -101,7 +110,7 @@ export class CommentService {
   }
 
   async deleteComment(id: number, user: User): Promise<SuccessResponse> {
-    const comment = await this.getComment(id);
+    const comment = await this.commentRepository.findOne({ where: { id } });
 
     if (comment.userId !== user.id) {
       throw new NotFoundException(`작성자만 삭제가 가능합니다`);

@@ -14,28 +14,30 @@ import { User } from 'src/auth/entity/user.entity';
 import { GetUser } from 'src/common/decorator/get-user.decorator';
 import { CreateCommentRequest } from '../dto/request/comment/create-comment.request';
 import { UpdateCommentRequest } from '../dto/request/comment/update-comment.request';
+import CommentsResponse from '../dto/response/comment/comments.response';
+import CommentResponse from '../dto/response/comment/comment.response';
 
 @ApiTags('Project Comment')
 @Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
-  @GetApi(() => [Comment], {
+  @GetApi(() => [CommentsResponse], {
     path: '/',
     description: '댓글 목록 조회 (Optional: AccessToken)',
     auth: false,
   })
-  getComments(@Query() request: CommentsRequest): Promise<Comment[]> {
+  getComments(@Query() request: CommentsRequest): Promise<CommentsResponse> {
     return this.commentService.getComments(request);
   }
 
-  @GetApi(() => Comment, {
+  @GetApi(() => CommentResponse, {
     path: '/:id',
     description: '댓글 조회 (Optional: AccessToken)',
     auth: false,
   })
-  getComment(@Param('id') id: number): Promise<Comment> {
-    return this.commentService.getComment(+id);
+  getComment(@Param('id') id: number): Promise<CommentResponse> {
+    return this.commentService.getComment(id);
   }
 
   @PostApi(() => Comment, {

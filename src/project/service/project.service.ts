@@ -24,7 +24,6 @@ import ProjectResponse from '../dto/response/project/project.response';
 export class ProjectService {
   constructor(
     private projectRepository: ProjectRepository,
-    private authService: AuthService,
     private likeRepository: LikeRepository,
     private favoritesRepository: FavoritesRepository,
     private positionRepository: PositionRepository,
@@ -82,9 +81,14 @@ export class ProjectService {
     }
 
     for (const stack of createProjectDto.stacks) {
+      const foundStack = await this.stackRepository.findOne({
+        where: { id: stack },
+      });
+
       const newStack = await this.projectStackRepository.create({
-        stackId: stack,
+        stackId: foundStack.id,
         projectId: newProject.id,
+        type: foundStack.type,
       });
 
       await this.projectStackRepository.save(newStack);
