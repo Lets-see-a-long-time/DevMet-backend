@@ -9,6 +9,7 @@ import { UpdateCommentRequest } from '../dto/request/comment/update-comment.requ
 import { CreateCommentRequest } from '../dto/request/comment/create-comment.request';
 import CommentsResponse from '../dto/response/comment/comments.response';
 import CommentResponse from '../dto/response/comment/comment.response';
+import { NotificationService } from 'src/notification/service/notification.service';
 
 @Injectable()
 export class CommentService {
@@ -16,6 +17,7 @@ export class CommentService {
     private commentRepository: CommentRepository,
     private projectService: ProjectService,
     private likeCommentRepository: LikeCommentRepository,
+    private notificationService: NotificationService,
   ) {}
 
   async getComments(request: CommentsRequest): Promise<CommentsResponse> {
@@ -35,16 +37,27 @@ export class CommentService {
     return CommentResponse.fromComment(comment);
   }
 
-  async createComment(request: CreateCommentRequest, user: User): Promise<any> {
+  async createComment(
+    request: CreateCommentRequest,
+    user: User,
+  ): Promise<CommentResponse> {
     const project = await this.projectService.getProjectById(request.projectId);
 
     if (!project) {
       throw new NotFoundException(` 이 글은 없는 글입니다.`);
     }
 
+    const comment = await this.commentRepository.createComment(request, user);
+
+    const test = await this.notificationService.handleConnection(
+      project.userId,
+    );
+
+    console.log('test', test);
+
     await this.projectService.handleCommentCount(request.projectId, true);
 
-    return this.commentRepository.createComment(request, user);
+    return CommentResponse.fromComment(comment);
   }
 
   async updateComment(

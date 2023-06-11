@@ -40,7 +40,7 @@ export class CommentController {
     return this.commentService.getComment(id);
   }
 
-  @PostApi(() => Comment, {
+  @PostApi(() => CommentResponse, {
     path: '/',
     description: '댓글 생성( Required: AccessToken )',
     auth: true,
@@ -48,7 +48,7 @@ export class CommentController {
   createComment(
     @Body() request: CreateCommentRequest,
     @GetUser() user: User,
-  ): Promise<Comment> {
+  ): Promise<CommentResponse> {
     return this.commentService.createComment(request, user);
   }
 
