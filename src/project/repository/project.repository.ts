@@ -121,4 +121,13 @@ export class ProjectRepository extends Repository<Project> {
       take: itemCount,
     });
   }
+
+  async getProjectById(id: number): Promise<Project> {
+    const project = await this.createQueryBuilder('project')
+      .leftJoinAndSelect('project.user', 'user')
+      .where('project.id = :id', { id })
+      .getOne();
+
+    return project;
+  }
 }

@@ -40,7 +40,7 @@ export class AuthService {
 
       const userId = user.userId;
 
-      return { accessToken, userId: userId };
+      return { accessToken, userId };
     }
 
     const newUser = await this.authRepository.createUser(authDTO);

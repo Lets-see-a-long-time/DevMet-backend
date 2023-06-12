@@ -3,7 +3,6 @@ import { Project } from '../entity/project.entity';
 import SuccessResponse from 'src/common/utils/success.response';
 import { ProjectRepository } from '../repository/project.repository';
 import { User } from 'src/auth/entity/user.entity';
-import { AuthService } from 'src/auth/service/auth.service';
 import { LikeRepository } from '../repository/like.repository';
 import { Like } from '../entity/like.entity';
 import { FavoritesRepository } from '../repository/favorites.repository';
@@ -41,7 +40,7 @@ export class ProjectService {
   }
 
   async getProjectById(id: number): Promise<Project> {
-    const project = await this.projectRepository.findOneBy({ id });
+    const project = await this.projectRepository.getProjectById(id);
 
     if (!project) {
       throw new NotFoundException(`이 글은 없는 글입니다.`);
