@@ -38,14 +38,14 @@ export class AuthService {
     if (user) {
       const accessToken = await this.createToken(user.id);
 
-      const userId = user.userId;
+      const userId = user.id;
 
       return { accessToken, userId };
     }
 
     const newUser = await this.authRepository.createUser(authDTO);
     const accessToken = await this.createToken(newUser.id);
-    const userId = newUser.userId;
+    const userId = newUser.id;
     return { accessToken, userId };
   }
 

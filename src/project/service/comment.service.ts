@@ -1,3 +1,4 @@
+import { NotificationGateway } from './../../notification/notification.gateway';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from 'src/auth/entity/user.entity';
 import { CommentRepository } from '../repository/comment.repository';
@@ -9,7 +10,6 @@ import { UpdateCommentRequest } from '../dto/request/comment/update-comment.requ
 import { CreateCommentRequest } from '../dto/request/comment/create-comment.request';
 import CommentsResponse from '../dto/response/comment/comments.response';
 import CommentResponse from '../dto/response/comment/comment.response';
-import { NotificationService } from 'src/notification/service/notification.service';
 
 @Injectable()
 export class CommentService {
@@ -17,7 +17,7 @@ export class CommentService {
     private commentRepository: CommentRepository,
     private projectService: ProjectService,
     private likeCommentRepository: LikeCommentRepository,
-    private notificationService: NotificationService,
+    private notificationGateway: NotificationGateway,
   ) {}
 
   async getComments(request: CommentsRequest): Promise<CommentsResponse> {
@@ -49,20 +49,9 @@ export class CommentService {
 
     const comment = await this.commentRepository.createComment(request, user);
 
-    // 알림 보내기
-    // const message = '게시글에 댓글이 작성되었습니다.';
-    // this.notificationService.handleConnection(
-    //   project.userId.toString(),
-    //   message,
-    // );
-
-    // const comment = {
-    //   userId: '12345',
-    //   content: 'This is a new comment!',
-    // };
-    await this.notificationService.sendNotificationToClient(
-      project.user.userId,
-      '새로운 댓글이 작성되었습니다.',
+    await this.notificationGateway.sendNotificationToUser(
+      project.userId,
+      '게시글에 댓글이 작성되었습니다.',
     );
 
     await this.projectService.handleCommentCount(request.projectId, true);

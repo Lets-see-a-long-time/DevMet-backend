@@ -17,7 +17,7 @@ import { StackRepository } from './repository/stack.repository';
 import { ProjectStackRepository } from './repository/project-stack.repository';
 import { TagRepository } from './repository/tag.repository';
 import { LikeCommentRepository } from './repository/like-comment.repository';
-import { NotificationService } from 'src/notification/service/notification.service';
+import { NotificationGateway } from 'src/notification/notification.gateway';
 
 @Module({
   providers: [
@@ -26,7 +26,7 @@ import { NotificationService } from 'src/notification/service/notification.servi
     AuthService,
     AuthRepository,
     JwtService,
-    NotificationService,
+    NotificationGateway,
   ],
   controllers: [ProjectController, CommentController],
   imports: [
