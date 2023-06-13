@@ -4,6 +4,7 @@ import { UsersResponse } from '../dto/response/user/users.response';
 import { UserListRequest } from '../dto/request/user/users.request';
 import { UpdateUserRequest } from './../dto/request/user/update-request';
 import SuccessResponse from 'src/common/utils/success.response';
+import UserResponse from '../dto/response/user/user.reponse';
 
 @Injectable()
 export class UserService {
@@ -15,8 +16,10 @@ export class UserService {
     return UsersResponse.fromUsers(users, countOfTotal);
   }
 
-  async getUserbyId(id: number) {
-    return this.userRepository.findOneBy({ id });
+  async getUserbyId(id: number): Promise<UserResponse> {
+    const user = await this.userRepository.findOneBy({ id });
+
+    return UserResponse.fromUser(user);
   }
   async updateUser(id: number, request: UpdateUserRequest) {
     const user = await this.userRepository.update(id, request);

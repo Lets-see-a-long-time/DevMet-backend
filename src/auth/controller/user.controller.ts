@@ -11,13 +11,14 @@ import { User } from './../entity/user.entity';
 import SuccessResponse from 'src/common/utils/success.response';
 import { UserListRequest } from '../dto/request/user/users.request';
 import { UpdateUserRequest } from '../dto/request/user/update-request';
+import UserResponse from '../dto/response/user/user.reponse';
 
 @ApiTags('User Management')
 @Controller('auth/user')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @GetApi(() => [User], {
+  @GetApi(() => UsersResponse, {
     path: '/',
     description: '유저 목록 조회',
     auth: false,
@@ -26,12 +27,12 @@ export class UserController {
     return this.userService.getAllUser(userRequest);
   }
 
-  @GetApi(() => User, {
+  @GetApi(() => UserResponse, {
     path: '/:id',
     description: '유저 한 명 조회',
     auth: false,
   })
-  getOneUser(id: number): Promise<User> {
+  getOneUser(id: number): Promise<UserResponse> {
     return this.userService.getUserbyId(id);
   }
 
