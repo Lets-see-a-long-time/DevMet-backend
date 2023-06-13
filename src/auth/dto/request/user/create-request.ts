@@ -1,7 +1,7 @@
 import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ProviderProps } from '../types/userinfo.type';
-export class CreateAuthDTO {
+import { ProviderProps } from '../../../types/userinfo.type';
+export class CreateUserRequest {
   @ApiProperty({
     example: '011',
     description: '아이디',

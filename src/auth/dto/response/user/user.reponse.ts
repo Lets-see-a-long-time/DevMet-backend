@@ -1,9 +1,13 @@
-import { Project } from 'src/project/entity/project.entity';
 import { IsArray, IsDate, IsNumber, IsString } from 'class-validator';
+import { User } from 'src/auth/entity/user.entity';
+import { ProviderProps, StackProps } from 'src/auth/types/userinfo.type';
 import { ApiField } from 'src/common/decorator/api.decorator';
-import { ProviderProps, StackProps } from '../types/userinfo.type';
+import { ProjectStackType } from 'src/common/enum/enum';
+import { Favorites } from 'src/project/entity/favorite.entity';
+import { Like } from 'src/project/entity/like.entity';
+import { Project } from 'src/project/entity/project.entity';
 
-export class UserDTO {
+export default class UserResponse {
   @ApiField({
     type: Number,
     description: '유저 아이디',
@@ -69,14 +73,14 @@ export class UserDTO {
   role: string;
 
   @ApiField({
-    type: [String],
+    type: [ProjectStackType],
     description:
       '유저 스택 (figma, react,spring 등.. 나중에 필요시에 리터럴 타입으로 정의) ',
     nullable: false,
     example: 'react, vue, node.js ... 배열형식으로 정의 요망 ',
   })
   @IsString()
-  stack: StackProps;
+  stacks: ProjectStackType[];
 
   @ApiField({
     type: String,
@@ -84,8 +88,8 @@ export class UserDTO {
     nullable: false,
     example: '2023-05-18 16:41:44.566699',
   })
-  @IsString()
-  expires: string;
+  @IsDate()
+  expires: Date;
 
   @ApiField({
     type: String,
@@ -95,6 +99,24 @@ export class UserDTO {
   })
   @IsString()
   provider: ProviderProps;
+
+  @ApiField({
+    type: [Like],
+    description: '내가 좋아요 누른 게시물',
+    nullable: false,
+    example: '',
+  })
+  @IsArray()
+  likes: Like[];
+
+  @ApiField({
+    type: [String],
+    description: '유저가 북마크한 게시물',
+    nullable: false,
+    example: '',
+  })
+  @IsArray()
+  favorites: Favorites[];
 
   @ApiField({
     type: [String],
@@ -122,4 +144,25 @@ export class UserDTO {
   })
   @IsDate()
   updatedAt: Date;
+
+  /**
+   * TODO : like와 favorite안에 무엇으로 들어가야할까?
+   */
+  static fromUser(user: User): UserResponse {
+    const response = new UserResponse();
+    response.id = user.id;
+    response.name = user.name;
+    response.userId = user.userId;
+    response.email = user.email;
+    response.image = user.image;
+    response.role = user.role;
+    // response.likes = user.likes.map((like) => like.projectId);
+    // response.favorites = user.favorites.map((favorite) => favorite.projectId);
+    response.nickname = user.nickname;
+    response.expires = user.expires;
+    response.provider = user.provider;
+    response.createdAt = user.createdAt;
+    response.updatedAt = user.updatedAt;
+    return response;
+  }
 }

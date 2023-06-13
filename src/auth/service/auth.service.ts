@@ -1,10 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt/dist';
-import { UpdateAuthDTO } from '../dto/update-auth.dto';
+import { UpdateUserRequest } from '../dto/request/user/update-request';
 import { AuthRepository } from '../repository/auth.repository';
-import { CreateAuthDTO } from '../dto/create-auth.dto';
+import { CreateUserRequest } from '../dto/request/user/create-request';
 import { Token } from '../security/token.interface';
-import { IAuthFields } from '../dto/auth.fields';
 import { User } from '../entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -28,7 +27,7 @@ export class AuthService {
     return token;
   }
 
-  async saveUser(authDTO: CreateAuthDTO): Promise<Token> {
+  async saveUser(authDTO: CreateUserRequest): Promise<Token> {
     const user = await this.authRepository.findOneBy({
       userId: authDTO.id,
     });
@@ -49,23 +48,11 @@ export class AuthService {
     return { accessToken, userId };
   }
 
-  async updateUser(authDTO: UpdateAuthDTO) {
-    //다양한 값을 업데이트 하기위해서 filter를 사용해보자
-    //일단은 userId 만을 기준으로 update하기 위함.
-    //const filter = { id: authDTO.userId };
-
-    const fields: IAuthFields = {
-      role: authDTO?.role,
-      email: authDTO?.nickname,
-      nickname: authDTO?.nickname,
-      image: authDTO?.image,
-      stack: authDTO?.stack,
-    };
-    //user => 해당되는 column만 수정해줘야 하는 부분이 헷갈리넹.
-    //column을 전부 다 넣으면 .... 좀 비효율적이려나?
-    //바꿀거만 넣으면됨.
-
-    return await this.authRepository.updateUser(authDTO.userId, fields);
+  async updateUser(request: UpdateUserRequest) {
+    return await this.authRepository.updateUser(
+      request.userId,
+      request.getAuthFields(),
+    );
   }
 
   // 유저 확인. 다른곳들에도 쓰임 에러처리도 여기서하면 다른곳에서 사용할때 일일이 에러처리 안해도됨

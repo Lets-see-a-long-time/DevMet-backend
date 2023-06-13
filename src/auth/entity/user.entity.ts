@@ -36,7 +36,7 @@ export class User extends BaseEntity {
   nickname?: string;
 
   @Column({ type: String, nullable: true })
-  stack?: StackProps;
+  stacks?: StackProps;
 
   @Column({ type: String, nullable: true })
   expires?: Date;

@@ -1,8 +1,8 @@
 import { Body, Controller, Post, Get, UseGuards, Patch } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport/dist';
 import { AuthService } from '../service/auth.service';
-import { UpdateAuthDTO } from '../dto/update-auth.dto';
-import { CreateAuthDTO } from '../dto/create-auth.dto';
+import { UpdateAuthDTO } from '../dto/request/user/update-request';
+import { CreateAuthDTO } from '../dto/request/user/create-request';
 import { Token } from '../security/token.interface';
 import { ApiTags, ApiOperation, ApiCreatedResponse } from '@nestjs/swagger';
 import { GetUser } from 'src/common/decorator/get-user.decorator';

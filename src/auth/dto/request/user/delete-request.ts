@@ -1,13 +1,13 @@
 import { IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { StackProps } from '../types/userinfo.type';
-export class UpdateAuthDTO {
+import { StackProps } from '../../../types/userinfo.type';
+export class DeleteUserRequest {
   @ApiProperty({
     example: '001122',
     description: '유저 아이디',
   })
   @IsString()
-  userId!: string;
+  id!: string;
 
   @ApiProperty({
     example: '백광현',
@@ -47,4 +47,14 @@ export class UpdateAuthDTO {
   @IsOptional()
   @IsString()
   stack?: StackProps;
+
+  getAuthFields() {
+    return {
+      role: this.role,
+      email: this.nickname,
+      nickname: this.nickname,
+      image: this.image,
+      stack: this.stack,
+    };
+  }
 }
