@@ -146,7 +146,7 @@ export default class UserResponse {
   updatedAt: Date;
 
   /**
-   * TODO : fromUser 수정요망.
+   * TODO : like와 favorite안에 무엇으로 들어가야할까?
    */
   static fromUser(user: User): UserResponse {
     const response = new UserResponse();
@@ -157,7 +157,7 @@ export default class UserResponse {
     response.image = user.image;
     response.role = user.role;
     // response.likes = user.likes.map((like) => like.projectId);
-    // response.favorites = user.favorites.map((favorite) => favorite.favorite);
+    // response.favorites = user.favorites.map((favorite) => favorite.projectId);
     response.nickname = user.nickname;
     response.expires = user.expires;
     response.provider = user.provider;

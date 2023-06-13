@@ -1,13 +1,13 @@
 import { IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { StackProps } from '../../../types/userinfo.type';
-export class UpdateUserRequest {
+export class DeleteUserRequest {
   @ApiProperty({
     example: '001122',
     description: '유저 아이디',
   })
   @IsString()
-  userId!: string;
+  id!: string;
 
   @ApiProperty({
     example: '백광현',
@@ -46,7 +46,7 @@ export class UpdateUserRequest {
   @ApiProperty({ example: '[리액트, 자바스크립크]', description: '유저 스택' })
   @IsOptional()
   @IsString()
-  stacks?: StackProps;
+  stack?: StackProps;
 
   getAuthFields() {
     return {
@@ -54,7 +54,7 @@ export class UpdateUserRequest {
       email: this.nickname,
       nickname: this.nickname,
       image: this.image,
-      stack: this.stacks,
+      stack: this.stack,
     };
   }
 }
