@@ -1,11 +1,10 @@
-import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { WebSocketGateway } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
   WebSocketServer,
-  MessageBody,
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Namespace, Socket } from 'socket.io';
@@ -43,18 +42,6 @@ export class NotificationGateway
     socket.leave(userId);
   }
   afterInit(server: any) {
-    // this.nsp.adapter.on('delete-room', (room) => {
-    //   const deletedRoom = createdRooms.find(
-    //     (createdRoom) => createdRoom === room,
-    //   );
-    //   if (!deletedRoom) return;
-
-    //   this.nsp.emit('delete-room', deletedRoom);
-    //   createdRooms = createdRooms.filter(
-    //     (createdRoom) => createdRoom !== deletedRoom,
-    //   ); // 유저가 생성한 room 목록 중에 삭제되는 room 있으면 제거
-    // });
-
     this.logger.log('웹소켓 서버 초기화 ✅');
   }
 
