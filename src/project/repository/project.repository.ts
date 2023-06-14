@@ -5,6 +5,7 @@ import { User } from 'src/auth/entity/user.entity';
 import { ProjectListRequest } from '../dto/request/project/projects.request';
 import { ScrollRequest } from 'src/common/utils/scroll-request';
 import { CreateProjectRequest } from '../dto/request/project/create-project.request';
+import { SortType } from 'src/common/enum/enum';
 
 @CustomRepository(Project)
 export class ProjectRepository extends Repository<Project> {
@@ -24,7 +25,7 @@ export class ProjectRepository extends Repository<Project> {
   }
 
   async getAllProjects(projectRequest: ProjectListRequest): Promise<Project[]> {
-    const { lastItemId, itemCount, keyword } = projectRequest;
+    const { lastItemId, itemCount, keyword, sortBy } = projectRequest;
 
     const where: any[] = [];
 
@@ -44,6 +45,16 @@ export class ProjectRepository extends Repository<Project> {
       .where('project.id > :lastItemId', { lastItemId })
       .orderBy('project.id')
       .take(itemCount);
+
+    if (sortBy === SortType.DATETIME) {
+      queryBuilder.orderBy('project.createdAt', 'DESC');
+    } else if (sortBy === SortType.COMMENT) {
+      queryBuilder.orderBy('project.commentCount', 'DESC');
+    } else if (sortBy === SortType.LIKECOUNT) {
+      queryBuilder.orderBy('project.likeCount', 'DESC');
+    } else if (sortBy === SortType.VIEWCOUNT) {
+      queryBuilder.orderBy('project.viewCount', 'DESC');
+    }
 
     if (where.length > 0) {
       queryBuilder.andWhere(

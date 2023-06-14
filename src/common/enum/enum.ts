@@ -54,3 +54,10 @@ export enum ProjectStatusType {
   RECRUITING = 'RECRUITING',
   COMPLETED = 'COMPLETED',
 }
+
+export enum SortType {
+  DATETIME = 'DATETIME',
+  LIKECOUNT = 'LIKECOUNT',
+  COMMENT = 'COMMENT',
+  VIEWCOUNT = 'VIEWCOUNT',
+}
