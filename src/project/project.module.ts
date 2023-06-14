@@ -18,6 +18,8 @@ import { ProjectStackRepository } from './repository/project-stack.repository';
 import { TagRepository } from './repository/tag.repository';
 import { LikeCommentRepository } from './repository/like-comment.repository';
 import { NotificationGateway } from 'src/notification/notification.gateway';
+import { NotificationService } from 'src/notification/notification.service';
+import { NotificationRepository } from 'src/notification/repository/alarm.repository';
 
 @Module({
   providers: [
@@ -27,6 +29,7 @@ import { NotificationGateway } from 'src/notification/notification.gateway';
     AuthRepository,
     JwtService,
     NotificationGateway,
+    NotificationService,
   ],
   controllers: [ProjectController, CommentController],
   imports: [
@@ -40,6 +43,7 @@ import { NotificationGateway } from 'src/notification/notification.gateway';
       ProjectStackRepository,
       TagRepository,
       LikeCommentRepository,
+      NotificationRepository,
     ]),
     AuthModule,
   ],

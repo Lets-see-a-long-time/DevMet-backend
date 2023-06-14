@@ -8,9 +8,10 @@ import {
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Namespace, Socket } from 'socket.io';
+import { NotificationService } from './notification.service';
+import { CreateNotificationRequest } from './dto/notification/request/create-notification.request';
 
 @WebSocketGateway({
-  // transports: ['websocket'],
   namespace: 'notification',
   cors: {
     origin: ['http://localhost:3000'],
@@ -19,9 +20,10 @@ import { Namespace, Socket } from 'socket.io';
 export class NotificationGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
+  constructor(private readonly notificationService: NotificationService) {}
   private logger = new Logger('Gateway');
 
-  @WebSocketServer() nsp: Namespace;
+  @WebSocketServer() socket: Namespace;
 
   handleConnection(@ConnectedSocket() socket: Socket) {
     this.logger.log(`${socket.id} 소켓 연결`);
@@ -45,8 +47,12 @@ export class NotificationGateway
     this.logger.log('웹소켓 서버 초기화 ✅');
   }
 
-  sendNotificationToUser(userId: number, message: string) {
+  async sendNotificationToUser(request: CreateNotificationRequest) {
+    const { targetUserId, message } = request;
+
+    await this.notificationService.createNotification(request);
+
     // 특정 사용자에게 메시지 전송
-    this.nsp.to(userId.toString()).emit('notification', { message });
+    this.socket.to(targetUserId.toString()).emit('notification', { message });
   }
 }

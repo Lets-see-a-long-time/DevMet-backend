@@ -10,6 +10,7 @@ import { UpdateCommentRequest } from '../dto/request/comment/update-comment.requ
 import { CreateCommentRequest } from '../dto/request/comment/create-comment.request';
 import CommentsResponse from '../dto/response/comment/comments.response';
 import CommentResponse from '../dto/response/comment/comment.response';
+import { NotificationType } from 'src/common/enum/enum';
 
 @Injectable()
 export class CommentService {
@@ -49,10 +50,11 @@ export class CommentService {
 
     const comment = await this.commentRepository.createComment(request, user);
 
-    await this.notificationGateway.sendNotificationToUser(
-      project.userId,
-      '게시글에 댓글이 작성되었습니다.',
-    );
+    await this.notificationGateway.sendNotificationToUser({
+      targetUserId: project.userId,
+      message: '게시글에 댓글이 작성되었습니다.',
+      type: NotificationType.COMMENT,
+    });
 
     await this.projectService.handleCommentCount(request.projectId, true);
 

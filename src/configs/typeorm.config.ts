@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as config from 'config';
 import { User } from 'src/auth/entity/user.entity';
+import { Notification } from 'src/notification/entity/notification.entity';
 import { Comment } from 'src/project/entity/comment.entity';
 import { Favorites } from 'src/project/entity/favorite.entity';
 import { LikeComment } from 'src/project/entity/like-comment.entity';
@@ -23,6 +24,7 @@ const entityArray = [
   ProjectPosition,
   Tag,
   LikeComment,
+  Notification,
 ];
 
 export const typeORMConfig: TypeOrmModuleOptions = {

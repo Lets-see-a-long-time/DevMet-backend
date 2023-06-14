@@ -61,3 +61,7 @@ export enum SortType {
   COMMENT = 'COMMENT',
   VIEWCOUNT = 'VIEWCOUNT',
 }
+
+export enum NotificationType {
+  COMMENT = 'COMMENT',
+}

@@ -1,12 +1,12 @@
-import { CreateAuthDTO } from '../dto/request/user/create-request';
 import { CustomRepository } from 'src/configs/typeorm.decorator';
 import { Repository } from 'typeorm';
 import { User } from '../entity/user.entity';
 import { IAuthFields } from '../dto/auth.fields';
+import { CreateUserRequest } from '../dto/request/user/create-request';
 
 @CustomRepository(User)
 export class AuthRepository extends Repository<User> {
-  async createUser(authDTO: CreateAuthDTO): Promise<User> {
+  async createUser(authDTO: CreateUserRequest): Promise<User> {
     const { name, image, email, id, provider } = authDTO;
     const user = await this.create({
       userId: id,
