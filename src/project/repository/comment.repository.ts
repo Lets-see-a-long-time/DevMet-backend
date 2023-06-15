@@ -24,16 +24,18 @@ export class CommentRepository extends Repository<Comment> {
   }
 
   async getComments(request: CommentsRequest): Promise<Comment[]> {
-    const { lastItemId, itemCount, projectId } = request;
+    const { page, itemCount, projectId } = request;
+    const skip = (page - 1) * itemCount;
+    const take = itemCount;
 
     const where: any[] = [];
 
     const queryBuilder = this.createQueryBuilder('comment')
-      .leftJoinAndSelect('comment.user', 'user') // User 엔티티 조인
-      .where('comment.id > :lastItemId', { lastItemId })
-      .andWhere('comment.projectId = :projectId', { projectId })
+      .where('comment.projectId = :projectId', { projectId })
       .orderBy('comment.id')
-      .take(itemCount);
+      .skip(skip)
+      .take(take)
+      .leftJoinAndSelect('comment.user', 'user');
 
     if (where.length > 0) {
       queryBuilder.andWhere(

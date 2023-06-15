@@ -1,7 +1,7 @@
 import { ApiField } from 'src/common/decorator/api.decorator';
-import { ScrollRequest } from 'src/common/utils/scroll-request';
+import { PageRequest } from 'src/common/utils/pagination-request';
 
-export class UserListRequest extends ScrollRequest {
+export class UserListRequest extends PageRequest {
   @ApiField({
     type: String,
     description: '유저 검색',

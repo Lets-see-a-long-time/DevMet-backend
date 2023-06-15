@@ -3,7 +3,7 @@ import { Brackets, Raw, Repository } from 'typeorm';
 import { Project } from '../entity/project.entity';
 import { User } from 'src/auth/entity/user.entity';
 import { ProjectListRequest } from '../dto/request/project/projects.request';
-import { ScrollRequest } from 'src/common/utils/scroll-request';
+import { PageRequest } from 'src/common/utils/pagination-request';
 import { CreateProjectRequest } from '../dto/request/project/create-project.request';
 import { SortType } from 'src/common/enum/enum';
 
@@ -25,7 +25,7 @@ export class ProjectRepository extends Repository<Project> {
   }
 
   async getAllProjects(projectRequest: ProjectListRequest): Promise<Project[]> {
-    const { lastItemId, itemCount, keyword, sortBy } = projectRequest;
+    const { page, itemCount, keyword, sortBy } = projectRequest;
 
     const where: any[] = [];
 
@@ -41,10 +41,7 @@ export class ProjectRepository extends Repository<Project> {
       .leftJoinAndSelect('project.tags', 'tags') // Tag 엔티티 조인
       .leftJoinAndSelect('project.projectPositions', 'projectPositions') // Tag 엔티티 조인
       .leftJoinAndSelect('project.projectStacks', 'projectStacks') // ProjectStack 엔티티 조인
-      .leftJoinAndSelect('projectStacks.stack', 'stack')
-      .where('project.id > :lastItemId', { lastItemId })
-      .orderBy('project.id')
-      .take(itemCount);
+      .leftJoinAndSelect('projectStacks.stack', 'stack');
 
     if (sortBy === SortType.DATETIME) {
       queryBuilder.orderBy('project.createdAt', 'DESC');
@@ -66,13 +63,16 @@ export class ProjectRepository extends Repository<Project> {
       );
     }
 
-    const projects = await queryBuilder.getMany();
+    const skip = (page - 1) * itemCount;
+    const take = itemCount;
+
+    const projects = await queryBuilder.skip(skip).take(take).getMany();
 
     return projects;
   }
 
   async countProjects(projectRequest: ProjectListRequest): Promise<number> {
-    const { lastItemId, keyword } = projectRequest;
+    const { keyword } = projectRequest;
 
     const where: any[] = [];
 
@@ -87,8 +87,7 @@ export class ProjectRepository extends Repository<Project> {
       .leftJoin('project.user', 'user') // User 엔티티 조인
       .leftJoin('project.tags', 'tags') // Tag 엔티티 조인
       .leftJoin('project.projectPositions', 'projectPositions') // Tag 엔티티 조인
-      .leftJoin('project.projectStacks', 'projectStacks') // ProjectStack 엔티티 조인
-      .where('project.id > :lastItemId', { lastItemId });
+      .leftJoin('project.projectStacks', 'projectStacks'); // ProjectStack 엔티티 조인
 
     if (where.length > 0) {
       queryBuilder.andWhere(
@@ -118,18 +117,20 @@ export class ProjectRepository extends Repository<Project> {
     return project;
   }
 
-  async getMyProjects(request: ScrollRequest, user: User): Promise<Project[]> {
-    const { lastItemId, itemCount } = request;
+  async getMyProjects(request: PageRequest, user: User): Promise<Project[]> {
+    const { page, itemCount } = request;
+    const skip = (page - 1) * itemCount;
+    const take = itemCount;
 
     return this.find({
       where: {
         userId: user.id,
-        id: Raw((alias) => `${alias} > ${lastItemId}`),
       },
       order: {
         id: 'ASC',
       },
-      take: itemCount,
+      skip,
+      take,
     });
   }
 

@@ -133,7 +133,6 @@ export default class ProjectResponse {
 
   static fromProject(project: Project): ProjectResponse {
     const response = new ProjectResponse();
-    console.log(project.projectStacks);
     response.id = project.id;
     response.title = project.title;
     response.content = project.content;

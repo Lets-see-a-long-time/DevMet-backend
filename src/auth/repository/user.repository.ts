@@ -8,7 +8,10 @@ import { UpdateUserRequest } from './../dto/request/user/update-request';
 @CustomRepository(User)
 export class UserRepository extends Repository<User> {
   async getAllUsers(userRequest: UserListRequest): Promise<User[]> {
-    const { lastItemId, itemCount, keyword } = userRequest;
+    const { page, itemCount, keyword } = userRequest;
+    const skip = (page - 1) * itemCount;
+    const take = itemCount;
+
     const where: any[] = [];
 
     if (keyword) {
@@ -19,9 +22,9 @@ export class UserRepository extends Repository<User> {
     }
 
     const queryBuilder = this.createQueryBuilder('user')
-      .where('user.id > :lastItemId', { lastItemId })
       .orderBy('user.id')
-      .take(itemCount);
+      .skip(skip)
+      .take(take);
 
     if (where.length > 0) {
       queryBuilder.andWhere(
@@ -39,7 +42,7 @@ export class UserRepository extends Repository<User> {
   }
 
   async countUser(userRequest: UserListRequest): Promise<number> {
-    const { lastItemId, keyword } = userRequest;
+    const { keyword } = userRequest;
     const where: any[] = [];
 
     if (keyword) {
@@ -52,8 +55,7 @@ export class UserRepository extends Repository<User> {
     const queryBuilder = this.createQueryBuilder('user')
       .leftJoin('user.like', 'like') // Like 엔티티 조인
       .leftJoin('user.favorite', 'favorite') // Favorite 엔티티 조인
-      .leftJoin('user.projects', 'projects') // Projects 엔티티 조인
-      .where('user.id > :lastItemId', { lastItemId });
+      .leftJoin('user.projects', 'projects'); // Projects 엔티티 조인
 
     if (where.length > 0) {
       queryBuilder.andWhere(

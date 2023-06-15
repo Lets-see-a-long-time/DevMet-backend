@@ -13,7 +13,7 @@ import { Stack } from '../entity/stack.entity';
 import { ProjectStackRepository } from '../repository/project-stack.repository';
 import { TagRepository } from '../repository/tag.repository';
 import { ProjectListRequest } from '../dto/request/project/projects.request';
-import { ScrollRequest } from 'src/common/utils/scroll-request';
+import { PageRequest } from 'src/common/utils/pagination-request';
 import { CreateProjectRequest } from '../dto/request/project/create-project.request';
 import { UpdateProjectRequest } from '../dto/request/project/update-project.request';
 import ProjectsResponse from '../dto/response/project/projects.response';
@@ -206,19 +206,16 @@ export class ProjectService {
     return SuccessResponse.fromSuccess(true);
   }
 
-  async getMyProjects(request: ScrollRequest, user: User): Promise<Project[]> {
+  async getMyProjects(request: PageRequest, user: User): Promise<Project[]> {
     return this.projectRepository.getMyProjects(request, user);
   }
 
-  async getMyLikedProejcts(
-    request: ScrollRequest,
-    user: User,
-  ): Promise<Like[]> {
+  async getMyLikedProejcts(request: PageRequest, user: User): Promise<Like[]> {
     return this.likeRepository.getMyLikedProejcts(request, user);
   }
 
   async getMyFavoritesProejcts(
-    request: ScrollRequest,
+    request: PageRequest,
     user: User,
   ): Promise<Favorites[]> {
     return this.favoritesRepository.getMyFavoritesProejcts(request, user);
