@@ -31,7 +31,7 @@ export class AuthService {
     const user = await this.authRepository.findOneBy({
       userId: authDTO.id,
     });
-
+    console.log('authDto', authDTO);
     //Promise.all 은 배열로 리턴하기 때문에 굳이 비동기적인 동작이 필요하지 않다면 안써도 될듯
 
     if (user) {
