@@ -14,7 +14,7 @@ import { CreateNotificationRequest } from './dto/notification/request/create-not
 @WebSocketGateway({
   namespace: 'notification',
   cors: {
-    origin: ['http://localhost:3000'],
+    origin: ['*'],
   },
 })
 export class NotificationGateway
