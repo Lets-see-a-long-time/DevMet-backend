@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'DevMet-backend',
+      name: 'dmet',
       script: 'dist/main.js',
       exec_mode: 'cluster',
       instances: 'max',
