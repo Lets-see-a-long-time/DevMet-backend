@@ -12,7 +12,7 @@ export enum ProjectStackType {
   MYSQL = 'MYSQL',
   MONGODB = 'MONGODB',
   PHP = 'PHP',
-  KUBERNETES = ' KUBERNETES',
+  KUBERNETES = 'KUBERNETES',
   DOCKER = 'DOCKER',
   GIT = 'GIT',
   FIGMA = 'FIGMA',
