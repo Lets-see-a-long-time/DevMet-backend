@@ -80,7 +80,7 @@ export default class UserResponse {
     example: 'react, vue, node.js ... 배열형식으로 정의 요망 ',
   })
   @IsString()
-  stacks: ProjectStackType[];
+  stack: ProjectStackType;
 
   @ApiField({
     type: String,

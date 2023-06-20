@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './controller/auth.controller';
-import { AuthService } from './service/auth.service';
 import { TypeOrmExModule } from 'src/configs/typeorm.module';
 import { AuthRepository } from './repository/auth.repository';
 import { PassportModule } from '@nestjs/passport';
@@ -9,6 +8,7 @@ import { JwtStrategy } from 'src/common/jwt/jwt.strategy';
 import { UserRepository } from './repository/user.repository';
 import { UserService } from './service/user.service';
 import { UserController } from './controller/user.controller';
+import { AuthService } from './service/auth.service';
 
 @Module({
   imports: [

@@ -4,6 +4,7 @@ import { NotFoundException } from '@nestjs/common';
 import { Brackets, Raw, Repository } from 'typeorm';
 import { UserListRequest } from './../dto/request/user/users.request';
 import { UpdateUserRequest } from './../dto/request/user/update-request';
+import SuccessResponse from 'src/common/utils/success.response';
 
 @CustomRepository(User)
 export class UserRepository extends Repository<User> {
@@ -72,8 +73,8 @@ export class UserRepository extends Repository<User> {
     return totalCount;
   }
 
-  async updateUser(request: UpdateUserRequest) {
-    const { userId, email, image, name, nickname, role, stacks } = request;
+  async updateUser(request: UpdateUserRequest): Promise<SuccessResponse> {
+    const { userId, email, image, name, nickname, role, stack } = request;
     const user = await this.update(userId, {
       userId,
       email,
@@ -81,7 +82,7 @@ export class UserRepository extends Repository<User> {
       name,
       nickname,
       role,
-      stacks,
+      stack,
     });
 
     if (user.affected === 0) {

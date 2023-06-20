@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ProviderProps, StackProps } from '../types/userinfo.type';
+import { ProjectStackType } from 'src/common/enum/enum';
 
 @Entity()
 export class User extends BaseEntity {
@@ -30,16 +31,16 @@ export class User extends BaseEntity {
   image!: string;
 
   @Column({ type: String, nullable: true })
-  role?: string;
+  role!: string;
 
   @Column({ type: String, nullable: true })
-  nickname?: string;
+  nickname!: string;
 
   @Column({ type: String, nullable: true })
-  stacks?: StackProps;
+  stack!: ProjectStackType;
 
   @Column({ type: String, nullable: true })
-  expires?: Date;
+  expires!: Date;
 
   @Column({ type: String, nullable: false })
   provider!: ProviderProps;

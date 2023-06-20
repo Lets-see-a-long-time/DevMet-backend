@@ -7,7 +7,6 @@ import { CommentController } from './controller/comment.controller';
 import { ProjectRepository } from './repository/project.repository';
 import { CommentRepository } from './repository/comment.repository';
 import { AuthModule } from 'src/auth/auth.module';
-import { AuthService } from 'src/auth/service/auth.service';
 import { AuthRepository } from 'src/auth/repository/auth.repository';
 import { JwtService } from '@nestjs/jwt/dist';
 import { LikeRepository } from './repository/like.repository';
@@ -20,6 +19,8 @@ import { LikeCommentRepository } from './repository/like-comment.repository';
 import { NotificationGateway } from 'src/notification/notification.gateway';
 import { NotificationService } from 'src/notification/notification.service';
 import { NotificationRepository } from 'src/notification/repository/alarm.repository';
+import { AuthService } from 'src/auth/service/auth.service';
+import { UserRepository } from 'src/auth/repository/user.repository';
 
 @Module({
   providers: [
@@ -44,6 +45,7 @@ import { NotificationRepository } from 'src/notification/repository/alarm.reposi
       TagRepository,
       LikeCommentRepository,
       NotificationRepository,
+      UserRepository,
     ]),
     AuthModule,
   ],

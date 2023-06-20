@@ -1,52 +1,55 @@
-import { IsOptional, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiField } from 'src/common/decorator/api.decorator';
 import { StackProps } from '../../../types/userinfo.type';
+import { ProjectStackType } from 'src/common/enum/enum';
 export class UpdateUserRequest {
-  @ApiProperty({
+  @ApiField({
+    type: String,
     example: '001122',
     description: '유저 아이디',
   })
-  @IsString()
   userId!: string;
 
-  @ApiProperty({
+  @ApiField({
+    type: String,
     example: '백광현',
     description: '유저 이름',
   })
-  @IsOptional()
-  @IsString()
   name?: string;
 
-  @ApiProperty({
+  @ApiField({
+    type: String,
     example: 'bgh9651@gmail.com',
     description: '유저 이메일',
   })
-  @IsOptional()
-  @IsString()
   email?: string;
 
-  @ApiProperty({
+  @ApiField({
+    type: String,
     example: 'https://image.com',
     description: '유저 이미지',
   })
-  @IsOptional()
-  @IsString()
   image?: string;
 
-  @ApiProperty({ example: 'front-end', description: '유저 직무' })
-  @IsOptional()
-  @IsString()
+  @ApiField({
+    type: String,
+    example: 'front-end',
+    description: '유저 직무',
+  })
   role?: string;
 
-  @ApiProperty({ example: '인태여친구함', description: '유저 닉네임' })
-  @IsOptional()
-  @IsString()
+  @ApiField({
+    type: String,
+    example: '인태여친구함',
+    description: '유저 닉네임',
+  })
   nickname?: string;
 
-  @ApiProperty({ example: '[리액트, 자바스크립크]', description: '유저 스택' })
-  @IsOptional()
-  @IsString()
-  stacks?: StackProps;
+  @ApiField({
+    type: [String],
+    example: '[리액트, 자바스크립크]',
+    description: '유저 스택',
+  })
+  stack?: ProjectStackType;
 
   getAuthFields() {
     return {
@@ -54,7 +57,7 @@ export class UpdateUserRequest {
       email: this.nickname,
       nickname: this.nickname,
       image: this.image,
-      stack: this.stacks,
+      stack: this.stack,
     };
   }
 }
