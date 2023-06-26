@@ -1,5 +1,4 @@
 import { ApiField } from 'src/common/decorator/api.decorator';
-import { StackProps } from '../../../types/userinfo.type';
 import { ProjectStackType } from 'src/common/enum/enum';
 export class UpdateUserRequest {
   @ApiField({
@@ -53,11 +52,10 @@ export class UpdateUserRequest {
 
   getAuthFields() {
     return {
+      userId: this.userId,
       role: this.role,
-      email: this.nickname,
-      nickname: this.nickname,
-      image: this.image,
       stack: this.stack,
+      nickname: this.nickname,
     };
   }
 }

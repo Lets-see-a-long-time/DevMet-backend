@@ -16,7 +16,7 @@ import { ProjectStackType } from 'src/common/enum/enum';
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ type: String, nullable: false })
   name!: string;

@@ -10,8 +10,7 @@ import SuccessResponse from 'src/common/utils/success.response';
 export class UserRepository extends Repository<User> {
   async getAllUsers(userRequest: UserListRequest): Promise<User[]> {
     const { page, itemCount, keyword } = userRequest;
-    const skip = (page - 1) * itemCount;
-    const take = itemCount;
+    console.log(page, itemCount, keyword);
 
     const where: any[] = [];
 
@@ -22,10 +21,7 @@ export class UserRepository extends Repository<User> {
       );
     }
 
-    const queryBuilder = this.createQueryBuilder('user')
-      .orderBy('user.id')
-      .skip(skip)
-      .take(take);
+    const queryBuilder = this.createQueryBuilder('user').orderBy('user.id');
 
     if (where.length > 0) {
       queryBuilder.andWhere(
@@ -37,7 +33,10 @@ export class UserRepository extends Repository<User> {
       );
     }
 
-    const users = await queryBuilder.getMany();
+    const skip = (page - 1) * itemCount;
+    const take = itemCount;
+
+    const users = await queryBuilder.skip(skip).take(take).getMany();
 
     return users;
   }

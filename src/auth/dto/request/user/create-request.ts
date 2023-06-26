@@ -3,7 +3,7 @@ import { ProviderProps } from '../../../types/userinfo.type';
 export class CreateUserRequest {
   @ApiField({
     type: String,
-    example: '011',
+    example: '12',
     description: '아이디',
   })
   id: string;

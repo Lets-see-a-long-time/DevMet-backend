@@ -9,6 +9,7 @@ import { User } from '../entity/user.entity';
 @Injectable()
 export class UserService {
   constructor(private userRepository: UserRepository) {}
+
   async getAllUser(request: UserListRequest): Promise<UsersResponse> {
     const users = await this.userRepository.getAllUsers(request);
     const countOfTotal = await this.userRepository.countUser(request);
@@ -19,13 +20,17 @@ export class UserService {
   async getUserbyId(id: number): Promise<User> {
     return this.userRepository.findOneBy({ id });
   }
+
   async updateUser(
     id: number,
     request: UpdateUserRequest,
   ): Promise<SuccessResponse> {
-    const user = await this.userRepository.update(id, request);
+    const updated = await this.userRepository.update(
+      id,
+      request.getAuthFields(),
+    );
 
-    if (user.affected === 0) {
+    if (updated.affected === 0) {
       throw new NotFoundException(`${id} 이 유저는 수정할 수 없습니다.`);
     }
 

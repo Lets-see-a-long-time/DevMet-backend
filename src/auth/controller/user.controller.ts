@@ -1,4 +1,11 @@
-import { Controller, ParseIntPipe, Param, Query, Body } from '@nestjs/common';
+import {
+  Controller,
+  ParseIntPipe,
+  Param,
+  Query,
+  Body,
+  Get,
+} from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { UsersResponse } from '../dto/response/user/users.response';
 import { ApiTags } from '@nestjs/swagger';
@@ -23,7 +30,7 @@ export class UserController {
     description: '유저 목록 조회',
     auth: false,
   })
-  getAllUser(@Query() userRequest: UserListRequest): Promise<UsersResponse> {
+  getAllUser(@Query('') userRequest: UserListRequest): Promise<UsersResponse> {
     return this.userService.getAllUser(userRequest);
   }
 

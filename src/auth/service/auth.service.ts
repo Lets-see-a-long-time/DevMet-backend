@@ -50,10 +50,6 @@ export class AuthService {
     return { accessToken, userId };
   }
 
-  async updateUser(request: UpdateUserRequest) {
-    return await this.userRepository.updateUser(request);
-  }
-
   // 유저 확인. 다른곳들에도 쓰임 에러처리도 여기서하면 다른곳에서 사용할때 일일이 에러처리 안해도됨
   // Todo: checktExistingUser 문제 있음 수정 필요.
 
