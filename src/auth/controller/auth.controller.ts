@@ -49,7 +49,7 @@ export class AuthController {
     type: CreateUserRequest,
   })
   async createUser(@Body() authDTO: CreateUserRequest): Promise<Token> {
-    // console.log('hihi', authDTO);
+    console.log('hihi', authDTO);
     return this.authService.saveUser(authDTO);
   }
 
