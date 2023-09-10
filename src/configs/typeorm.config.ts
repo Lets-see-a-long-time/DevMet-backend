@@ -1,5 +1,4 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import * as config from 'config';
 import { User } from 'src/auth/entity/user.entity';
 import { Notification } from 'src/notification/entity/notification.entity';
 import { Comment } from 'src/project/entity/comment.entity';
@@ -12,7 +11,6 @@ import { Project } from 'src/project/entity/project.entity';
 import { Stack } from 'src/project/entity/stack.entity';
 import { Tag } from 'src/project/entity/tag.entity';
 
-const dbConfig = config.get('db');
 const entityArray = [
   User,
   Project,
