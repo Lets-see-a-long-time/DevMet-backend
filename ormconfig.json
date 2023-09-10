@@ -3,7 +3,7 @@
   "host": "localhost",
   "port": 3306,
   "username": "root",
-  "password": "rladlsxogkftndlTek!!",
+  "password": "root",
   "database": "dmet",
   "entities": ["dist/**/*.entity.{ts,js}"],
   "synchronize": true
