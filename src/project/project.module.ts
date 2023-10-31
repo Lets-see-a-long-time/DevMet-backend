@@ -21,6 +21,8 @@ import { NotificationService } from 'src/notification/notification.service';
 import { NotificationRepository } from 'src/notification/repository/alarm.repository';
 import { AuthService } from 'src/auth/service/auth.service';
 import { UserRepository } from 'src/auth/repository/user.repository';
+import { UploadController } from './controller/upload.controller';
+import { UploadService } from './service/upload.service';
 
 @Module({
   providers: [
@@ -31,8 +33,9 @@ import { UserRepository } from 'src/auth/repository/user.repository';
     JwtService,
     NotificationGateway,
     NotificationService,
+    UploadService,
   ],
-  controllers: [ProjectController, CommentController],
+  controllers: [ProjectController, CommentController, UploadController],
   imports: [
     TypeOrmExModule.forCustomRepository([
       ProjectRepository,

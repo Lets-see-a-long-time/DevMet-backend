@@ -12,7 +12,5 @@ import { NotificationModule } from './notification/notification.module';
     AuthModule,
     NotificationModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
