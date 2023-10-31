@@ -12,8 +12,8 @@ import { Project } from 'src/project/entity/project.entity';
 import { Stack } from 'src/project/entity/stack.entity';
 import { Tag } from 'src/project/entity/tag.entity';
 
-import dotenv = require('dotenv');
-dotenv.config();
+// import dotenv = require('dotenv');
+// dotenv.config();
 const entityArray = [
   User,
   Project,
@@ -32,11 +32,12 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   host: 'localhost',
   port: 3306,
-  username: process.env.DB_USERNAME,
-  // username: 'root',
-  // database: 'dmet',
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  // username: process.env.DB_USERNAME,
+  username: 'root',
+  database: 'dmet',
+  password: 'root',
+  // password: process.env.DB_PASSWORD,
+  // database: process.env.DB_DATABASE,
   entities: entityArray,
   synchronize: true,
   timezone: '+09:00',

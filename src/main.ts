@@ -12,7 +12,7 @@ async function bootstrap() {
   app.useWebSocketAdapter(new SocketIoAdapter(app));
   app.enableCors();
   setupSwagger(app);
-
+  console.log('port', process.env.NODE_ENV);
   await app.listen(3001, () => console.log('3001'));
 }
 bootstrap();
