@@ -13,6 +13,6 @@ async function bootstrap() {
   app.enableCors();
   setupSwagger(app);
 
-  await app.listen(process.env.PORT, () => console.log(process.env.PORT));
+  await app.listen(3001, () => console.log('3001'));
 }
 bootstrap();
