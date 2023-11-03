@@ -8,10 +8,8 @@ dotenv.config();
 @Injectable()
 export class UploadService {
   s3 = new AWS.S3({
-    // accessKeyId: process.env.AWS_ACCESS_KEY,
-    accessKeyId: 'AKIAVSMV5ZX6IQ62EA2U',
-    // secretAccessKey: process.env.AWS_SECRET_KEY,
-    secretAccessKey: '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',
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
   });
 
   async uploadFile(file: Multer.File) {
